@@ -25,26 +25,15 @@ pipeline {
                 sh "docker build . -t backend-coin:${BUILD_ID}"
             }
         }
-        stage('Image Push'){
-            agent{
-                label 'master'
-            }
-            steps{
-                echo 'Image Push Stage'
-                sh "docker tag backend-coin:${BUILD_ID} ykxixi/backend-coin:${BUILD_ID}"
-                sh "docker login --username=ykxixi -p dockerdocker"
-                sh "docker push ykxixi/backend-coin:${BUILD_ID}"
-            }
-        }
         stage('deploy'){
             agent{
                 label 'master'
             }
             steps{
-                sh 'docker pull ykxixi/backend-coin:${BUILD_ID}'
-                sh "if (ps -ef| grep java|grep backend-coin) then (docker container stop backend-coin && docker container rm backend-coin) fi"
+                sh "if (docker ps |grep backend-coin) then (docker stop backend-coin && docker rm backend-coin) fi"
+                sh "docker ps -a"
                 sh "docker run -p 8001:8001 --name backend-coin -v /log:/log -d ykxixi/backend-coin:${BUILD_ID}"
             }
-         }
+        }
     }
 }
