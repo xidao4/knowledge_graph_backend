@@ -30,7 +30,7 @@ pipeline {
                 label 'master'
             }
             steps{
-                sh "if (ps -ef| grep java|grep backend-coin) then (docker container stop backend-coin && docker container rm backend-coin) fi"
+                sh "if (ps -ef| grep java|grep backend-coin) then (docker stop backend-coin && docker rm backend-coin) fi"
                 sh "docker run -p 8001:8001 --name backend-coin -v /log:/log -d backend-coin:${BUILD_ID}"
             }
         }
