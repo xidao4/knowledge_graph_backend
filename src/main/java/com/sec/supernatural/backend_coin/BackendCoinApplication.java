@@ -19,4 +19,5 @@ public class BackendCoinApplication {
         return MyResponse.ok("Hi, this is supernatural team.");
     }
 
+
 }
