@@ -1,6 +1,6 @@
 package com.sec.supernatural.backend_coin;
 
-import com.sec.supernatural.backend_coin.controller.TestController;
+import com.sec.supernatural.backend_coin.controller.PersonController;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -9,7 +9,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 class BackendCoinApplicationTests {
 
     @Autowired
-    TestController testController;
+    PersonController personController;
 
     @Test
     void contextLoads() {
@@ -17,7 +17,7 @@ class BackendCoinApplicationTests {
 
     @Test
     void testNeo4j(){
-        testController.add();
+        personController.findByName("Tom Hanks");
     }
 
 }
