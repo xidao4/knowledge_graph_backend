@@ -4,6 +4,10 @@ public class Node {
     private String name;
     private int picId;
 
+    public Node(String name){
+        this.name = name;
+    }
+
     public String getName() {
         return name;
     }

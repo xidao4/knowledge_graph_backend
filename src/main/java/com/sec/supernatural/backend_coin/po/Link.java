@@ -8,6 +8,13 @@ public class Link {
     private String type;
     private int picId;
 
+    public Link(String name, String source, String target, String type){
+        this.name = name;
+        this.source = source;
+        this.target = target;
+        this.type = type;
+    }
+
     public int getId() {
         return id;
     }
