@@ -1,8 +1,4 @@
 server:
   port: 8001
-spring:
-  neo4j:
-    uri: bolt://118.182.96.49:7687    #使用bolt协议，端口使用7687，使用http协议，端口使用7474
-    authentication:
-      password: password
-      username: neo4j
+
+
