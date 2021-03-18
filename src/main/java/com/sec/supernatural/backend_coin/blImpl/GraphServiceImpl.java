@@ -6,6 +6,9 @@ import com.sec.supernatural.backend_coin.mapper.GraphMapper;
 import com.sec.supernatural.backend_coin.po.Link;
 import com.sec.supernatural.backend_coin.po.Node;
 import com.sec.supernatural.backend_coin.vo.GraphVO;
+import org.apache.commons.fileupload.FileItem;
+import org.apache.commons.fileupload.FileItemFactory;
+import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,11 +16,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 import org.apache.commons.io.FileUtils;
+import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.InputStream;
-import java.io.OutputStream;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -111,13 +112,18 @@ public class GraphServiceImpl implements GraphService {
         }
         // JSONObject to mFile
         try{
+            // JSONObject to str
             String str = jsonObject.toString();
             File file = File.createTempFile("graph", ".json");
             file.deleteOnExit();
-            // TODO: str写入mfile
-//            FileUtils.;
-//            // file to str
-//            String str = FileUtils.readFileToString(file, "utf-8");
+            // str写入file
+            PrintStream ps = new PrintStream(new FileOutputStream(file));
+            ps.println(str);
+            ps.close();
+            // file to mFile
+            FileItem fileItem = this.getMultipartFile(file,"templFileItem");
+            MultipartFile mFile = new CommonsMultipartFile(fileItem);
+            return mFile;
         }catch (Exception e){
             e.printStackTrace();
         }
@@ -149,5 +155,24 @@ public class GraphServiceImpl implements GraphService {
             }
         }
         return file;
+    }
+
+    private FileItem getMultipartFile(File file, String fieldName){
+        FileItemFactory factory = new DiskFileItemFactory(16, null);
+        FileItem item = factory.createItem(fieldName, "text/plain", true, file.getName());
+        int bytesRead = 0;
+        byte[] buffer = new byte[8192];
+        try {
+            FileInputStream fis = new FileInputStream(file);
+            OutputStream os = item.getOutputStream();
+            while ((bytesRead = fis.read(buffer, 0, 8192)) != -1) {
+                os.write(buffer, 0, bytesRead);
+            }
+            os.close();
+            fis.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return item;
     }
 }
