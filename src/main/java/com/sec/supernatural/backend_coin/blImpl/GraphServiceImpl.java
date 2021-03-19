@@ -2,10 +2,15 @@ package com.sec.supernatural.backend_coin.blImpl;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sec.supernatural.backend_coin.bl.GraphService;
-import com.sec.supernatural.backend_coin.mapper.GraphMapper;
+import com.sec.supernatural.backend_coin.constant.MyResponse;
+import com.sec.supernatural.backend_coin.constant.ResponseCode;
+import com.sec.supernatural.backend_coin.data.GraphMapper;
 import com.sec.supernatural.backend_coin.po.Link;
 import com.sec.supernatural.backend_coin.po.Node;
+import com.sec.supernatural.backend_coin.vo.ChangeRelationVO;
 import com.sec.supernatural.backend_coin.vo.GraphVO;
+import com.sec.supernatural.backend_coin.vo.NodeVO;
+import com.sec.supernatural.backend_coin.vo.RelationVO;
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileItemFactory;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
@@ -69,7 +74,7 @@ public class GraphServiceImpl implements GraphService {
             List<Link> links = new ArrayList<>();
             for(int i=0;i<nodesArray.length();i++){
                 JSONObject node = nodesArray.getJSONObject(i);
-                nodes.add(new Node(node.getString("name")));
+                nodes.add(new Node(0,node.getString("name")));//attention!
             }
             for(int i=0;i<linksArray.length();i++){
                 JSONObject link = linksArray.getJSONObject(i);
@@ -174,5 +179,54 @@ public class GraphServiceImpl implements GraphService {
             e.printStackTrace();
         }
         return item;
+    }
+
+    @Override
+    public MyResponse addEntity(NodeVO nodeVO) {
+        Node node=new Node(nodeVO.getPicId(),nodeVO.getName());
+        try{
+            graphMapper.addEntity(node);
+        }catch (Exception e){
+            System.out.println(e.getMessage());
+            return MyResponse.exception("插入失败");
+        }
+        return new MyResponse();
+    }
+
+    @Override
+    public MyResponse deleteEntity(NodeVO nodeVO) {
+        try{
+            graphMapper.deleteEntity(nodeVO.getPicId(),nodeVO.getName());
+        }catch (Exception e){
+            System.out.println(e.getMessage());
+            return new MyResponse(ResponseCode.CATCH_EXCEPTION);
+        }
+        return new MyResponse();
+    }
+
+    @Override
+    public MyResponse changeEntity(Integer picId,String oldName,String newName) {
+        try{
+            graphMapper.changeEntity(picId,oldName,newName);
+        }catch (Exception e){
+            System.out.println(e.getMessage());
+            return new MyResponse(ResponseCode.CATCH_EXCEPTION);
+        }
+        return new MyResponse();
+    }
+
+    @Override
+    public MyResponse addRelation(RelationVO relationVO) {
+        return null;
+    }
+
+    @Override
+    public MyResponse deleteRelation(RelationVO relationVO) {
+        return null;
+    }
+
+    @Override
+    public MyResponse changeRelation(ChangeRelationVO changeRelationVO) {
+        return null;
     }
 }

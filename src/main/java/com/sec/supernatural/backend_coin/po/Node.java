@@ -4,8 +4,9 @@ public class Node {
     private String name;
     private int picId;
 
-    public Node(String name){
+    public Node(int picId,String name){
         this.name = name;
+        this.picId=picId;
     }
 
     public String getName() {

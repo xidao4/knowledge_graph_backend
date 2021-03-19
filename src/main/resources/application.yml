@@ -1,5 +1,14 @@
 server:
   port: 8001
+
 storage-dir: dataStore
 
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/graph?characterEncoding=utf-8&serverTimezone=GMT%2B8
+    username: root
+    password: 12345678
+    driver-class-name: com.mysql.cj.jdbc.Driver
 
+mybatis:
+  mapper-locations: classpath:dataImpl/GraphMapper.xml

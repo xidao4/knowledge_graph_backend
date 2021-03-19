@@ -1,5 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org/DTD Mapper 3.0" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.sec.supernatural.backend_coin.mapper.GraphMapper">
-
+<mapper namespace="com.sec.supernatural.backend_coin.data.GraphMapper">
+    <insert id="addEntity" parameterType="com.sec.supernatural.backend_coin.po.Node">
+        insert into Node(name,picId)
+        values(#{name},#{picId})
+    </insert>
+    <delete id="deleteEntity">
+        delete from Node where name=#{name} and picId=#{picId}
+    </delete>
+    <update id="changeEntity">
+        update Node set name=#{newName} where picId=#{picId} and name=#{oldName}
+    </update>
+    <resultMap id="Node" type="com.sec.supernatural.backend_coin.po.Node">
+        <result column="name" property="name"></result>
+        <result column="picId" property="picId"></result>
+    </resultMap>
 </mapper>
