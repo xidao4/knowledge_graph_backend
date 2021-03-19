@@ -26,4 +26,7 @@ public interface RelationMapper {
                             @Param("node1") String node1,@Param("node2") String node2,
                             @Param("name") String name,@Param("newType") String newType);
     void changeRelationNameAndType(ChangeRelationVO changeRelationVO);
+
+
+    List<Relation> getRelationsBySource(Entity node);
 }

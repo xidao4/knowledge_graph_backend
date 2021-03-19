@@ -14,6 +14,9 @@
     <select id="getEntity" resultMap="Entity">
         select * from Entity where picId=#{picId} and name=#{name}
     </select>
+    <select id="getEntitiesByPicId" resultMap="com.sec.supernatural.backend_coin.po.Entity">
+        select * from Entity where picId=#{picId}
+    </select>
 
     <resultMap id="Entity" type="com.sec.supernatural.backend_coin.po.Entity">
         <result column="name" property="name"></result>

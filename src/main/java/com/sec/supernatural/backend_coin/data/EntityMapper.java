@@ -14,6 +14,6 @@ public interface EntityMapper {
     void deleteEntity(@Param("picId") int picId,@Param("name") String name);
     void changeEntity(@Param("picId") int picId,@Param("oldName") String oldName,@Param("newName") String newName);
     List<Entity> getEntity(@Param("picId") int picId, @Param("name") String name);
-
+    List<Entity> getEntitiesByPicId(@Param("picId") int picId);
 
 }
