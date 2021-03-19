@@ -5,7 +5,7 @@ import com.sec.supernatural.backend_coin.constant.MyResponse;
 import com.sec.supernatural.backend_coin.constant.ResponseCode;
 import com.sec.supernatural.backend_coin.vo.ChangeRelationVO;
 import com.sec.supernatural.backend_coin.vo.GraphVO;
-import com.sec.supernatural.backend_coin.vo.NodeVO;
+import com.sec.supernatural.backend_coin.vo.EntityVO;
 import com.sec.supernatural.backend_coin.vo.RelationVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -30,13 +30,14 @@ public class GraphController {
         return new MyResponse(ResponseCode.OK,mFile);
     }
 
+
     @PostMapping("/addEntity")
-    public MyResponse addEntity(@RequestBody NodeVO nodeVO){
-        return graphService.addEntity(nodeVO);
+    public MyResponse addEntity(@RequestBody EntityVO entityVO){
+        return graphService.addEntity(entityVO);
     }
     @PostMapping("/deleteEntity")
-    public MyResponse deleteEntity(@RequestBody NodeVO nodeVO){
-        return graphService.deleteEntity(nodeVO);
+    public MyResponse deleteEntity(@RequestBody EntityVO entityVO){
+        return graphService.deleteEntity(entityVO);
     }
     @PostMapping("/changeEntity")
     public MyResponse changeEntity(@RequestParam Integer picId,

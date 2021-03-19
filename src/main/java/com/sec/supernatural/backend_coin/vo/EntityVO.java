@@ -1,6 +1,6 @@
 package com.sec.supernatural.backend_coin.vo;
 
-public class NodeVO {
+public class EntityVO {
     private int picId;
     private String name;
 

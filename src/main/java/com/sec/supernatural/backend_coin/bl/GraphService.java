@@ -1,11 +1,9 @@
 package com.sec.supernatural.backend_coin.bl;
 
 import com.sec.supernatural.backend_coin.constant.MyResponse;
-import com.sec.supernatural.backend_coin.po.Link;
-import com.sec.supernatural.backend_coin.po.Node;
 import com.sec.supernatural.backend_coin.vo.ChangeRelationVO;
 import com.sec.supernatural.backend_coin.vo.GraphVO;
-import com.sec.supernatural.backend_coin.vo.NodeVO;
+import com.sec.supernatural.backend_coin.vo.EntityVO;
 import com.sec.supernatural.backend_coin.vo.RelationVO;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -32,8 +30,8 @@ public interface GraphService {
     MultipartFile dao2Json(int picId);
 
 
-    MyResponse addEntity(NodeVO nodeVO);
-    MyResponse deleteEntity(NodeVO nodeVO);
+    MyResponse addEntity(EntityVO entityVO);
+    MyResponse deleteEntity(EntityVO entityVO);
     MyResponse changeEntity(Integer picId,String oldName,String newName);
     MyResponse addRelation(RelationVO relationVO);
     MyResponse deleteRelation(RelationVO relationVO);

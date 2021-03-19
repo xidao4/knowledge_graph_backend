@@ -1,29 +1,29 @@
 package com.sec.supernatural.backend_coin.vo;
 
-import com.sec.supernatural.backend_coin.po.Link;
-import com.sec.supernatural.backend_coin.po.Node;
+import com.sec.supernatural.backend_coin.po.Relation;
+import com.sec.supernatural.backend_coin.po.Entity;
 
 import java.util.List;
 
 public class GraphVO {
-    private List<Node> nodes;
-    private List<Link> links;
+    private List<Entity> entities;
+    private List<Relation> relations;
     private int picId;
 
-    public List<Node> getNodes() {
-        return nodes;
+    public List<Entity> getNodes() {
+        return entities;
     }
 
-    public void setNodes(List<Node> nodes) {
-        this.nodes = nodes;
+    public void setNodes(List<Entity> entities) {
+        this.entities = entities;
     }
 
-    public List<Link> getLinks() {
-        return links;
+    public List<Relation> getLinks() {
+        return relations;
     }
 
-    public void setLinks(List<Link> links) {
-        this.links = links;
+    public void setLinks(List<Relation> relations) {
+        this.relations = relations;
     }
 
     public int getPicId() {

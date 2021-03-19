@@ -1,10 +1,10 @@
 package com.sec.supernatural.backend_coin.po;
 
-public class Node {
+public class Entity {
     private String name;
     private int picId;
 
-    public Node(int picId,String name){
+    public Entity(int picId, String name){
         this.name = name;
         this.picId=picId;
     }

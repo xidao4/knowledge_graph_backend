@@ -4,12 +4,13 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sec.supernatural.backend_coin.bl.GraphService;
 import com.sec.supernatural.backend_coin.constant.MyResponse;
 import com.sec.supernatural.backend_coin.constant.ResponseCode;
-import com.sec.supernatural.backend_coin.data.GraphMapper;
-import com.sec.supernatural.backend_coin.po.Link;
-import com.sec.supernatural.backend_coin.po.Node;
+import com.sec.supernatural.backend_coin.data.EntityMapper;
+import com.sec.supernatural.backend_coin.data.RelationMapper;
+import com.sec.supernatural.backend_coin.po.Entity;
+import com.sec.supernatural.backend_coin.po.Relation;
 import com.sec.supernatural.backend_coin.vo.ChangeRelationVO;
 import com.sec.supernatural.backend_coin.vo.GraphVO;
-import com.sec.supernatural.backend_coin.vo.NodeVO;
+import com.sec.supernatural.backend_coin.vo.EntityVO;
 import com.sec.supernatural.backend_coin.vo.RelationVO;
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileItemFactory;
@@ -31,7 +32,9 @@ import java.util.List;
 @Service
 public class GraphServiceImpl implements GraphService {
     @Autowired
-    GraphMapper graphMapper;
+    EntityMapper entityMapper;
+    @Autowired
+    RelationMapper relationMapper;
 
     /**
      * 此方法返回picId
@@ -70,18 +73,18 @@ public class GraphServiceImpl implements GraphService {
             JSONObject jsonObject = new JSONObject(str);
             // get data
             JSONArray nodesArray = jsonObject.getJSONArray("nodes");
-            List<Node> nodes = new ArrayList<>();
+            List<Entity> entities = new ArrayList<>();
             JSONArray linksArray = jsonObject.getJSONArray("links");
-            List<Link> links = new ArrayList<>();
+            List<Relation> relations = new ArrayList<>();
             for(int i=0;i<nodesArray.length();i++){
                 System.out.println(i);
                 JSONObject node = nodesArray.getJSONObject(i);
-                nodes.add(new Node(0,node.getString("name")));//attention!
+                entities.add(new Entity(0,node.getString("name")));//attention!
 //                System.out.println(node.toString());
             }
             for(int i=0;i<linksArray.length();i++){
                 JSONObject link = linksArray.getJSONObject(i);
-                links.add(new Link(link.getString("name"),link.getString("source"),link.getString("target"),link.getString("type"),0));//attention!
+                relations.add(new Relation(link.getString("name"),link.getString("source"),link.getString("target"),link.getString("type"),0));//attention!
             }
             // TODO: 存储
         }catch (Exception e){
@@ -104,19 +107,19 @@ public class GraphServiceImpl implements GraphService {
     public MultipartFile dao2Json(int picId) {
         // dao to JSONObject
         GraphVO graphVO = getAll(picId);
-        List<Node> nodes = graphVO.getNodes();
-        List<Link> links = graphVO.getLinks();
+        List<Entity> entities = graphVO.getNodes();
+        List<Relation> relations = graphVO.getLinks();
         JSONObject jsonObject = new JSONObject();
         JSONArray nodesArray = new JSONArray();
         JSONArray linksArray = new JSONArray();
         try{
-            for(int i=0;i<nodes.size();i++){
+            for(int i = 0; i< entities.size(); i++){
                 ObjectMapper mapper = new ObjectMapper();
-                nodesArray.put(new JSONObject(mapper.writeValueAsString(nodes.get(i))));
+                nodesArray.put(new JSONObject(mapper.writeValueAsString(entities.get(i))));
             }
-            for(int i=0;i<links.size();i++){
+            for(int i = 0; i< relations.size(); i++){
                 ObjectMapper mapper = new ObjectMapper();
-                linksArray.put(new JSONObject(mapper.writeValueAsString(links.get(i))));
+                linksArray.put(new JSONObject(mapper.writeValueAsString(relations.get(i))));
             }
             jsonObject.put("nodes",nodesArray);
             jsonObject.put("links",linksArray);
@@ -190,11 +193,14 @@ public class GraphServiceImpl implements GraphService {
         return item;
     }
 
+
+
+
     @Override
-    public MyResponse addEntity(NodeVO nodeVO) {
-        Node node=new Node(nodeVO.getPicId(),nodeVO.getName());
+    public MyResponse addEntity(EntityVO entityVO) {
+        Entity entity =new Entity(entityVO.getPicId(), entityVO.getName());
         try{
-            graphMapper.addEntity(node);
+            entityMapper.addEntity(entity);
         }catch (Exception e){
             System.out.println(e.getMessage());
             return MyResponse.exception("插入失败");
@@ -203,13 +209,13 @@ public class GraphServiceImpl implements GraphService {
     }
 
     @Override
-    public MyResponse deleteEntity(NodeVO nodeVO) {
+    public MyResponse deleteEntity(EntityVO entityVO) {
         try{
-            graphMapper.deleteEntity(nodeVO.getPicId(),nodeVO.getName());
-            Node node=new Node(nodeVO.getPicId(), nodeVO.getName());
-            List<Link> links=graphMapper.getRelationsByNode(node);
-            for(Link link:links){
-                graphMapper.deleteEntity(link.getPicId(),link.getName());
+            entityMapper.deleteEntity(entityVO.getPicId(), entityVO.getName());
+            Entity entity =new Entity(entityVO.getPicId(), entityVO.getName());
+            List<Relation> relations = relationMapper.getRelationsByNode(entity);
+            for(Relation relation : relations){
+                entityMapper.deleteEntity(relation.getPicId(), relation.getName());
             }
         }catch (Exception e){
             System.out.println(e.getMessage());
@@ -222,9 +228,9 @@ public class GraphServiceImpl implements GraphService {
     public MyResponse changeEntity(Integer picId,String oldName,String newName) {
 
         try{
-            if(graphMapper.getEntity(picId,newName).size()!=0)
+            if(entityMapper.getEntity(picId,newName).size()!=0)
                 return MyResponse.exception("节点新名字不能与原有节点同名");
-            graphMapper.changeEntity(picId,oldName,newName);
+            entityMapper.changeEntity(picId,oldName,newName);
         }catch (Exception e){
             System.out.println(e.getMessage());
             return new MyResponse(ResponseCode.CATCH_EXCEPTION);
@@ -238,11 +244,11 @@ public class GraphServiceImpl implements GraphService {
         //RelationVO: name,node1,node2,type,picId;
         if(vo.getNode1()==null&&vo.getNode2()==null) return MyResponse.exception("插入的关系既没有source，也没有target");
         try{
-            Link link=new Link(vo.getName(),vo.getNode1(),vo.getNode2(),vo.getType(),vo.getPicId());
-            List<Link> links=graphMapper.getRelationsByNodesAndName(vo.getPicId(),vo.getNode1(),vo.getNode2(),vo.getName());
-            if(links.size()!=0) return MyResponse.exception("不能插入相同name的边");
+            Relation relation =new Relation(vo.getName(),vo.getNode1(),vo.getNode2(),vo.getType(),vo.getPicId());
+            List<Relation> relations = relationMapper.getRelationsByNodesAndName(vo.getPicId(),vo.getNode1(),vo.getNode2(),vo.getName());
+            if(relations.size()!=0) return MyResponse.exception("不能插入相同name的边");
 
-            graphMapper.addRelation(link);
+            relationMapper.addRelation(relation);
         }catch (Exception e){
             System.out.println(e.getMessage());
             return MyResponse.exception("插入失败");
@@ -254,8 +260,8 @@ public class GraphServiceImpl implements GraphService {
     public MyResponse deleteRelation(RelationVO vo) {
 
         try{
-            Link link=new Link(vo.getName(),vo.getNode1(),vo.getNode2(),vo.getType(),vo.getPicId());
-            graphMapper.deleteRelation(link);
+            Relation relation =new Relation(vo.getName(),vo.getNode1(),vo.getNode2(),vo.getType(),vo.getPicId());
+            relationMapper.deleteRelation(relation);
         }catch (Exception e){
             System.out.println(e.getMessage());
             return new MyResponse(ResponseCode.CATCH_EXCEPTION);
@@ -270,12 +276,12 @@ public class GraphServiceImpl implements GraphService {
             String newType=vo.getNewType();
             if(newName==null&&newType==null) return MyResponse.error("未输入将关系修改为什么样子");
             if(newName!=null){
-                if(graphMapper.getRelationsByNodesAndName(vo.getPicId(),vo.getNode1(),vo.getNode2(),newName).size()!=0)
+                if(relationMapper.getRelationsByNodesAndName(vo.getPicId(),vo.getNode1(),vo.getNode2(),newName).size()!=0)
                     return MyResponse.error("新关系不能与原关系重名");
             }
-            if(newType==null) graphMapper.changeRelationName(vo.getPicId(),vo.getNode1(),vo.getNode2(),vo.getName(),vo.getNewName());
-            else if(newName==null) graphMapper.changeRelationType(vo.getPicId(),vo.getNode1(),vo.getNode2(),vo.getName(),vo.getNewType());
-            else graphMapper.changeRelationNameAndType(vo);
+            if(newType==null) relationMapper.changeRelationName(vo.getPicId(),vo.getNode1(),vo.getNode2(),vo.getName(),vo.getNewName());
+            else if(newName==null) relationMapper.changeRelationType(vo.getPicId(),vo.getNode1(),vo.getNode2(),vo.getName(),vo.getNewType());
+            else relationMapper.changeRelationNameAndType(vo);
         }catch (Exception e){
             System.out.println(e.getMessage());
             return new MyResponse(ResponseCode.CATCH_EXCEPTION);

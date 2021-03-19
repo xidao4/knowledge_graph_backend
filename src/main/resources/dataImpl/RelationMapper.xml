@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org/DTD Mapper 3.0" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sec.supernatural.backend_coin.data.RelationMapper">
+    <insert id="addRelation" parameterType="com.sec.supernatural.backend_coin.po.Relation"
+            useGeneratedKeys="true" keyProperty="id">
+        insert into Relation(name,picId,node1,node2,type)
+        values(#{name},#{picId},#{node1},#{node2},#{type})
+    </insert>
+    <delete id="deleteRelation" parameterType="com.sec.supernatural.backend_coin.po.Relation">
+        delete from Relation
+        where picId=#{picId} and node1=#{node1} and node2=#{node2} and name=#{name}
+    </delete>
+    <select id="getRelationsByNodesAndName" resultMap="Relation">
+        select * from Relation where picId=#{picId} and node1=#{node1} and node2=#{node2} and name=#{name}
+    </select>
+    <select id="getRelationsByNode" resultMap="Relation">
+        select * from Relation where picId=#{picId} and node1=#{name}
+        union
+        select * from Relation where picId=#{picId} and node2=#{name}
+    </select>
+    <update id="changeRelationNameAndType" parameterType="com.sec.supernatural.backend_coin.vo.ChangeRelationVO">
+        update Relation set name=#{newName} and type=#{newType}
+        where picId=#{picId} and node1=#{node1} and node2=#{node2} and name=#{oldName}
+    </update>
+    <update id="changeRelationName">
+        update Relation set name=#{newName}
+        where picId=#{picId} and node1=#{node1} and node2=#{node2} and name=#{name}
+    </update>
+    <update id="changeRelationType">
+        update Relation set type=#{newType}
+        where picId=#{picId} and node1=#{node1} and node2=#{node2} and name=#{name}
+    </update>
+
+
+    <resultMap id="Relation" type="com.sec.supernatural.backend_coin.po.Relation">
+
+        <id column="id" property="id"></id>
+        <result column="name" property="name"></result>
+        <result column="node1" property="node1"></result>
+        <result column="node2" property="node2"></result>
+        <result column="type" property="type"></result>
+        <result column="pidId" property="picId"></result>
+    </resultMap>
+</mapper>

@@ -1,17 +1,17 @@
 package com.sec.supernatural.backend_coin.po;
 
-public class Link {
+public class Relation {
     private int id;
     private String name;
-    private String source;
-    private String target;
+    private String node1;
+    private String node2;
     private String type;
     private int picId;
 
-    public Link(String name, String source, String target, String type,int picId){
+    public Relation(String name, String node1, String node2, String type, int picId){
         this.name = name;
-        this.source = source;
-        this.target = target;
+        this.node1 = node1;
+        this.node2 = node2;
         this.type = type;
         this.picId=picId;
     }
@@ -32,20 +32,20 @@ public class Link {
         this.name = name;
     }
 
-    public String getSource() {
-        return source;
+    public String getNode1() {
+        return node1;
     }
 
-    public void setSource(String source) {
-        this.source = source;
+    public void setNode1(String node1) {
+        this.node1 = node1;
     }
 
-    public String getTarget() {
-        return target;
+    public String getNode2() {
+        return node2;
     }
 
-    public void setTarget(String target) {
-        this.target = target;
+    public void setNode2(String node2) {
+        this.node2 = node2;
     }
 
     public String getType() {
@@ -69,8 +69,8 @@ public class Link {
         return "Link{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
-                ", source='" + source + '\'' +
-                ", target='" + target + '\'' +
+                ", node1='" + node1 + '\'' +
+                ", node2='" + node2 + '\'' +
                 ", type='" + type + '\'' +
                 ", picId=" + picId +
                 '}';
