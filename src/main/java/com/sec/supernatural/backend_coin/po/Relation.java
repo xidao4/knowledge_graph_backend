@@ -9,11 +9,12 @@ public class Relation {
     private int picId;
 
     public Relation(String name, String node1, String node2, String type, int picId){
+        this.picId=picId;
         this.name = name;
         this.node1 = node1;
         this.node2 = node2;
         this.type = type;
-        this.picId=picId;
+
     }
 
     public int getId() {

@@ -39,10 +39,11 @@
     <resultMap id="Relation" type="com.sec.supernatural.backend_coin.po.Relation">
 
         <id column="id" property="id"></id>
+        <result column="pidId" property="picId"></result>
         <result column="name" property="name"></result>
         <result column="node1" property="node1"></result>
         <result column="node2" property="node2"></result>
         <result column="type" property="type"></result>
-        <result column="pidId" property="picId"></result>
+
     </resultMap>
 </mapper>
