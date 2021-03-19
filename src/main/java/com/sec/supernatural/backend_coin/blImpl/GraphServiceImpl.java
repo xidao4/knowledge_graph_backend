@@ -34,6 +34,7 @@ public class GraphServiceImpl implements GraphService {
     GraphMapper graphMapper;
 
     /**
+     * 此方法返回picId
      * json文件格式：
      * {
      *     "nodes":[
@@ -59,7 +60,7 @@ public class GraphServiceImpl implements GraphService {
     public int json2Dao(MultipartFile mfile) {
         try{
             // mFile to file
-            String fullFileName = StringUtils.cleanPath(mfile.getOriginalFilename());
+            String fullFileName = StringUtils.cleanPath(mfile.getOriginalFilename());//测试时要替换成file.getName
             File file = File.createTempFile(fullFileName.substring(0,fullFileName.lastIndexOf('.')), fullFileName.substring(fullFileName.lastIndexOf('.')-1));
             file.deleteOnExit();
             FileUtils.copyInputStreamToFile(mfile.getInputStream(), file);
@@ -73,20 +74,27 @@ public class GraphServiceImpl implements GraphService {
             JSONArray linksArray = jsonObject.getJSONArray("links");
             List<Link> links = new ArrayList<>();
             for(int i=0;i<nodesArray.length();i++){
+                System.out.println(i);
                 JSONObject node = nodesArray.getJSONObject(i);
                 nodes.add(new Node(0,node.getString("name")));//attention!
+//                System.out.println(node.toString());
             }
             for(int i=0;i<linksArray.length();i++){
                 JSONObject link = linksArray.getJSONObject(i);
                 links.add(new Link(link.getString("name"),link.getString("source"),link.getString("target"),link.getString("type"),0));//attention!
             }
-            //TODO: 存储
+            // TODO: 存储
         }catch (Exception e){
             e.printStackTrace();
         }
         return 0;
     }
 
+    /**
+     * 返回整个图谱
+     * @param picId
+     * @return
+     */
     @Override
     public GraphVO getAll(int picId) {
         return null;
@@ -121,6 +129,7 @@ public class GraphServiceImpl implements GraphService {
             String str = jsonObject.toString();
             File file = File.createTempFile("graph", ".json");
             file.deleteOnExit();
+            System.out.println(str);
             // str写入file
             PrintStream ps = new PrintStream(new FileOutputStream(file));
             ps.println(str);
