@@ -8,11 +8,12 @@ public class Link {
     private String type;
     private int picId;
 
-    public Link(String name, String source, String target, String type){
+    public Link(String name, String source, String target, String type,int picId){
         this.name = name;
         this.source = source;
         this.target = target;
         this.type = type;
+        this.picId=picId;
     }
 
     public int getId() {

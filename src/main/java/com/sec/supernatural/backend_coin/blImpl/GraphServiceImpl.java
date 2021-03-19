@@ -78,7 +78,7 @@ public class GraphServiceImpl implements GraphService {
             }
             for(int i=0;i<linksArray.length();i++){
                 JSONObject link = linksArray.getJSONObject(i);
-                links.add(new Link(link.getString("name"),link.getString("source"),link.getString("target"),link.getString("type")));
+                links.add(new Link(link.getString("name"),link.getString("source"),link.getString("target"),link.getString("type"),0));//attention!
             }
             //TODO: 存储
         }catch (Exception e){
@@ -197,6 +197,11 @@ public class GraphServiceImpl implements GraphService {
     public MyResponse deleteEntity(NodeVO nodeVO) {
         try{
             graphMapper.deleteEntity(nodeVO.getPicId(),nodeVO.getName());
+            Node node=new Node(nodeVO.getPicId(), nodeVO.getName());
+            List<Link> links=graphMapper.getRelationsByNode(node);
+            for(Link link:links){
+                graphMapper.deleteEntity(link.getPicId(),link.getName());
+            }
         }catch (Exception e){
             System.out.println(e.getMessage());
             return new MyResponse(ResponseCode.CATCH_EXCEPTION);
@@ -206,7 +211,10 @@ public class GraphServiceImpl implements GraphService {
 
     @Override
     public MyResponse changeEntity(Integer picId,String oldName,String newName) {
+
         try{
+            if(graphMapper.getEntity(picId,newName).size()!=0)
+                return MyResponse.exception("节点新名字不能与原有节点同名");
             graphMapper.changeEntity(picId,oldName,newName);
         }catch (Exception e){
             System.out.println(e.getMessage());
@@ -216,17 +224,53 @@ public class GraphServiceImpl implements GraphService {
     }
 
     @Override
-    public MyResponse addRelation(RelationVO relationVO) {
-        return null;
+    public MyResponse addRelation(RelationVO vo) {
+        //Link: String name, String source, String target, String type,int picId
+        //RelationVO: name,node1,node2,type,picId;
+        if(vo.getNode1()==null&&vo.getNode2()==null) return MyResponse.exception("插入的关系既没有source，也没有target");
+        try{
+            Link link=new Link(vo.getName(),vo.getNode1(),vo.getNode2(),vo.getType(),vo.getPicId());
+            List<Link> links=graphMapper.getRelationsByNodesAndName(vo.getPicId(),vo.getNode1(),vo.getNode2(),vo.getName());
+            if(links.size()!=0) return MyResponse.exception("不能插入相同name的边");
+
+            graphMapper.addRelation(link);
+        }catch (Exception e){
+            System.out.println(e.getMessage());
+            return MyResponse.exception("插入失败");
+        }
+        return new MyResponse();
     }
 
     @Override
-    public MyResponse deleteRelation(RelationVO relationVO) {
-        return null;
+    public MyResponse deleteRelation(RelationVO vo) {
+
+        try{
+            Link link=new Link(vo.getName(),vo.getNode1(),vo.getNode2(),vo.getType(),vo.getPicId());
+            graphMapper.deleteRelation(link);
+        }catch (Exception e){
+            System.out.println(e.getMessage());
+            return new MyResponse(ResponseCode.CATCH_EXCEPTION);
+        }
+        return new MyResponse();
     }
 
     @Override
-    public MyResponse changeRelation(ChangeRelationVO changeRelationVO) {
-        return null;
+    public MyResponse changeRelation(ChangeRelationVO vo) {
+        try{
+            String newName=vo.getNewName();
+            String newType=vo.getNewType();
+            if(newName==null&&newType==null) return MyResponse.error("未输入将关系修改为什么样子");
+            if(newName!=null){
+                if(graphMapper.getRelationsByNodesAndName(vo.getPicId(),vo.getNode1(),vo.getNode2(),newName).size()!=0)
+                    return MyResponse.error("新关系不能与原关系重名");
+            }
+            if(newType==null) graphMapper.changeRelationName(vo.getPicId(),vo.getNode1(),vo.getNode2(),vo.getName(),vo.getNewName());
+            else if(newName==null) graphMapper.changeRelationType(vo.getPicId(),vo.getNode1(),vo.getNode2(),vo.getName(),vo.getNewType());
+            else graphMapper.changeRelationNameAndType(vo);
+        }catch (Exception e){
+            System.out.println(e.getMessage());
+            return new MyResponse(ResponseCode.CATCH_EXCEPTION);
+        }
+        return new MyResponse();
     }
 }

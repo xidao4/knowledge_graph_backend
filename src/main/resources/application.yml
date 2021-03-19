@@ -11,4 +11,4 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
 
 mybatis:
-  mapper-locations: classpath:dataImpl/GraphMapper.xml
+  mapper-locations: classpath:dataImpl/*Mapper.xml

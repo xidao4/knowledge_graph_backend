@@ -1,20 +1,12 @@
 package com.sec.supernatural.backend_coin.vo;
 
 public class RelationVO {
-    private int id;
-    private String name;
-    private String source;
-    private String target;
-    private String type;
     private int picId;
+    private String name;
+    private String node1;
+    private String node2;
+    private String type;
 
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
 
     public String getName() {
         return name;
@@ -24,20 +16,20 @@ public class RelationVO {
         this.name = name;
     }
 
-    public String getSource() {
-        return source;
+    public String getNode1() {
+        return node1;
     }
 
-    public void setSource(String source) {
-        this.source = source;
+    public void setNode1(String node1) {
+        this.node1 = node1;
     }
 
-    public String getTarget() {
-        return target;
+    public String getNode2() {
+        return node2;
     }
 
-    public void setTarget(String target) {
-        this.target = target;
+    public void setNode2(String node2) {
+        this.node2 = node2;
     }
 
     public String getType() {

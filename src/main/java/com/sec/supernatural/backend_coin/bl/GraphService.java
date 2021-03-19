@@ -1,6 +1,8 @@
 package com.sec.supernatural.backend_coin.bl;
 
 import com.sec.supernatural.backend_coin.constant.MyResponse;
+import com.sec.supernatural.backend_coin.po.Link;
+import com.sec.supernatural.backend_coin.po.Node;
 import com.sec.supernatural.backend_coin.vo.ChangeRelationVO;
 import com.sec.supernatural.backend_coin.vo.GraphVO;
 import com.sec.supernatural.backend_coin.vo.NodeVO;

@@ -11,6 +11,10 @@
     <update id="changeEntity">
         update Node set name=#{newName} where picId=#{picId} and name=#{oldName}
     </update>
+    <select id="getEntity" resultMap="com.sec.supernatural.backend_coin.po.Node">
+        select * from Node where picId=#{picId} and name=#{name}
+    </select>
+
     <resultMap id="Node" type="com.sec.supernatural.backend_coin.po.Node">
         <result column="name" property="name"></result>
         <result column="picId" property="picId"></result>
