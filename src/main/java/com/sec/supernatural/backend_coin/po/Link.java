@@ -62,4 +62,16 @@ public class Link {
     public void setPicId(int picId) {
         this.picId = picId;
     }
+
+    @Override
+    public String toString() {
+        return "Link{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", source='" + source + '\'' +
+                ", target='" + target + '\'' +
+                ", type='" + type + '\'' +
+                ", picId=" + picId +
+                '}';
+    }
 }

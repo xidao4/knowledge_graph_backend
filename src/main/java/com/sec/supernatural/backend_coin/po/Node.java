@@ -24,4 +24,12 @@ public class Node {
     public void setPicId(int picId) {
         this.picId = picId;
     }
+
+    @Override
+    public String toString() {
+        return "Node{" +
+                "name='" + name + '\'' +
+                ", picId=" + picId +
+                '}';
+    }
 }

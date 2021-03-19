@@ -1,0 +1,12 @@
+{
+"nodes":[
+{"name": "khy"},
+{"name": "6f"},
+{"name": "fwd"},
+{"name": "rg3"}
+],
+"links": [
+{"name":"teach","source":"khy","target":"fwd","type":"not-subclass"},
+{"name":"teach","source":"khy","target":"rg3","type":"not-subclass"}
+]
+}

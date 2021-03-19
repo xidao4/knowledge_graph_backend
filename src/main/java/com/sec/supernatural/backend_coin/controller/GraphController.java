@@ -2,17 +2,33 @@ package com.sec.supernatural.backend_coin.controller;
 
 import com.sec.supernatural.backend_coin.bl.GraphService;
 import com.sec.supernatural.backend_coin.constant.MyResponse;
+import com.sec.supernatural.backend_coin.constant.ResponseCode;
 import com.sec.supernatural.backend_coin.vo.ChangeRelationVO;
+import com.sec.supernatural.backend_coin.vo.GraphVO;
 import com.sec.supernatural.backend_coin.vo.NodeVO;
 import com.sec.supernatural.backend_coin.vo.RelationVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 @RestController
 @RequestMapping("/api/graph")
 public class GraphController {
     @Autowired
     GraphService graphService;
+
+    @PostMapping("/getAll")
+    public MyResponse getAll(@RequestBody MultipartFile mFile){
+        int picId = graphService.json2Dao(mFile);
+        GraphVO graphVO = graphService.getAll(picId);
+        return new MyResponse(ResponseCode.OK,graphVO);
+    }
+
+    @PostMapping("/download")
+    public MyResponse download(@RequestBody int picId){
+        MultipartFile mFile = graphService.dao2Json(picId);
+        return new MyResponse(ResponseCode.OK,mFile);
+    }
 
     @PostMapping("/addEntity")
     public MyResponse addEntity(@RequestBody NodeVO nodeVO){

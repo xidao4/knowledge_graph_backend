@@ -19,7 +19,13 @@ public class FileTransferTest {
     GraphService graphService;
 
     @Test
-    void testMFile2File(){
+    void testDao2Json(){
+        MultipartFile  mFile = graphService.dao2Json(0);
+        System.out.println(mFile.getOriginalFilename());
+    }
+
+    @Test
+    void testJson2Dao(){
         Path path = Paths.get("C:\\Users\\admin\\Desktop\\test.txt");
         File file = new File(path.toUri());
         try{
