@@ -84,7 +84,7 @@ public class GraphServiceImpl implements GraphService {
             }
             for(int i=0;i<linksArray.length();i++){
                 JSONObject link = linksArray.getJSONObject(i);
-                relations.add(new Relation(link.getString("name"),link.getString("source"),link.getString("target"),link.getString("type"),0));//attention!
+                relations.add(new Relation(0,link.getString("name"),link.getString("source"),link.getString("target"),link.getString("type")));//attention!
             }
             // 存储
             for(int i=0;i<entities.size();i++){
@@ -260,7 +260,7 @@ public class GraphServiceImpl implements GraphService {
         //RelationVO: name,node1,node2,type,picId;
         if(vo.getNode1()==null&&vo.getNode2()==null) return MyResponse.exception("插入的关系既没有source，也没有target");
         try{
-            Relation relation =new Relation(vo.getName(),vo.getNode1(),vo.getNode2(),vo.getType(),vo.getPicId());
+            Relation relation =new Relation(vo.getPicId(),vo.getName(),vo.getNode1(),vo.getNode2(),vo.getType());
             List<Relation> relations = relationMapper.getRelationsByNodesAndName(vo.getPicId(),vo.getNode1(),vo.getNode2(),vo.getName());
             if(relations.size()!=0) return MyResponse.exception("不能插入相同name的边");
 
@@ -276,7 +276,7 @@ public class GraphServiceImpl implements GraphService {
     public MyResponse deleteRelation(RelationVO vo) {
 
         try{
-            Relation relation =new Relation(vo.getName(),vo.getNode1(),vo.getNode2(),vo.getType(),vo.getPicId());
+            Relation relation =new Relation(vo.getPicId(),vo.getName(),vo.getNode1(),vo.getNode2(),vo.getType());
             relationMapper.deleteRelation(relation);
         }catch (Exception e){
             System.out.println(e.getMessage());

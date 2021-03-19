@@ -8,7 +8,7 @@ public class Relation {
     private String type;
     private int picId;
 
-    public Relation(String name, String node1, String node2, String type, int picId){
+    public Relation(int picId,String name, String node1, String node2, String type){
         this.picId=picId;
         this.name = name;
         this.node1 = node1;
