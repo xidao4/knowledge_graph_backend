@@ -25,8 +25,8 @@ public class GraphController {
     }
 
     @PostMapping("/download")
-    public MyResponse download(@RequestBody int picId){
-        MultipartFile mFile = graphService.dao2Json(picId);
+    public MyResponse download(@RequestBody String picId){
+        MultipartFile mFile = graphService.dao2Json(Integer.parseInt(picId));
         return new MyResponse(ResponseCode.OK,mFile);
     }
 

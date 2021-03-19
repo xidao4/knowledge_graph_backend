@@ -108,7 +108,7 @@ public class GraphServiceImpl implements GraphService {
     @Override
     public GraphVO getAll(int picId) {
         GraphVO graphVO = new GraphVO();
-        graphVO.setPicId(picId);
+        graphVO.setPicId(picId+"");
         List<Entity> entities = entityMapper.getEntitiesByPicId(picId);
         List<NodeVO> nodes = new ArrayList<>();
         for(int i=0;i<entities.size();i++){

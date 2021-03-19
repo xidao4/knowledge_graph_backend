@@ -8,7 +8,7 @@ import java.util.List;
 public class GraphVO {
     private List<NodeVO> nodes;
     private List<LinkVO> links;
-    private int picId;
+    private String picId;
 
     public List<NodeVO> getNodes() {
         return nodes;
@@ -26,11 +26,11 @@ public class GraphVO {
         this.links = links;
     }
 
-    public int getPicId() {
+    public String getPicId() {
         return picId;
     }
 
-    public void setPicId(int picId) {
+    public void setPicId(String picId) {
         this.picId = picId;
     }
 }
