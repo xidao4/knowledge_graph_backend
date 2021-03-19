@@ -36,4 +36,8 @@ public class FileTransferTest {
             e.printStackTrace();
         }
     }
+    @Test
+    void testGetAll(){
+        graphService.getAll(0);
+    }
 }

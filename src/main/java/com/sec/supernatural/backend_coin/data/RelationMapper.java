@@ -29,4 +29,5 @@ public interface RelationMapper {
 
 
     List<Relation> getRelationsBySource(Entity node);
+    List<Relation> getRelationsByPicId(int picId);
 }

@@ -109,11 +109,13 @@ public class GraphServiceImpl implements GraphService {
         GraphVO graphVO = new GraphVO();
         graphVO.setPicId(picId);
         List<Entity> nodes = entityMapper.getEntitiesByPicId(picId);
-        graphVO.setNodes(nodes);
-        List<Relation> links = new ArrayList<>();
-        for(int i=0;i<nodes.size();i++){
-            links.addAll(relationMapper.getRelationsBySource(nodes.get(i)));
-        }
+        graphVO.setEntities(nodes);
+//        List<Relation> links = new ArrayList<>();
+//        for(int i=0;i<nodes.size();i++){
+//            links.addAll(relationMapper.getRelationsBySource(nodes.get(i)));
+//        }
+        List<Relation> relations=relationMapper.getRelationsByPicId(picId);
+        graphVO.setRelations(relations);
         return graphVO;
     }
 
@@ -121,8 +123,8 @@ public class GraphServiceImpl implements GraphService {
     public MultipartFile dao2Json(int picId) {
         // dao to JSONObject
         GraphVO graphVO = getAll(picId);
-        List<Entity> entities = graphVO.getNodes();
-        List<Relation> relations = graphVO.getLinks();
+        List<Entity> entities = graphVO.getEntities();
+        List<Relation> relations = graphVO.getRelations();
         JSONObject jsonObject = new JSONObject();
         JSONArray nodesArray = new JSONArray();
         JSONArray linksArray = new JSONArray();

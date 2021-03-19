@@ -31,9 +31,11 @@
         where picId=#{picId} and node1=#{node1} and node2=#{node2} and name=#{name}
     </update>
     <select id="getRelationsBySource" resultMap="Relation" parameterType="com.sec.supernatural.backend_coin.po.Entity">
-        select * from Relation where picId=#{picId} and source=#{name}
+        select * from Relation where picId=#{picId} and node1=#{name}
     </select>
-
+    <select id="getRelationsByPicId" resultMap="Relation">
+        select * from Relation where picId=#{picId}
+    </select>
     <resultMap id="Relation" type="com.sec.supernatural.backend_coin.po.Relation">
 
         <id column="id" property="id"></id>
