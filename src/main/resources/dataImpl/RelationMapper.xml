@@ -30,7 +30,7 @@
         update Relation set type=#{newType}
         where picId=#{picId} and node1=#{node1} and node2=#{node2} and name=#{name}
     </update>
-    <select id="getRelationsBySource" resultMap="com.sec.supernatural.backend_coin.po.Link" parameterMap="com.sec.supernatural.backend_coin.po.Node">
+    <select id="getRelationsBySource" resultMap="Relation" parameterType="com.sec.supernatural.backend_coin.po.Entity">
         select * from Relation where picId=#{picId} and source=#{name}
     </select>
 
