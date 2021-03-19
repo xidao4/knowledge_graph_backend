@@ -161,6 +161,8 @@ public class GraphServiceImpl implements GraphService {
             // file to mFile
             FileItem fileItem = this.getMultipartFile(file,"templFileItem");
             MultipartFile mFile = new CommonsMultipartFile(fileItem);
+            // update picId
+            picIdMapper.updatePicId();
             return mFile;
         }catch (Exception e){
             e.printStackTrace();
