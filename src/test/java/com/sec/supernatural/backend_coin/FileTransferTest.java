@@ -2,6 +2,7 @@ package com.sec.supernatural.backend_coin;
 
 //import com.sec.supernatural.backend_coin.bl.GraphService;
 import com.sec.supernatural.backend_coin.bl.GraphService;
+import com.sec.supernatural.backend_coin.data.PicIdMapper;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -17,6 +18,8 @@ import java.nio.file.Paths;
 public class FileTransferTest {
     @Autowired
     GraphService graphService;
+    @Autowired
+    PicIdMapper picIdMapper;
 
     @Test
     void testDao2Json(){
@@ -39,5 +42,11 @@ public class FileTransferTest {
     @Test
     void testGetAll(){
         graphService.getAll(0);
+    }
+
+    @Test
+    void testPicId(){
+        picIdMapper.updatePicId();
+        System.out.println(picIdMapper.getPicId());
     }
 }

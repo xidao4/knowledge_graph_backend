@@ -5,13 +5,11 @@ import com.sec.supernatural.backend_coin.bl.GraphService;
 import com.sec.supernatural.backend_coin.constant.MyResponse;
 import com.sec.supernatural.backend_coin.constant.ResponseCode;
 import com.sec.supernatural.backend_coin.data.EntityMapper;
+import com.sec.supernatural.backend_coin.data.PicIdMapper;
 import com.sec.supernatural.backend_coin.data.RelationMapper;
 import com.sec.supernatural.backend_coin.po.Entity;
 import com.sec.supernatural.backend_coin.po.Relation;
-import com.sec.supernatural.backend_coin.vo.ChangeRelationVO;
-import com.sec.supernatural.backend_coin.vo.GraphVO;
-import com.sec.supernatural.backend_coin.vo.EntityVO;
-import com.sec.supernatural.backend_coin.vo.RelationVO;
+import com.sec.supernatural.backend_coin.vo.*;
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileItemFactory;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
@@ -35,6 +33,8 @@ public class GraphServiceImpl implements GraphService {
     EntityMapper entityMapper;
     @Autowired
     RelationMapper relationMapper;
+    @Autowired
+    PicIdMapper picIdMapper;
 
     /**
      * 此方法返回picId
@@ -76,15 +76,16 @@ public class GraphServiceImpl implements GraphService {
             List<Entity> entities = new ArrayList<>();
             JSONArray linksArray = jsonObject.getJSONArray("links");
             List<Relation> relations = new ArrayList<>();
+            int picId = picIdMapper.getPicId();
             for(int i=0;i<nodesArray.length();i++){
                 System.out.println(i);
                 JSONObject node = nodesArray.getJSONObject(i);
-                entities.add(new Entity(0,node.getString("name")));//attention!
+                entities.add(new Entity(picId,node.getString("name")));
 //                System.out.println(node.toString());
             }
             for(int i=0;i<linksArray.length();i++){
                 JSONObject link = linksArray.getJSONObject(i);
-                relations.add(new Relation(0,link.getString("name"),link.getString("source"),link.getString("target"),link.getString("type")));//attention!
+                relations.add(new Relation(picId,link.getString("name"),link.getString("source"),link.getString("target"),link.getString("type")));
             }
             // 存储
             for(int i=0;i<entities.size();i++){
@@ -108,14 +109,18 @@ public class GraphServiceImpl implements GraphService {
     public GraphVO getAll(int picId) {
         GraphVO graphVO = new GraphVO();
         graphVO.setPicId(picId);
-        List<Entity> nodes = entityMapper.getEntitiesByPicId(picId);
-        graphVO.setEntities(nodes);
-//        List<Relation> links = new ArrayList<>();
-//        for(int i=0;i<nodes.size();i++){
-//            links.addAll(relationMapper.getRelationsBySource(nodes.get(i)));
-//        }
+        List<Entity> entities = entityMapper.getEntitiesByPicId(picId);
+        List<NodeVO> nodes = new ArrayList<>();
+        for(int i=0;i<entities.size();i++){
+            nodes.add(new NodeVO(entities.get(i)));
+        }
+        graphVO.setNodes(nodes);
         List<Relation> relations=relationMapper.getRelationsByPicId(picId);
-        graphVO.setRelations(relations);
+        List<LinkVO> links = new ArrayList<>();
+        for(int i=0;i<relations.size();i++){
+            links.add(new LinkVO(relations.get(i)));
+        }
+        graphVO.setLinks(links);
         return graphVO;
     }
 
@@ -123,19 +128,19 @@ public class GraphServiceImpl implements GraphService {
     public MultipartFile dao2Json(int picId) {
         // dao to JSONObject
         GraphVO graphVO = getAll(picId);
-        List<Entity> entities = graphVO.getEntities();
-        List<Relation> relations = graphVO.getRelations();
+        List<NodeVO> nodes = graphVO.getNodes();
+        List<LinkVO> links = graphVO.getLinks();
         JSONObject jsonObject = new JSONObject();
         JSONArray nodesArray = new JSONArray();
         JSONArray linksArray = new JSONArray();
         try{
-            for(int i = 0; i< entities.size(); i++){
+            for(int i = 0; i< nodes.size(); i++){
                 ObjectMapper mapper = new ObjectMapper();
-                nodesArray.put(new JSONObject(mapper.writeValueAsString(entities.get(i))));
+                nodesArray.put(new JSONObject(mapper.writeValueAsString(nodes.get(i))));
             }
-            for(int i = 0; i< relations.size(); i++){
+            for(int i = 0; i< links.size(); i++){
                 ObjectMapper mapper = new ObjectMapper();
-                linksArray.put(new JSONObject(mapper.writeValueAsString(relations.get(i))));
+                linksArray.put(new JSONObject(mapper.writeValueAsString(links.get(i))));
             }
             jsonObject.put("nodes",nodesArray);
             jsonObject.put("links",linksArray);
@@ -148,7 +153,7 @@ public class GraphServiceImpl implements GraphService {
             String str = jsonObject.toString();
             File file = File.createTempFile("graph", ".json");
             file.deleteOnExit();
-            System.out.println(str);
+//            System.out.println(str);
             // str写入file
             PrintStream ps = new PrintStream(new FileOutputStream(file));
             ps.println(str);

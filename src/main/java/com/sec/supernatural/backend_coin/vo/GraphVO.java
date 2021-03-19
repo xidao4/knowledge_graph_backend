@@ -6,24 +6,24 @@ import com.sec.supernatural.backend_coin.po.Entity;
 import java.util.List;
 
 public class GraphVO {
-    private List<Entity> entities;
-    private List<Relation> relations;
+    private List<NodeVO> nodes;
+    private List<LinkVO> links;
     private int picId;
 
-    public List<Entity> getEntities() {
-        return entities;
+    public List<NodeVO> getNodes() {
+        return nodes;
     }
 
-    public void setEntities(List<Entity> entities) {
-        this.entities = entities;
+    public void setNodes(List<NodeVO> nodes) {
+        this.nodes = nodes;
     }
 
-    public List<Relation> getRelations() {
-        return relations;
+    public List<LinkVO> getLinks() {
+        return links;
     }
 
-    public void setRelations(List<Relation> relations) {
-        this.relations = relations;
+    public void setLinks(List<LinkVO> links) {
+        this.links = links;
     }
 
     public int getPicId() {
