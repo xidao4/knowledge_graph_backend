@@ -221,7 +221,7 @@ public class GraphServiceImpl implements GraphService {
 
     @Override
     public MyResponse addEntity(EntityVO entityVO) {
-        Entity entity =new Entity(entityVO.getPicId(), entityVO.getName());
+        Entity entity =new Entity(Integer.parseInt(entityVO.getPicId()), entityVO.getName());
         try{
             entityMapper.addEntity(entity);
         }catch (Exception e){
@@ -234,8 +234,8 @@ public class GraphServiceImpl implements GraphService {
     @Override
     public MyResponse deleteEntity(EntityVO entityVO) {
         try{
-            entityMapper.deleteEntity(entityVO.getPicId(), entityVO.getName());
-            Entity entity =new Entity(entityVO.getPicId(), entityVO.getName());
+            entityMapper.deleteEntity(Integer.parseInt(entityVO.getPicId()), entityVO.getName());
+            Entity entity =new Entity(Integer.parseInt(entityVO.getPicId()), entityVO.getName());
             List<Relation> relations = relationMapper.getRelationsByNode(entity);
             for(Relation relation : relations){
                 entityMapper.deleteEntity(relation.getPicId(), relation.getName());
@@ -267,8 +267,8 @@ public class GraphServiceImpl implements GraphService {
         //RelationVO: name,node1,node2,type,picId;
         if(vo.getNode1()==null&&vo.getNode2()==null) return MyResponse.exception("插入的关系既没有source，也没有target");
         try{
-            Relation relation =new Relation(vo.getPicId(),vo.getName(),vo.getNode1(),vo.getNode2(),vo.getType());
-            List<Relation> relations = relationMapper.getRelationsByNodesAndName(vo.getPicId(),vo.getNode1(),vo.getNode2(),vo.getName());
+            Relation relation =new Relation(Integer.parseInt(vo.getPicId()),vo.getName(),vo.getNode1(),vo.getNode2(),vo.getType());
+            List<Relation> relations = relationMapper.getRelationsByNodesAndName(Integer.parseInt(vo.getPicId()),vo.getNode1(),vo.getNode2(),vo.getName());
             if(relations.size()!=0) return MyResponse.exception("不能插入相同name的边");
 
             relationMapper.addRelation(relation);
@@ -283,7 +283,7 @@ public class GraphServiceImpl implements GraphService {
     public MyResponse deleteRelation(RelationVO vo) {
 
         try{
-            Relation relation =new Relation(vo.getPicId(),vo.getName(),vo.getNode1(),vo.getNode2(),vo.getType());
+            Relation relation =new Relation(Integer.parseInt(vo.getPicId()),vo.getName(),vo.getNode1(),vo.getNode2(),vo.getType());
             relationMapper.deleteRelation(relation);
         }catch (Exception e){
             System.out.println(e.getMessage());
@@ -299,11 +299,11 @@ public class GraphServiceImpl implements GraphService {
             String newType=vo.getNewType();
             if(newName==null&&newType==null) return MyResponse.error("未输入将关系修改为什么样子");
             if(newName!=null){
-                if(relationMapper.getRelationsByNodesAndName(vo.getPicId(),vo.getNode1(),vo.getNode2(),newName).size()!=0)
+                if(relationMapper.getRelationsByNodesAndName(Integer.parseInt(vo.getPicId()),vo.getNode1(),vo.getNode2(),newName).size()!=0)
                     return MyResponse.error("新关系不能与原关系重名");
             }
-            if(newType==null) relationMapper.changeRelationName(vo.getPicId(),vo.getNode1(),vo.getNode2(),vo.getName(),vo.getNewName());
-            else if(newName==null) relationMapper.changeRelationType(vo.getPicId(),vo.getNode1(),vo.getNode2(),vo.getName(),vo.getNewType());
+            if(newType==null) relationMapper.changeRelationName(Integer.parseInt(vo.getPicId()),vo.getNode1(),vo.getNode2(),vo.getName(),vo.getNewName());
+            else if(newName==null) relationMapper.changeRelationType(Integer.parseInt(vo.getPicId()),vo.getNode1(),vo.getNode2(),vo.getName(),vo.getNewType());
             else relationMapper.changeRelationNameAndType(vo);
         }catch (Exception e){
             System.out.println(e.getMessage());

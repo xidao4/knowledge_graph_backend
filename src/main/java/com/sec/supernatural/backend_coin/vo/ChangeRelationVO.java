@@ -1,18 +1,18 @@
 package com.sec.supernatural.backend_coin.vo;
 
 public class ChangeRelationVO {
-    private int picId;
+    private String picId;
     private String name;
     private String node1;//source
     private String node2;//target
     private String newName;
     private String newType;
 
-    public int getPicId() {
+    public String getPicId() {
         return picId;
     }
 
-    public void setPicId(int picId) {
+    public void setPicId(String picId) {
         this.picId = picId;
     }
 

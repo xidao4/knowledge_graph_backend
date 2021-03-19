@@ -1,14 +1,14 @@
 package com.sec.supernatural.backend_coin.vo;
 
 public class EntityVO {
-    private int picId;
+    private String picId;
     private String name;
 
-    public int getPicId() {
+    public String getPicId() {
         return picId;
     }
 
-    public void setPicId(int picId) {
+    public void setPicId(String picId) {
         this.picId = picId;
     }
 

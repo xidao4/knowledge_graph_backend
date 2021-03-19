@@ -40,10 +40,10 @@ public class GraphController {
         return graphService.deleteEntity(entityVO);
     }
     @PostMapping("/changeEntity")
-    public MyResponse changeEntity(@RequestParam Integer picId,
+    public MyResponse changeEntity(@RequestParam String picId,
                                    @RequestParam String oldName,
                                    @RequestParam String newName){
-        return graphService.changeEntity(picId,oldName,newName);
+        return graphService.changeEntity(Integer.valueOf(picId),oldName,newName);
     }
 
     @PostMapping("/addRelation")

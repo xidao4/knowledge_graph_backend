@@ -1,7 +1,7 @@
 package com.sec.supernatural.backend_coin.vo;
 
 public class RelationVO {
-    private int picId;
+    private String picId;
     private String name;
     private String node1;
     private String node2;
@@ -40,11 +40,11 @@ public class RelationVO {
         this.type = type;
     }
 
-    public int getPicId() {
+    public String getPicId() {
         return picId;
     }
 
-    public void setPicId(int picId) {
+    public void setPicId(String picId) {
         this.picId = picId;
     }
 }
