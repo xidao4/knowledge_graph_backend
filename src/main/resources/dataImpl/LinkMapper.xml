@@ -13,7 +13,10 @@
     <select id="getRelationsByNodesAndName" resultMap="com.sec.supernatural.backend_coin.po.Link">
         select * from Link where picId=#{picId} and source=#{source} and target=#{target} and name=#{name}
     </select>
-    <select id="getRelationsByNode" resultMap="com.sec.supernatural.backend_coin.po.Node">
+    <select id="getRelationsBySource" resultMap="com.sec.supernatural.backend_coin.po.Link" parameterMap="com.sec.supernatural.backend_coin.po.Node">
+        select * from Link where picId=#{picId} and source=#{name}
+    </select>
+    <select id="getRelationsByNode" resultMap="com.sec.supernatural.backend_coin.po.Link" parameterMap="com.sec.supernatural.backend_coin.po.Node">
         select * from Link where picId=#{picId} and source=#{name}
         union
         select * from Link where picId=#{picId} and target=#{name}

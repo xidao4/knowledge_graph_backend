@@ -83,7 +83,13 @@ public class GraphServiceImpl implements GraphService {
                 JSONObject link = linksArray.getJSONObject(i);
                 links.add(new Link(link.getString("name"),link.getString("source"),link.getString("target"),link.getString("type"),0));//attention!
             }
-            // TODO: 存储
+            // 存储
+            for(int i=0;i<nodes.size();i++){
+                graphMapper.addEntity(nodes.get(i));
+            }
+            for(int i=0;i<links.size();i++){
+                graphMapper.addRelation(links.get(i));
+            }
         }catch (Exception e){
             e.printStackTrace();
         }
@@ -97,7 +103,15 @@ public class GraphServiceImpl implements GraphService {
      */
     @Override
     public GraphVO getAll(int picId) {
-        return null;
+        GraphVO graphVO = new GraphVO();
+        graphVO.setPicId(picId);
+        List<Node> nodes = graphMapper.getEntitiesByPicId(picId);
+        graphVO.setNodes(nodes);
+        List<Link> links = new ArrayList<>();
+        for(int i=0;i<nodes.size();i++){
+            links.addAll(graphMapper.getRelationsBySource(nodes.get(i)));
+        }
+        return graphVO;
     }
 
     @Override

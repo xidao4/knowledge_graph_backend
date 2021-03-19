@@ -16,6 +16,7 @@ public interface GraphMapper {
     void deleteEntity(@Param("picId") int picId,@Param("name") String name);
     void changeEntity(@Param("picId") int picId,@Param("oldName") String oldName,@Param("newName") String newName);
     List<Node> getEntity(@Param("picId") int picId,@Param("name") String name);
+    List<Node> getEntitiesByPicId(@Param("picId") int picId);
 
     void addRelation(Link link);
     void deleteRelation(Link link);
@@ -24,6 +25,7 @@ public interface GraphMapper {
                             @Param("target") String target,
                             @Param("name") String name);
     List<Link> getRelationsByNode(Node node);
+    List<Link> getRelationsBySource(Node node);
     void changeRelationName(@Param("picId") int picId,
                             @Param("source") String source,@Param("target") String target,
                             @Param("name") String name,@Param("newName") String newName);
