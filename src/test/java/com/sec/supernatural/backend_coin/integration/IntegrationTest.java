@@ -1,10 +1,9 @@
-package com.sec.supernatural.backend_coin.controller;
+package com.sec.supernatural.backend_coin.integration;
+
 
 import com.alibaba.fastjson.JSONObject;
 import com.sec.supernatural.backend_coin.constant.MyResponse;
-import com.sec.supernatural.backend_coin.vo.EntityVO;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,16 +19,17 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
 import java.nio.charset.StandardCharsets;
-import java.util.Date;
+import java.util.ArrayList;
 import java.util.Map;
+import java.util.Random;
 
 /**
  * @author wangyuchen
- * @date 2021/3/20 9:08 下午
+ * @date 2021/3/21 00:36 上午
  */
 @SpringBootTest
 @ExtendWith(SpringExtension.class)
-class GraphControllerTest {
+public class IntegrationTest {
 
     @Autowired
     private WebApplicationContext webApplicationContext;
@@ -40,7 +40,16 @@ class GraphControllerTest {
         mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
     }
 
+    /**
+     * POST 模板
+     * @param url 请求的URL
+     * @param object Post Body
+     * @param expect_code 期望的返回状态码
+     * @param headers 请求头
+     * @return MyResponse 以供检查
+     */
     private MyResponse postTemplate(String url, Object object, int expect_code, Map<String, Object> headers) throws Exception{
+
         MockHttpServletRequestBuilder mockHttpServletRequestBuilder = MockMvcRequestBuilders
                 .post(url)
                 .accept(MediaType.APPLICATION_JSON)
@@ -78,49 +87,13 @@ class GraphControllerTest {
         return myResponse;
     }
 
+    /**
+     * @throws Exception
+     */
     @Test
-    void getAll() throws Exception {
+    public void Test() throws Exception{
 
     }
 
-    @Test
-    void download() throws Exception {
-    }
-
-    @DisplayName("增加实体")
-    @Test
-    void addEntity() throws Exception {
-
-        // 成功插入
-        EntityVO entityVO = new EntityVO();
-        entityVO.setPicId("0");
-        entityVO.setName(new Date().toString());
-        postTemplate("/api/graph/addEntity", entityVO, 0, null);
-
-        // 重复插入时，插入失败
-        EntityVO entityVO1 = new EntityVO();
-        entityVO1.setPicId("0");
-        entityVO1.setName("test-add");
-        postTemplate("/api/graph/addEntity", entityVO, 2500, null);
-    }
-
-    @Test
-    void deleteEntity() throws Exception {
-    }
-
-    @Test
-    void changeEntity() throws Exception {
-    }
-
-    @Test
-    void addRelation() throws Exception {
-    }
-
-    @Test
-    void deleteRelation() throws Exception {
-    }
-
-    @Test
-    void changeRelation() throws Exception {
-    }
 }
+
