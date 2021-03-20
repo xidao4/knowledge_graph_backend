@@ -77,8 +77,9 @@ public class GraphServiceImpl implements GraphService {
             JSONArray linksArray = jsonObject.getJSONArray("links");
             List<Relation> relations = new ArrayList<>();
             int picId = picIdMapper.getPicId();
+            System.out.println("picId"+picId);
             for(int i=0;i<nodesArray.length();i++){
-                System.out.println(i);
+//                System.out.println(i);
                 JSONObject node = nodesArray.getJSONObject(i);
                 entities.add(new Entity(picId,node.getString("name")));
 //                System.out.println(node.toString());
@@ -94,6 +95,7 @@ public class GraphServiceImpl implements GraphService {
             for(int i=0;i<relations.size();i++){
                 relationMapper.addRelation(relations.get(i));
             }
+            return picId;
         }catch (Exception e){
             e.printStackTrace();
         }

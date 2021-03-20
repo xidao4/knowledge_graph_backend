@@ -46,7 +46,8 @@ public class FileTransferTest {
 
     @Test
     void testPicId(){
-        picIdMapper.updatePicId();
-        System.out.println(picIdMapper.getPicId());
+//        picIdMapper.updatePicId();
+        int picId = picIdMapper.getPicId();
+        System.out.println(picId);
     }
 }

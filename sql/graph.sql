@@ -19,7 +19,7 @@
 -- Table structure for table `entity`
 --
 
-DROP TABLE IF EXISTS `entity`;
+DROP TABLE IF EXISTS Entity;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `entity`  (
@@ -33,17 +33,17 @@ CREATE TABLE `entity`  (
 -- Dumping data for table `entity`
 --
 
-LOCK TABLES `entity` WRITE;
-/*!40000 ALTER TABLE `entity` DISABLE KEYS */;
-INSERT INTO `entity` VALUES (0,'匡宏宇'),(0,'软工三'),(0,'需求课'),(0,'服务端开发');
-/*!40000 ALTER TABLE `entity` ENABLE KEYS */;
+LOCK TABLES Entity WRITE;
+/*!40000 ALTER TABLE Entity DISABLE KEYS */;
+INSERT INTO Entity VALUES (0,'匡宏宇'),(0,'软工三'),(0,'需求课'),(0,'服务端开发');
+/*!40000 ALTER TABLE Entity ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
 -- Table structure for table `picid`
 --
 
-DROP TABLE IF EXISTS `picid`;
+DROP TABLE IF EXISTS picId;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `picid` (
@@ -57,17 +57,17 @@ CREATE TABLE `picid` (
 -- Dumping data for table `picid`
 --
 
-LOCK TABLES `picid` WRITE;
-/*!40000 ALTER TABLE `picid` DISABLE KEYS */;
-INSERT INTO `picid` VALUES (0,1);
-/*!40000 ALTER TABLE `picid` ENABLE KEYS */;
+LOCK TABLES picId WRITE;
+/*!40000 ALTER TABLE picId DISABLE KEYS */;
+INSERT INTO picId VALUES (0,1);
+/*!40000 ALTER TABLE picId ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
 -- Table structure for table `relation`
 --
 
-DROP TABLE IF EXISTS `relation`;
+DROP TABLE IF EXISTS Relation;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `relation` (
@@ -85,10 +85,10 @@ CREATE TABLE `relation` (
 -- Dumping data for table `relation`
 --
 
-LOCK TABLES `relation` WRITE;
-/*!40000 ALTER TABLE `relation` DISABLE KEYS */;
-INSERT INTO `relation` VALUES (1,'教授','匡宏宇','需求课',NULL,0),(2,'出题','匡宏宇','软工三',NULL,0),(3,'辅助','匡宏宇','服务端开发',NULL,0);
-/*!40000 ALTER TABLE `relation` ENABLE KEYS */;
+LOCK TABLES Relation WRITE;
+/*!40000 ALTER TABLE Relation DISABLE KEYS */;
+INSERT INTO Relation VALUES (1,'教授','匡宏宇','需求课',NULL,0),(2,'出题','匡宏宇','软工三',NULL,0),(3,'辅助','匡宏宇','服务端开发',NULL,0);
+/*!40000 ALTER TABLE Relation ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
