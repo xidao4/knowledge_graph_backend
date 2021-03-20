@@ -38,7 +38,6 @@ pipeline {
     post {
         always {
             sh "ls ${WORKSPACE}/target"
-            sh "mkdir ${WORKSPACE}/target/site"
             sh "mv ${WORKSPACE}@2/target/site/surefire-report.html ${WORKSPACE}/target/site/index.html"
             sh "cp -r ${WORKSPACE}@2/target/surefire-reports ${WORKSPACE}/target"
             junit '${WORKSPACE}/target/surefire-reports/*.xml'
