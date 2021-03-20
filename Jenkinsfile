@@ -14,6 +14,7 @@ pipeline {
             steps{
                 echo 'Maven Build Stage'
                 sh 'mvn clean package surefire-report:report'
+                sh 'mvn cobertura:cobertura'
             }
 	    }
         stage('Image Build'){
@@ -37,11 +38,11 @@ pipeline {
     }
     post {
         always {
-            sh "ls ${WORKSPACE}/target"
-            sh "mv ${WORKSPACE}@2/target/site/surefire-report.html ${WORKSPACE}/target/site/index.html"
             sh "cp -r ${WORKSPACE}@2/target/surefire-reports ${WORKSPACE}/target"
-            sh "ls ${WORKSPACE}/target/surefire-reports"
-            junit 'target/site/surefire-report.html'
+            sh "cp -r ${WORKSPACE}@2/target/site ${WORKSPACE}/target"
+            sh "ls ${WORKSPACE}/target"
+            junit 'target/surefire-reports/**/*.xml'
+            junit 'target/site/cobertura/coverage.xml'
         }
     }
 }
