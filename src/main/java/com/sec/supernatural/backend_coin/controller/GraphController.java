@@ -5,6 +5,7 @@ import com.sec.supernatural.backend_coin.bl.GraphService;
 import com.sec.supernatural.backend_coin.constant.MyResponse;
 import com.sec.supernatural.backend_coin.constant.ResponseCode;
 import com.sec.supernatural.backend_coin.vo.*;
+<<<<<<< HEAD
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.http.Header;
 import org.apache.http.HttpEntity;
@@ -17,6 +18,8 @@ import org.apache.http.entity.mime.MultipartEntityBuilder;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
+=======
+>>>>>>> 47c64dfbfddd6af269bff7b00cfc259eba40697f
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
@@ -72,10 +75,8 @@ public class GraphController {
         return graphService.deleteEntity(entityVO);
     }
     @PostMapping("/changeEntity")
-    public MyResponse changeEntity(@RequestParam String picId,
-                                   @RequestParam String oldName,
-                                   @RequestParam String newName){
-        return graphService.changeEntity(Integer.valueOf(picId),oldName,newName);
+    public MyResponse changeEntity(@RequestBody ChangeEntityVO changeEntityVO){
+        return graphService.changeEntity(Integer.valueOf(changeEntityVO.getPicId()),changeEntityVO.getOldName(),changeEntityVO.getNewName());
     }
 
     @PostMapping("/addRelation")

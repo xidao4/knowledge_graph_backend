@@ -10,4 +10,5 @@ public class PicIdVO {
     public void setPicId(String picId) {
         this.picId = picId;
     }
+
 }
