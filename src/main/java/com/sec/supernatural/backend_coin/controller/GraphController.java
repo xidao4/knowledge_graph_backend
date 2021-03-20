@@ -20,14 +20,20 @@ public class GraphController {
     @PostMapping("/getAll")
     public MyResponse getAll(@RequestBody MultipartFile mFile){
         int picId = graphService.json2Dao(mFile);
+        if(picId==-1){
+            return MyResponse.error("picId不存在");
+        }
         GraphVO graphVO = graphService.getAll(picId);
-        return new MyResponse(ResponseCode.OK,graphVO);
+        return MyResponse.ok(graphVO);
     }
 
     @PostMapping("/download")
     public MyResponse download(@RequestBody String picId){
         MultipartFile mFile = graphService.dao2Json(Integer.parseInt(picId));
-        return new MyResponse(ResponseCode.OK,mFile);
+        if(mFile==null){
+            return MyResponse.error("File Null");
+        }
+        return MyResponse.ok(mFile);
     }
 
 
