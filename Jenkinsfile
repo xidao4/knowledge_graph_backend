@@ -25,6 +25,11 @@ pipeline {
                 sh "docker build . -t backend-coin:${BUILD_ID}"
             }
         }
+        stage('Test') {
+            steps {
+                sh 'mvn test'
+            }
+        }
         stage('deploy'){
             agent{
                 label 'master'
