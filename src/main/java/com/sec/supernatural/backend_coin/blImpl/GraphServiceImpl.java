@@ -1,6 +1,7 @@
 package com.sec.supernatural.backend_coin.blImpl;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.common.collect.Maps;
 import com.sec.supernatural.backend_coin.bl.GraphService;
 import com.sec.supernatural.backend_coin.constant.MyResponse;
 import com.sec.supernatural.backend_coin.constant.ResponseCode;
@@ -13,6 +14,18 @@ import com.sec.supernatural.backend_coin.vo.*;
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileItemFactory;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
+import org.apache.commons.lang3.ArrayUtils;
+import org.apache.http.Header;
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
+import org.apache.http.StatusLine;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.ContentType;
+import org.apache.http.entity.mime.HttpMultipartMode;
+import org.apache.http.entity.mime.MultipartEntityBuilder;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.HttpClients;
+import org.apache.http.util.EntityUtils;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,8 +36,10 @@ import org.apache.commons.io.FileUtils;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
 import java.io.*;
+import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 
 @Service
@@ -77,7 +92,6 @@ public class GraphServiceImpl implements GraphService {
             JSONArray linksArray = jsonObject.getJSONArray("links");
             List<Relation> relations = new ArrayList<>();
             int picId = picIdMapper.getPicId();
-            System.out.println("picId"+picId);
             for(int i=0;i<nodesArray.length();i++){
 //                System.out.println(i);
                 JSONObject node = nodesArray.getJSONObject(i);
@@ -128,6 +142,7 @@ public class GraphServiceImpl implements GraphService {
 
     @Override
     public MultipartFile dao2Json(int picId) {
+        MultipartFile mFile = null;
         // dao to JSONObject
         GraphVO graphVO = getAll(picId);
         List<NodeVO> nodes = graphVO.getNodes();
@@ -155,21 +170,20 @@ public class GraphServiceImpl implements GraphService {
             String str = jsonObject.toString();
             File file = File.createTempFile("graph", ".json");
             file.deleteOnExit();
-//            System.out.println(str);
             // str写入file
             PrintStream ps = new PrintStream(new FileOutputStream(file));
             ps.println(str);
             ps.close();
             // file to mFile
             FileItem fileItem = this.getMultipartFile(file,"templFileItem");
-            MultipartFile mFile = new CommonsMultipartFile(fileItem);
+            mFile = new CommonsMultipartFile(fileItem);
             // update picId
             picIdMapper.updatePicId();
             return mFile;
         }catch (Exception e){
             e.printStackTrace();
         }
-        return null;
+        return mFile;
     }
 
     private File mFile2File(MultipartFile mfile) {
@@ -213,13 +227,11 @@ public class GraphServiceImpl implements GraphService {
             os.close();
             fis.close();
         } catch (IOException e) {
+            System.out.println("error file 2 mfile");
             e.printStackTrace();
         }
         return item;
     }
-
-
-
 
     @Override
     public MyResponse addEntity(EntityVO entityVO) {
