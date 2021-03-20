@@ -13,7 +13,7 @@ pipeline {
             }
             steps{
                 echo 'Maven Build Stage'
-                sh 'mvn -DskipTests=true package '
+                sh 'mvn test package '
             }
 	    }
         stage('Image Build'){
@@ -23,11 +23,6 @@ pipeline {
             steps{
                 echo 'Image Build Stage'
                 sh "docker build . -t backend-coin:${BUILD_ID}"
-            }
-        }
-        stage('Test') {
-            steps {
-                sh 'mvn test'
             }
         }
         stage('deploy'){
