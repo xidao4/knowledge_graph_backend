@@ -13,7 +13,7 @@ pipeline {
             }
             steps{
                 echo 'Maven Build Stage'
-                sh 'clean package surefire-report:report'
+                sh 'mvn clean package surefire-report:report'
             }
 	    }
         stage('Image Build'){
@@ -37,7 +37,7 @@ pipeline {
     }
     post {
         always {
-            junit 'target/surefire-reports/*.xml'
+            sh "mv ${WORKSPACE}/target/site/surefire-report.html ${WORKSPACE}/target/site/index.html"
         }
     }
 }
