@@ -40,6 +40,7 @@ pipeline {
             sh "ls ${WORKSPACE}/target"
             sh "mv ${WORKSPACE}@2/target/site/surefire-report.html ${WORKSPACE}/target/site/index.html"
             sh "cp -r ${WORKSPACE}@2/target/surefire-reports ${WORKSPACE}/target"
+            sh "ls ${WORKSPACE}/target/surefire-reports"
             junit '${WORKSPACE}/target/surefire-reports/*.xml'
         }
     }
