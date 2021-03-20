@@ -37,7 +37,7 @@ pipeline {
     }
     post {
         always {
-            sh "mv ${WORKSPACE}/Backend-COIN@2/target/site/surefire-report.html ${WORKSPACE}/target/site/index.html"
+            sh "mv ${WORKSPACE}@2/target/site/surefire-report.html ${WORKSPACE}/target/site/index.html"
         }
     }
 }
