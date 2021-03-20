@@ -40,8 +40,8 @@ pipeline {
         always {
             sh "cp -r ${WORKSPACE}@2/target/surefire-reports ${WORKSPACE}/target"
             sh "cp -r ${WORKSPACE}@2/target/site ${WORKSPACE}/target"
-            sh "ls ${WORKSPACE}/target/site/cobertura"
-            junit 'target/site/cobertura/coverage.xml'
+            sh "ls ${WORKSPACE}/target/site"
+            cobertura 'target/site/cobertura/coverage.xml'
         }
     }
 }
