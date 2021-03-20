@@ -41,7 +41,7 @@ pipeline {
             sh "mv ${WORKSPACE}@2/target/site/surefire-report.html ${WORKSPACE}/target/site/index.html"
             sh "cp -r ${WORKSPACE}@2/target/surefire-reports ${WORKSPACE}/target"
             sh "ls ${WORKSPACE}/target/surefire-reports"
-            junit 'target/surefire-reports/**/*.xml'
+            junit 'target/site/surefire-report.html'
         }
     }
 }
