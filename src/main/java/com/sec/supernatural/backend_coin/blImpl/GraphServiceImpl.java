@@ -228,7 +228,7 @@ public class GraphServiceImpl implements GraphService {
             System.out.println(e.getMessage());
             return MyResponse.exception("插入失败");
         }
-        return new MyResponse();
+        return MyResponse.ok("插入成功");
     }
 
     @Override
@@ -242,9 +242,9 @@ public class GraphServiceImpl implements GraphService {
             }
         }catch (Exception e){
             System.out.println(e.getMessage());
-            return new MyResponse(ResponseCode.CATCH_EXCEPTION);
+            return MyResponse.error("删除失败");
         }
-        return new MyResponse();
+        return MyResponse.ok("删除成功");
     }
 
     @Override
@@ -256,9 +256,9 @@ public class GraphServiceImpl implements GraphService {
             entityMapper.changeEntity(picId,oldName,newName);
         }catch (Exception e){
             System.out.println(e.getMessage());
-            return new MyResponse(ResponseCode.CATCH_EXCEPTION);
+            return MyResponse.error("修改失败");
         }
-        return new MyResponse();
+        return MyResponse.ok("修改成功");
     }
 
     @Override
@@ -276,7 +276,7 @@ public class GraphServiceImpl implements GraphService {
             System.out.println(e.getMessage());
             return MyResponse.exception("插入失败");
         }
-        return new MyResponse();
+        return MyResponse.ok("插入成功");
     }
 
     @Override
@@ -287,9 +287,9 @@ public class GraphServiceImpl implements GraphService {
             relationMapper.deleteRelation(relation);
         }catch (Exception e){
             System.out.println(e.getMessage());
-            return new MyResponse(ResponseCode.CATCH_EXCEPTION);
+            return MyResponse.error("删除失败");
         }
-        return new MyResponse();
+        return MyResponse.ok("删除成功");
     }
 
     @Override
@@ -307,8 +307,8 @@ public class GraphServiceImpl implements GraphService {
             else relationMapper.changeRelationNameAndType(vo);
         }catch (Exception e){
             System.out.println(e.getMessage());
-            return new MyResponse(ResponseCode.CATCH_EXCEPTION);
+            return MyResponse.error("修改失败");
         }
-        return new MyResponse();
+        return MyResponse.ok("修改成功");
     }
 }
