@@ -102,7 +102,7 @@ public class GraphServiceImpl implements GraphService {
             }
             for(int i=0;i<linksArray.length();i++){
                 JSONObject link = linksArray.getJSONObject(i);
-                relations.add(new Relation(picId,link.getString("name"),link.getString("source"),link.getString("target"),link.getString("type")));
+                relations.add(new Relation(picId,link.getString("name"),link.getString("node1"),link.getString("node2"),link.getString("type")));
             }
             // 存储
             for(int i=0;i<entities.size();i++){
