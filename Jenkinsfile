@@ -38,8 +38,8 @@ pipeline {
     }
     post {
         always {
-            sh "cp -r ${WORKSPACE}@2/target/surefire-reports ${WORKSPACE}/target"
-            sh "cp -r ${WORKSPACE}@2/target/site ${WORKSPACE}/target"
+            sh "cp -rf ${WORKSPACE}@2/target/surefire-reports ${WORKSPACE}/target"
+            sh "cp -rf ${WORKSPACE}@2/target/site ${WORKSPACE}/target"
             sh "ls ${WORKSPACE}/target/site"
             junit 'target/site/cobertura/coverage.xml'
         }

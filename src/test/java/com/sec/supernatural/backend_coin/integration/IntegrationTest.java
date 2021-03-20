@@ -40,14 +40,6 @@ public class IntegrationTest {
         mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
     }
 
-    /**
-     * POST 模板
-     * @param url 请求的URL
-     * @param object Post Body
-     * @param expect_code 期望的返回状态码
-     * @param headers 请求头
-     * @return MyResponse 以供检查
-     */
     private MyResponse postTemplate(String url, Object object, int expect_code, Map<String, Object> headers) throws Exception{
 
         MockHttpServletRequestBuilder mockHttpServletRequestBuilder = MockMvcRequestBuilders
