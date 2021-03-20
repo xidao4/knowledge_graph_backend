@@ -13,7 +13,7 @@ pipeline {
             }
             steps{
                 echo 'Maven Build Stage'
-                sh 'mvn test package '
+                sh 'clean package surefire-report:report'
             }
 	    }
         stage('Image Build'){

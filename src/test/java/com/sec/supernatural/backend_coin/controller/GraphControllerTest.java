@@ -3,6 +3,7 @@ package com.sec.supernatural.backend_coin.controller;
 import com.alibaba.fastjson.JSONObject;
 import com.sec.supernatural.backend_coin.constant.MyResponse;
 import com.sec.supernatural.backend_coin.vo.EntityVO;
+//import org.junit.Assert;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -19,6 +20,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
 import java.nio.charset.StandardCharsets;
+import java.util.Date;
 import java.util.Map;
 
 /**
@@ -91,10 +93,16 @@ class GraphControllerTest {
         // 成功插入
         EntityVO entityVO = new EntityVO();
         entityVO.setPicId("0");
-        entityVO.setName("test-add");
+        entityVO.setName(new Date().toString());
         postTemplate("/api/graph/addEntity", entityVO, 0, null);
 
-        // TODO 插入失败？
+//        // 重复插入时，插入失败
+//        EntityVO entityVO1 = new EntityVO();
+//        entityVO1.setPicId("0");
+//        entityVO1.setName("test-add");
+//        String actual = new String(postTemplate("/api/graph/addEntity", entityVO, -1, null).getData().toString()
+//                .getBytes(StandardCharsets.ISO_8859_1), "UTF-8");
+//        Assert.assertEquals("重复确认投资组合", actual);
     }
 
     @Test
