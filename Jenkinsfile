@@ -37,7 +37,8 @@ pipeline {
     }
     post {
         always {
-            sh "ls ${WORKSPACE}@2/target/"
+            sh "ls ${WORKSPACE}@2/target/site"
+            sh "mkdir ${WORKSPACE}/target/site"
             sh "mv ${WORKSPACE}@2/target/site/surefire-report.html ${WORKSPACE}/target/site/index.html"
         }
     }
