@@ -3,10 +3,7 @@ package com.sec.supernatural.backend_coin.controller;
 import com.sec.supernatural.backend_coin.bl.GraphService;
 import com.sec.supernatural.backend_coin.constant.MyResponse;
 import com.sec.supernatural.backend_coin.constant.ResponseCode;
-import com.sec.supernatural.backend_coin.vo.ChangeRelationVO;
-import com.sec.supernatural.backend_coin.vo.GraphVO;
-import com.sec.supernatural.backend_coin.vo.EntityVO;
-import com.sec.supernatural.backend_coin.vo.RelationVO;
+import com.sec.supernatural.backend_coin.vo.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -28,8 +25,8 @@ public class GraphController {
     }
 
     @PostMapping("/download")
-    public MyResponse download(@RequestBody String picId){
-        MultipartFile mFile = graphService.dao2Json(Integer.parseInt(picId));
+    public MyResponse download(@RequestBody PicIdVO picIdVO){
+        MultipartFile mFile = graphService.dao2Json(Integer.parseInt(picIdVO.getPicId()));
         if(mFile==null){
             return MyResponse.error("File Null");
         }
