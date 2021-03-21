@@ -2,13 +2,19 @@ package com.sec.supernatural.backend_coin.integration;
 
 
 import com.alibaba.fastjson.JSONObject;
+import com.sec.supernatural.backend_coin.bl.GraphService;
 import com.sec.supernatural.backend_coin.constant.MyResponse;
+import com.sec.supernatural.backend_coin.vo.ChangeRelationVO;
+import com.sec.supernatural.backend_coin.vo.EntityVO;
+import com.sec.supernatural.backend_coin.vo.RelationVO;
+import org.junit.Before;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
+import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
@@ -17,9 +23,15 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Map;
 import java.util.Random;
 
@@ -35,9 +47,24 @@ public class IntegrationTest {
     private WebApplicationContext webApplicationContext;
     private MockMvc mockMvc;
 
+    @Autowired
+    GraphService graphService;
+
+    String name1;
+    String name2;
+    String name3;
+    String name4;
+    String name5;
+
+
     @BeforeEach
     public void setupMockMvc(){
         mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
+        name1 = new Date().toString();
+        name2 = name1 + "_";
+        name3 = name1 + "__";
+        name4 = name1 + "___";
+        name5 = name1 + "____";
     }
 
     private MyResponse postTemplate(String url, Object object, int expect_code, Map<String, Object> headers) throws Exception{
@@ -84,7 +111,74 @@ public class IntegrationTest {
      */
     @Test
     public void Test() throws Exception{
+        Path path = Paths.get("testJson/test2.json");
+        File file = new File(path.toUri());
+        FileInputStream fileInputStream = new FileInputStream(file);
+        MultipartFile multipartFile = new MockMultipartFile(file.getName(), fileInputStream);
+        int picIdNum = graphService.json2Dao(multipartFile);
+        String picId = String.valueOf(picIdNum);
 
+        // 增加节点
+        EntityVO entityVO = new EntityVO();
+        entityVO.setPicId("0");
+        entityVO.setName(name1);
+        postTemplate("/api/graph/addEntity", entityVO, 0, null);
+        entityVO.setName(name2);
+        postTemplate("/api/graph/addEntity", entityVO, 0, null);
+
+        // 增加关系
+        RelationVO relationVO = new RelationVO();
+        relationVO.setNode1(name1);
+        relationVO.setNode2(name2);
+        relationVO.setName(name5);
+        relationVO.setPicId("0");
+        relationVO.setType("test-type");
+        postTemplate("/api/graph/addRelation", relationVO, 0, null);
+
+        // 修改关系
+        ChangeRelationVO changeRelationVO = new ChangeRelationVO();
+        changeRelationVO.setPicId("0");
+        changeRelationVO.setNode1(name1);
+        changeRelationVO.setNode2(name2);
+        changeRelationVO.setName(name5);
+        changeRelationVO.setNewName(name5 + "_");
+        changeRelationVO.setNewType("test-type_");
+        postTemplate("/api/graph/changeRelation", changeRelationVO, 0, null);
+    }
+
+    @Test
+    public void Test2() throws Exception{
+        Path path = Paths.get("/testJson/test2.json");
+        File file = new File(path.toUri());
+        FileInputStream fileInputStream = new FileInputStream(file);
+        MultipartFile multipartFile = new MockMultipartFile(file.getName(), fileInputStream);
+        int picIdNum = graphService.json2Dao(multipartFile);
+        String picId = String.valueOf(picIdNum);
+
+        // 增加节点
+        EntityVO entityVO = new EntityVO();
+        entityVO.setPicId("0");
+        entityVO.setName(name3);
+        postTemplate("/api/graph/addEntity", entityVO, 0, null);
+        entityVO.setName(name4);
+        postTemplate("/api/graph/addEntity", entityVO, 0, null);
+
+        // 增加关系
+        RelationVO relationVO = new RelationVO();
+        relationVO.setNode1(name3);
+        relationVO.setNode2(name4);
+        relationVO.setName(name5);
+        relationVO.setPicId("0");
+        relationVO.setType("test-type");
+        postTemplate("/api/graph/addRelation", relationVO, 0, null);
+
+        // 删除关系
+        relationVO.setNode1(name3);
+        relationVO.setNode2(name4);
+        relationVO.setName(name5);
+        relationVO.setPicId("0");
+        relationVO.setType("test-type");
+        postTemplate("/api/graph/deleteRelation", relationVO, 0, null);
     }
 
 }
