@@ -37,10 +37,4 @@ pipeline {
             }
         }
     }
-    post {
-        always {
-            sh "cp -r ${WORKSPACE}@2/target/surefire-reports ${WORKSPACE}/target"
-            junit 'target/surefire-reports/**/*.xml'
-        }
-    }
 }
