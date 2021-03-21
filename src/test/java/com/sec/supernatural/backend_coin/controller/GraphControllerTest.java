@@ -1,8 +1,10 @@
 package com.sec.supernatural.backend_coin.controller;
 
 import com.alibaba.fastjson.JSONObject;
+import com.sec.supernatural.backend_coin.bl.GraphService;
 import com.sec.supernatural.backend_coin.constant.MyResponse;
 import com.sec.supernatural.backend_coin.vo.EntityVO;
+import com.sec.supernatural.backend_coin.vo.PicIdVO;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -34,6 +36,7 @@ class GraphControllerTest {
     @Autowired
     private WebApplicationContext webApplicationContext;
     private MockMvc mockMvc;
+
 
     @BeforeEach
     public void setupMockMvc(){
@@ -80,11 +83,12 @@ class GraphControllerTest {
 
     @Test
     void getAll() throws Exception {
-
+        // 使用Postman 测试
     }
 
     @Test
     void download() throws Exception {
+        // 使用Postman 测试
     }
 
     @DisplayName("增加实体")
