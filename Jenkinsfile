@@ -13,9 +13,9 @@ pipeline {
             }
             steps{
                 echo 'Maven Build Stage'
-                sh "mvn org.jacoco:jacoco-maven-plugin:prepare-agent -f ${pomPath} clean test -Dautoconfig.skip=true -Dmaven.test.skip=false -Dmaven.test.failure.ignore=true"
+                sh "mvn org.jacoco:jacoco-maven-plugin:prepare-agent clean test -Dautoconfig.skip=true -Dmaven.test.skip=false -Dmaven.test.failure.ignore=true"
                 junit '**/target/surefire-reports/*.xml'
-                sh 'mvn  -f ${pomPath} clean package -Dautoconfig.skip=true -Dmaven.test.skip=true'
+                sh 'mvn clean package -Dautoconfig.skip=true -Dmaven.test.skip=true'
             }
 	    }
         stage('Image Build'){
