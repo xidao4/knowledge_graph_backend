@@ -15,7 +15,5 @@ class BackendCoinApplicationTests {
     void contextLoads() {
     }
 
-    @Test
-    void testNeo4j(){}
 
 }

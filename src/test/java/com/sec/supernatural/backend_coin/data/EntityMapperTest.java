@@ -19,26 +19,40 @@ import java.util.Date;
 class EntityMapperTest {
     @Autowired
     EntityMapper entityMapper;
-
+    Date date;
+    Date date2;
+    String random;
     @Test
     void addEntity() {
-        Entity entity = new Entity(0, new Date().toString());
+        date=new Date();
+        Entity entity = new Entity(0,date.toString());
         entityMapper.addEntity(entity);
     }
 
     @Test
     void deleteEntity() {
+        Date d=new Date();
+        Entity entity = new Entity(0,d.toString());
+        entityMapper.addEntity(entity);
+        entityMapper.deleteEntity(0,d.toString());
     }
 
     @Test
     void changeEntity() {
+        date2=new Date();
+        Entity entity = new Entity(0,date2.toString());
+        entityMapper.addEntity(entity);
+        random=String.valueOf(Math.random());
+        entityMapper.changeEntity(0,date2.toString(),random);
     }
 
     @Test
     void getEntity() {
+        entityMapper.getEntity(0,random);
     }
 
     @Test
     void getEntitiesByPicId() {
+        entityMapper.getEntitiesByPicId(0);
     }
 }

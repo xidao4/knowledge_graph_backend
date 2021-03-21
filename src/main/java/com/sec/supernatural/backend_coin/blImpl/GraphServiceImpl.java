@@ -251,9 +251,11 @@ public class GraphServiceImpl implements GraphService {
             entityMapper.deleteEntity(Integer.parseInt(entityVO.getPicId()), entityVO.getName());
             Entity entity =new Entity(Integer.parseInt(entityVO.getPicId()), entityVO.getName());
             List<Relation> relations = relationMapper.getRelationsByNode(entity);
+            //todo:for
             for(Relation relation : relations){
-                entityMapper.deleteEntity(relation.getPicId(), relation.getName());
+                relationMapper.deleteRelation(relation);
             }
+
         }catch (Exception e){
             System.out.println(e.getMessage());
             return MyResponse.error("删除失败");

@@ -106,10 +106,17 @@ class GraphControllerTest {
 
     @Test
     void deleteEntity() throws Exception {
+        EntityVO entityVO = new EntityVO();
+        entityVO.setPicId("0");
+        entityVO.setName(new Date().toString());
+        postTemplate("/api/graph/addEntity", entityVO, 0, null);
+
+        postTemplate("/api/graph/deleteEntity", entityVO, 0, null);
     }
 
     @Test
     void changeEntity() throws Exception {
+
     }
 
     @Test
