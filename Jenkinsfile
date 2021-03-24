@@ -19,13 +19,14 @@ pipeline {
 	    stage('Publish Test Coverage Report') {
             steps {
                step([$class: 'JacocoPublisher',
-                   execPattern: 'target/jacoco.exe',
+                   execPattern: 'target/coverage-reports/jacoco.exe',
                    classPattern: 'target/classes'
                ])
+
                publishHTML([allowMissing: false,
                     alwaysLinkToLastBuild: false,
                     keepAll: false,
-                    reportDir: 'target/site/jacoco',
+                    reportDir: 'target/coverage-reports',
                     reportFiles: 'index.html',
                     reportName: 'Jacoco HTML Report',
                     reportTitles: ''])
