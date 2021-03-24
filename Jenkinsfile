@@ -18,6 +18,11 @@ pipeline {
                 sh 'mvn clean package -Dautoconfig.skip=true -Dmaven.test.skip=true'
             }
 	    }
+	    stage('JacocoPublisher') {
+            steps {
+                 jacoco()
+            }
+        }
         stage('Image Build'){
             agent{
                 label 'master'
