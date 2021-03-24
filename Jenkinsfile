@@ -14,11 +14,9 @@ pipeline {
             steps{
                 echo 'Maven Build Stage'
                 sh "mvn clean package"
-            }
-	    }
-	    stage('Publish Test Coverage Report') {
-            steps {
-               step([$class: 'JacocoPublisher',
+
+                echo 'Publish Test Coverage Report'
+                step([$class: 'JacocoPublisher',
                    execPattern: 'target/coverage-reports/jacoco.exe',
                    classPattern: 'target/classes'
                ])
@@ -31,7 +29,7 @@ pipeline {
                     reportName: 'Jacoco HTML Report',
                     reportTitles: ''])
             }
-        }
+	    }
         stage('Image Build'){
             agent{
                 label 'master'
