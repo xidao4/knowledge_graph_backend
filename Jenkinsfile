@@ -14,13 +14,23 @@ pipeline {
             steps{
                 echo 'Maven Build Stage'
                 sh "mvn clean package"
-                junit '**/target/surefire-reports/*.xml'
-                jacoco(
-                    classPattern: '**/target/classes/com',
-                    execPattern: '**/target/jacoco.exec'
-                )
             }
 	    }
+	    stage('Publish Test Coverage Report') {
+            steps {
+               step([$class: 'JacocoPublisher',
+                   execPattern: 'target/jacoco.exe',
+                   classPattern: 'target/classes'
+               ])
+               publishHTML([allowMissing: false,
+                    alwaysLinkToLastBuild: false,
+                    keepAll: false,
+                    reportDir: 'target/site/jacoco',
+                    reportFiles: 'index.html',
+                    reportName: 'Jacoco HTML Report',
+                    reportTitles: ''])
+            }
+        }
         stage('Image Build'){
             agent{
                 label 'master'
