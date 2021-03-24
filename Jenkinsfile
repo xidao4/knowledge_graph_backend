@@ -15,7 +15,10 @@ pipeline {
                 echo 'Maven Build Stage'
                 sh "mvn clean package"
                 junit '**/target/surefire-reports/*.xml'
-                jacoco(execPattern: '**/target/jacoco.exec')
+                jacoco(
+                    classPattern: '**/target/classes/com',
+                    execPattern: '**/target/jacoco.exec'
+                )
             }
 	    }
         stage('Image Build'){
