@@ -13,16 +13,11 @@ pipeline {
             }
             steps{
                 echo 'Maven Build Stage'
-                sh "mvn org.jacoco:jacoco-maven-plugin:prepare-agent clean test -Dautoconfig.skip=true -Dmaven.test.skip=false -Dmaven.test.failure.ignore=true"
+                sh "mvn clean package"
                 junit '**/target/surefire-reports/*.xml'
-                sh 'mvn clean package -Dautoconfig.skip=true -Dmaven.test.skip=true'
+                jacoco(execPattern: '**/target/jacoco.exec')
             }
 	    }
-	    stage('JacocoPublisher') {
-            steps {
-                 jacoco()
-            }
-        }
         stage('Image Build'){
             agent{
                 label 'master'
