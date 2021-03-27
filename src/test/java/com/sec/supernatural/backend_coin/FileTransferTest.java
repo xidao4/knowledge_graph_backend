@@ -27,18 +27,18 @@ public class FileTransferTest {
         System.out.println(mFile.getOriginalFilename());
     }
 
-    @Test
-    void testJson2Dao(){
-        Path path = Paths.get("C:\\Users\\admin\\Desktop\\test.txt");
-        File file = new File(path.toUri());
-        try{
-            FileInputStream fileInputStream = new FileInputStream(file);
-            MultipartFile multipartFile = new MockMultipartFile(file.getName(), fileInputStream);
-            graphService.json2Dao(multipartFile);
-        }catch (Exception e){
-            e.printStackTrace();
-        }
-    }
+//    @Test
+//    void testJson2Dao(){
+//        Path path = Paths.get("C:\\Users\\admin\\Desktop\\test.txt");
+//        File file = new File(path.toUri());
+//        try{
+//            FileInputStream fileInputStream = new FileInputStream(file);
+//            MultipartFile multipartFile = new MockMultipartFile(file.getName(), fileInputStream);
+//            graphService.json2Dao(multipartFile);
+//        }catch (Exception e){
+//            e.printStackTrace();
+//        }
+//    }
     @Test
     void testGetAll(){
         graphService.getAll(0);
@@ -46,7 +46,8 @@ public class FileTransferTest {
 
     @Test
     void testPicId(){
-        picIdMapper.updatePicId();
-        System.out.println(picIdMapper.getPicId());
+//        picIdMapper.updatePicId();
+        int picId = picIdMapper.getPicId();
+        System.out.println(picId);
     }
 }

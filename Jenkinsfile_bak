@@ -13,21 +13,8 @@ pipeline {
             }
             steps{
                 echo 'Maven Build Stage'
-                sh "mvn clean package"
-
-                echo 'Publish Test Coverage Report'
-                step([$class: 'JacocoPublisher',
-                   execPattern: 'target/jacoco.exec',
-                   classPattern: 'target/classes'
-               ])
-
-               publishHTML([allowMissing: false,
-                    alwaysLinkToLastBuild: false,
-                    keepAll: false,
-                    reportDir: 'target/site/jacoco',
-                    reportFiles: 'index.html',
-                    reportName: 'Jacoco HTML Report',
-                    reportTitles: ''])
+                sh 'mvn clean package surefire-report:report'
+                sh 'mvn cobertura:cobertura'
             }
 	    }
         stage('Image Build'){
@@ -47,6 +34,15 @@ pipeline {
                 sh "if (docker ps -a |grep backend-coin) then (docker stop backend-coin && docker rm backend-coin) fi"
                 sh "docker run -p 8001:8001 --name backend-coin -v /log:/log -d backend-coin:${BUILD_ID}"
             }
+        }
+    }
+    post {
+        always {
+            sh "cp -r ${WORKSPACE}@2/target/surefire-reports ${WORKSPACE}/target"
+            sh "cp -r ${WORKSPACE}@2/target/site ${WORKSPACE}/target"
+            sh "ls ${WORKSPACE}/target"
+            junit 'target/surefire-reports/**/*.xml'
+            junit 'target/site/cobertura/coverage.xml'
         }
     }
 }

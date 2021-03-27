@@ -20,7 +20,7 @@
     </select>
     <update id="changeRelationNameAndType" parameterType="com.sec.supernatural.backend_coin.vo.ChangeRelationVO">
         update Relation set name=#{newName} and type=#{newType}
-        where picId=#{picId} and node1=#{node1} and node2=#{node2} and name=#{oldName}
+        where picId=#{picId} and node1=#{node1} and node2=#{node2} and name=#{name}
     </update>
     <update id="changeRelationName">
         update Relation set name=#{newName}
