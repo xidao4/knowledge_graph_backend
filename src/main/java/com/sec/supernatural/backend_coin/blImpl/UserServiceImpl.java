@@ -4,6 +4,7 @@ import com.sec.supernatural.backend_coin.bl.UserService;
 import com.sec.supernatural.backend_coin.constant.MyResponse;
 import com.sec.supernatural.backend_coin.data.UserMapper;
 import com.sec.supernatural.backend_coin.po.User;
+import com.sec.supernatural.backend_coin.util.JwtUtil;
 import com.sec.supernatural.backend_coin.util.MD5Encryption;
 import com.sec.supernatural.backend_coin.vo.LoginVO;
 import com.sec.supernatural.backend_coin.vo.UserVO;
@@ -43,7 +44,7 @@ public class UserServiceImpl implements UserService {
             userMapper.updateLastLoginTime(userVO.getUserId(), date);
             userVO.setCreateTime(user.getCreateTime().toString());
             userVO.setLastLoginTime(date.toString());
-//            userVO.setCoinToken(JwtUtil.createToken(userVO.getUserId(), tokenExpireTime));
+            userVO.setToken(JwtUtil.createToken(userVO.getUserId(), tokenExpireTime));
             return MyResponse.ok(userVO);
         }
         else {

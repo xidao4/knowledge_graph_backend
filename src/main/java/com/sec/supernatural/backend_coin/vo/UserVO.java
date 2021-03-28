@@ -12,5 +12,5 @@ public class UserVO {
     String username;
     String createTime;
     String lastLoginTime;
-    String coinToken;
+    String token;
 }
