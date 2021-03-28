@@ -17,3 +17,6 @@ spring:
 
 mybatis:
   mapper-locations: classpath:dataImpl/*Mapper.xml
+
+token:
+  tokenExpireTime: 30
