@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org/DTD Mapper 3.0" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sec.supernatural.backend_coin.data.UserMapper">
+
+    <select id="getUserByUsername" resultMap="User">
+        select * from User where username = #{userName}
+    </select>
+
+    <update id="updateLastLoginTime">
+        update User set lastLoginTime = #{date} where userId=#{userId}
+    </update>
+
+    <insert id="register" parameterType="com.sec.supernatural.backend_coin.po.User" useGeneratedKeys="true" keyProperty="userId">
+        insert into User (username, password, createTime, lastLoginTime) VALUES
+        (#{username}, #{password}, #{createTime}, #{lastLoginTime})
+    </insert>
+
+    <resultMap id="User" type="com.sec.supernatural.backend_coin.po.User">
+        <id column="userId" property="userId"></id>
+        <result column="password" property="password"></result>
+        <result column="username" property="username"></result>
+        <result column="createTime" property="createTime"></result>
+        <result column="lastLoginTime" property="lastLoginTime"></result>
+    </resultMap>
+</mapper>
