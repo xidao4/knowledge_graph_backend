@@ -26,17 +26,17 @@ class RelationMapperTest {
     @Autowired
     EntityMapper entityMapper;
     Date date;
-    @Test
-    void addRelation() {
-        //int picId,String name, String node1, String node2, String type
-        date=new Date();
-        Entity entity1 = new Entity(0,date.toString());
-        Entity entity2 = new Entity(0,date.toString()+"-2");
-        entityMapper.addEntity(entity1);
-        entityMapper.addEntity(entity2);
-        Relation relation=new Relation(0,"test",entity1.getName(),entity2.getName(),null);
-        relationMapper.addRelation(relation);
-    }
+//    @Test
+//    void addRelation() {
+//        //int picId,String name, String node1, String node2, String type
+//        date=new Date();
+//        Entity entity1 = new Entity(0,date.toString());
+//        Entity entity2 = new Entity(0,date.toString()+"-2");
+//        entityMapper.addEntity(entity1);
+//        entityMapper.addEntity(entity2);
+//        Relation relation=new Relation(0,"test",entity1.getName(),entity2.getName(),null);
+//        relationMapper.addRelation(relation);
+//    }
 
     @Test
     void deleteRelation() {
