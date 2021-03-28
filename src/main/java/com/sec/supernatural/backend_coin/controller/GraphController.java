@@ -1,12 +1,15 @@
 package com.sec.supernatural.backend_coin.controller;
 
+import com.alibaba.fastjson.JSONObject;
 import com.google.common.collect.Maps;
 import com.sec.supernatural.backend_coin.bl.GraphService;
 import com.sec.supernatural.backend_coin.constant.MyResponse;
 import com.sec.supernatural.backend_coin.constant.ResponseCode;
+import com.sec.supernatural.backend_coin.data.NodeDao;
 import com.sec.supernatural.backend_coin.vo.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
+import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -16,6 +19,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.nio.charset.Charset;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -23,6 +28,9 @@ import java.util.Map;
 public class GraphController {
     @Autowired
     GraphService graphService;
+
+    @Autowired
+    NodeDao nodeDao;
 
     @PostMapping("/getAll")
     public MyResponse getAll(@RequestBody MultipartFile mFile){
@@ -124,4 +132,10 @@ public class GraphController {
 //        }
 //        return null;
 //    }
+
+    @PostMapping("mongodb")
+    public MyResponse mongodb(@RequestBody JSONObject jsonParam){
+        nodeDao.saveByDocument(jsonParam);
+        return MyResponse.ok("okk");
+    }
 }
