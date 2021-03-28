@@ -94,97 +94,97 @@ class GraphControllerTest {
         return myResponse;
     }
 
-    @Test
-    void getAll() throws Exception {
-        // 使用Postman 测试
-    }
-
-    @Test
-    void download() throws Exception {
-        // 使用Postman 测试
-    }
-
-    @DisplayName("增加实体")
-    @Test
-    void addEntity() throws Exception {
-
-        // 成功插入
-        EntityVO entityVO = new EntityVO();
-        entityVO.setPicId("0");
-        entityVO.setName(name1);
-        postTemplate("/api/graph/addEntity", entityVO, 0, null);
-        entityVO.setName(name2);
-        postTemplate("/api/graph/addEntity", entityVO, 0, null);
-        entityVO.setName(name3);
-        postTemplate("/api/graph/addEntity", entityVO, 0, null);
-        entityVO.setName(name4);
-        postTemplate("/api/graph/addEntity", entityVO, 0, null);
-
-        // 重复插入时，插入失败
-        EntityVO entityVO1 = new EntityVO();
-        entityVO1.setPicId("0");
-        entityVO1.setName("test-add");
-        postTemplate("/api/graph/addEntity", entityVO, 2500, null);
-    }
-
-    @Test
-    @AfterTestMethod("addEntity")
-    public void deleteEntity() throws Exception {
-        // 成功删除实体
-        EntityVO entityVO = new EntityVO();
-        entityVO.setPicId("0");
-        entityVO.setName(name4);
-        postTemplate("/api/graph/deleteEntity", entityVO, 0, null);
-
-        // 删除失败
-        entityVO.setName(new Date().toString());
-        postTemplate("/api/graph/deleteEntity", entityVO, 0, null);
-    }
-
-    @Test
-    @AfterTestMethod("addEntity")
-    public void changeEntity() throws Exception {
-        ChangeEntityVO changeEntityVO = new ChangeEntityVO();
-        changeEntityVO.setPicId("0");
-        changeEntityVO.setOldName(name1);
-        changeEntityVO.setNewName(name1 + "1");
-        postTemplate("/api/graph/deleteEntity", changeEntityVO, 0, null);
-    }
-
-    @Test
-    @AfterTestMethod("addEntity")
-    public void addRelation() throws Exception {
-        RelationVO relationVO = new RelationVO();
-        relationVO.setNode1(name1);
-        relationVO.setNode2(name2);
-        relationVO.setName(name5);
-        relationVO.setPicId("0");
-        relationVO.setType("test-type");
-        postTemplate("/api/graph/addRelation", relationVO, 0, null);
-    }
-
-    @Test
-    @AfterTestMethod("changeRelation")
-    public void deleteRelation() throws Exception {
-        RelationVO relationVO = new RelationVO();
-        relationVO.setNode1(name1);
-        relationVO.setNode2(name2);
-        relationVO.setName(name5);
-        relationVO.setPicId("0");
-        relationVO.setType("test-type");
-        postTemplate("/api/graph/deleteRelation", relationVO, 0, null);
-    }
-
-    @Test
-    @AfterTestMethod("addRelation")
-    public void changeRelation() throws Exception {
-        ChangeRelationVO changeRelationVO = new ChangeRelationVO();
-        changeRelationVO.setPicId("0");
-        changeRelationVO.setNode1(name1);
-        changeRelationVO.setNode2(name2);
-        changeRelationVO.setName(name5);
-        changeRelationVO.setNewName(name5 + "_");
-        changeRelationVO.setNewType("test-type_");
-        postTemplate("/api/graph/changeRelation", changeRelationVO, 0, null);
-    }
+//    @Test
+//    void getAll() throws Exception {
+//        // 使用Postman 测试
+//    }
+//
+//    @Test
+//    void download() throws Exception {
+//        // 使用Postman 测试
+//    }
+//
+//    @DisplayName("增加实体")
+//    @Test
+//    void addEntity() throws Exception {
+//
+//        // 成功插入
+//        EntityVO entityVO = new EntityVO();
+//        entityVO.setPicId("0");
+//        entityVO.setName(name1);
+//        postTemplate("/api/graph/addEntity", entityVO, 0, null);
+//        entityVO.setName(name2);
+//        postTemplate("/api/graph/addEntity", entityVO, 0, null);
+//        entityVO.setName(name3);
+//        postTemplate("/api/graph/addEntity", entityVO, 0, null);
+//        entityVO.setName(name4);
+//        postTemplate("/api/graph/addEntity", entityVO, 0, null);
+//
+//        // 重复插入时，插入失败
+//        EntityVO entityVO1 = new EntityVO();
+//        entityVO1.setPicId("0");
+//        entityVO1.setName("test-add");
+//        postTemplate("/api/graph/addEntity", entityVO, 2500, null);
+//    }
+//
+//    @Test
+//    @AfterTestMethod("addEntity")
+//    public void deleteEntity() throws Exception {
+//        // 成功删除实体
+//        EntityVO entityVO = new EntityVO();
+//        entityVO.setPicId("0");
+//        entityVO.setName(name4);
+//        postTemplate("/api/graph/deleteEntity", entityVO, 0, null);
+//
+//        // 删除失败
+//        entityVO.setName(new Date().toString());
+//        postTemplate("/api/graph/deleteEntity", entityVO, 0, null);
+//    }
+//
+//    @Test
+//    @AfterTestMethod("addEntity")
+//    public void changeEntity() throws Exception {
+//        ChangeEntityVO changeEntityVO = new ChangeEntityVO();
+//        changeEntityVO.setPicId("0");
+//        changeEntityVO.setOldName(name1);
+//        changeEntityVO.setNewName(name1 + "1");
+//        postTemplate("/api/graph/deleteEntity", changeEntityVO, 0, null);
+//    }
+//
+//    @Test
+//    @AfterTestMethod("addEntity")
+//    public void addRelation() throws Exception {
+//        RelationVO relationVO = new RelationVO();
+//        relationVO.setNode1(name1);
+//        relationVO.setNode2(name2);
+//        relationVO.setName(name5);
+//        relationVO.setPicId("0");
+//        relationVO.setType("test-type");
+//        postTemplate("/api/graph/addRelation", relationVO, 0, null);
+//    }
+//
+//    @Test
+//    @AfterTestMethod("changeRelation")
+//    public void deleteRelation() throws Exception {
+//        RelationVO relationVO = new RelationVO();
+//        relationVO.setNode1(name1);
+//        relationVO.setNode2(name2);
+//        relationVO.setName(name5);
+//        relationVO.setPicId("0");
+//        relationVO.setType("test-type");
+//        postTemplate("/api/graph/deleteRelation", relationVO, 0, null);
+//    }
+//
+//    @Test
+//    @AfterTestMethod("addRelation")
+//    public void changeRelation() throws Exception {
+//        ChangeRelationVO changeRelationVO = new ChangeRelationVO();
+//        changeRelationVO.setPicId("0");
+//        changeRelationVO.setNode1(name1);
+//        changeRelationVO.setNode2(name2);
+//        changeRelationVO.setName(name5);
+//        changeRelationVO.setNewName(name5 + "_");
+//        changeRelationVO.setNewType("test-type_");
+//        postTemplate("/api/graph/changeRelation", changeRelationVO, 0, null);
+//    }
 }

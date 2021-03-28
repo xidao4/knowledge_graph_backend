@@ -106,74 +106,74 @@ public class IntegrationTest {
         return myResponse;
     }
 
-    /**
-     * @throws Exception
-     */
-    @Test
-    public void Test() throws Exception{
-        MultipartFile multipartFile = graphService.dao2Json(2);
-        int picIdNum = graphService.json2Dao(multipartFile);
-        String picId = String.valueOf(picIdNum);
-
-        // 增加节点
-        EntityVO entityVO = new EntityVO();
-        entityVO.setPicId(picId);
-        entityVO.setName(name1);
-        postTemplate("/api/graph/addEntity", entityVO, 0, null);
-        entityVO.setName(name2);
-        postTemplate("/api/graph/addEntity", entityVO, 0, null);
-
-        // 增加关系
-        RelationVO relationVO = new RelationVO();
-        relationVO.setNode1(name1);
-        relationVO.setNode2(name2);
-        relationVO.setName(name5);
-        relationVO.setPicId(picId);
-        relationVO.setType("test-type");
-        postTemplate("/api/graph/addRelation", relationVO, 0, null);
-
-        // 修改关系
-        ChangeRelationVO changeRelationVO = new ChangeRelationVO();
-        changeRelationVO.setPicId(picId);
-        changeRelationVO.setNode1(name1);
-        changeRelationVO.setNode2(name2);
-        changeRelationVO.setName(name5);
-        changeRelationVO.setNewName(name5 + "_");
-        changeRelationVO.setNewType("test-type_");
-        postTemplate("/api/graph/changeRelation", changeRelationVO, -1, null);
-    }
-
-    @Test
-    public void Test2() throws Exception{
-        MultipartFile multipartFile = graphService.dao2Json(2);
-        int picIdNum = graphService.json2Dao(multipartFile);
-        String picId = String.valueOf(picIdNum);
-
-        // 增加节点
-        EntityVO entityVO = new EntityVO();
-        entityVO.setPicId(picId);
-        entityVO.setName(name3);
-        postTemplate("/api/graph/addEntity", entityVO, 0, null);
-        entityVO.setName(name4);
-        postTemplate("/api/graph/addEntity", entityVO, 0, null);
-
-        // 增加关系
-        RelationVO relationVO = new RelationVO();
-        relationVO.setNode1(name3);
-        relationVO.setNode2(name4);
-        relationVO.setName(name5);
-        relationVO.setPicId(picId);
-        relationVO.setType("test-type");
-        postTemplate("/api/graph/addRelation", relationVO, 0, null);
-
-        // 删除关系
-        relationVO.setNode1(name3);
-        relationVO.setNode2(name4);
-        relationVO.setName(name5);
-        relationVO.setPicId(picId);
-        relationVO.setType("test-type");
-        postTemplate("/api/graph/deleteRelation", relationVO, 0, null);
-    }
+//    /**
+//     * @throws Exception
+//     */
+//    @Test
+//    public void Test() throws Exception{
+//        MultipartFile multipartFile = graphService.dao2Json(2);
+//        int picIdNum = graphService.json2Dao(multipartFile);
+//        String picId = String.valueOf(picIdNum);
+//
+//        // 增加节点
+//        EntityVO entityVO = new EntityVO();
+//        entityVO.setPicId(picId);
+//        entityVO.setName(name1);
+//        postTemplate("/api/graph/addEntity", entityVO, 0, null);
+//        entityVO.setName(name2);
+//        postTemplate("/api/graph/addEntity", entityVO, 0, null);
+//
+//        // 增加关系
+//        RelationVO relationVO = new RelationVO();
+//        relationVO.setNode1(name1);
+//        relationVO.setNode2(name2);
+//        relationVO.setName(name5);
+//        relationVO.setPicId(picId);
+//        relationVO.setType("test-type");
+//        postTemplate("/api/graph/addRelation", relationVO, 0, null);
+//
+//        // 修改关系
+//        ChangeRelationVO changeRelationVO = new ChangeRelationVO();
+//        changeRelationVO.setPicId(picId);
+//        changeRelationVO.setNode1(name1);
+//        changeRelationVO.setNode2(name2);
+//        changeRelationVO.setName(name5);
+//        changeRelationVO.setNewName(name5 + "_");
+//        changeRelationVO.setNewType("test-type_");
+//        postTemplate("/api/graph/changeRelation", changeRelationVO, -1, null);
+//    }
+//
+//    @Test
+//    public void Test2() throws Exception{
+//        MultipartFile multipartFile = graphService.dao2Json(2);
+//        int picIdNum = graphService.json2Dao(multipartFile);
+//        String picId = String.valueOf(picIdNum);
+//
+//        // 增加节点
+//        EntityVO entityVO = new EntityVO();
+//        entityVO.setPicId(picId);
+//        entityVO.setName(name3);
+//        postTemplate("/api/graph/addEntity", entityVO, 0, null);
+//        entityVO.setName(name4);
+//        postTemplate("/api/graph/addEntity", entityVO, 0, null);
+//
+//        // 增加关系
+//        RelationVO relationVO = new RelationVO();
+//        relationVO.setNode1(name3);
+//        relationVO.setNode2(name4);
+//        relationVO.setName(name5);
+//        relationVO.setPicId(picId);
+//        relationVO.setType("test-type");
+//        postTemplate("/api/graph/addRelation", relationVO, 0, null);
+//
+//        // 删除关系
+//        relationVO.setNode1(name3);
+//        relationVO.setNode2(name4);
+//        relationVO.setName(name5);
+//        relationVO.setPicId(picId);
+//        relationVO.setType("test-type");
+//        postTemplate("/api/graph/deleteRelation", relationVO, 0, null);
+//    }
 
 }
 
