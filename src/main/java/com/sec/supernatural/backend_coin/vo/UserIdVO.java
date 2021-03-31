@@ -8,5 +8,5 @@ import lombok.Data;
  */
 @Data
 public class UserIdVO {
-    private String userId;
+    Integer userId;
 }

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org/DTD Mapper 3.0" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sec.supernatural.backend_coin.data.ThumbnailMapper">
+    <insert id="addThumbnail" parameterType="com.sec.supernatural.backend_coin.po.Thumbnail">
+        insert into Thumbnail(userId,picId,picName,url)
+        values(#{userId},#{picId},#{picName},#{url})
+    </insert>
+    <select id="findByUserId" resultMap="Thumbnail">
+        select * from Thumbnail where userId=#{userId}
+    </select>
+
+    <resultMap id="Thumbnail" type="com.sec.supernatural.backend_coin.po.Thumbnail">
+        <id column="picId" property="picId"></id>
+        <result column="userId" property="userId"></result>
+        <result column="picName" property="picName"></result>
+        <result column="url" property="url"></result>
+    </resultMap>
+</mapper>

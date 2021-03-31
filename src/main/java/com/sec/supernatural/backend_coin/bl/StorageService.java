@@ -12,6 +12,7 @@ import java.io.IOException;
  */
 public interface StorageService {
     public String storeFile(String fileStr, String filename);
-    public Resource load(String filename)
+    public String storeImage(MultipartFile file);
+    public Resource load(String filename);
     public void init();
 }

@@ -1,6 +1,7 @@
 package com.sec.supernatural.backend_coin.blImpl;
 
 import com.sec.supernatural.backend_coin.bl.StorageService;
+import net.coobird.thumbnailator.Thumbnails;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
@@ -83,14 +84,20 @@ public class StorageServiceImpl implements StorageService {
     }
 
     @Override
-    public String storeImage(MultipartFile file, HttpServletRequest request) throws IOException {
+    public String storeImage(MultipartFile file) {
+        String res = "";
         logger.info(file.getOriginalFilename());
-        String prefix = DigestUtils.md5DigestAsHex(file.getBytes());
+        String prefix;
+        try {
+            prefix = DigestUtils.md5DigestAsHex(file.getBytes());
+        }catch (IOException e){
+            System.out.println("fail to get bytes from file !");
+            return res;
+        }
         String origin = StringUtils.cleanPath(file.getOriginalFilename());
         String ext = origin.substring(origin.lastIndexOf('.'));
         String filename = prefix + ext;
         logger.info(filename);
-        String res = "";
         if (file.isEmpty()) {
             System.out.println("unable to store empty file!");
             return res;
@@ -113,21 +120,7 @@ public class StorageServiceImpl implements StorageService {
                 }
                 File f = root.resolve(filename).toFile();
                 Thumbnails.of(BI).size(destHeight,destWidth).toFile(f);
-                //Files.copy(inputStream, root.resolve(filename), StandardCopyOption.REPLACE_EXISTING);
-                //url存入数据库，infoId先设为-1
-                //下面构造url
-//                InetAddress inetAddress=InetAddress.getLocalHost();
-//                String ip=inetAddress.getHostAddress();
-                String url = request.getScheme()+"://"+ "101.133.237.239"+":"+request.getServerPort()+"/api/admin/image/"+filename;
-//                String url = request.getScheme()+"://"+ "172.17.244.3"+":"+request.getServerPort()+"/api/admin/image/"+filename;
-
-//                RecruitImg img = new RecruitImg();
-//                img.setInfoId(-1);
-//                img.setUrl(url);
-//                img.setImgId(-1);
-//                recruitImgsMapper.addImg(img);
-//                List<Integer> imgIds = recruitImgsMapper.getImgIdByUrl(url);
-//                res = imgIds.get(imgIds.size()-1);
+                String url = "https://118.182.96.49:9020/api/storage/image/"+filename;
                 res = url;
             } catch (IOException e) {
                 System.out.println("failed to store file : " + filename);
@@ -136,15 +129,7 @@ public class StorageServiceImpl implements StorageService {
             }
         }else{
             System.out.println("img already exists!");
-//            String url = request.getScheme()+"://"+ "172.17.244.3"+":"+request.getServerPort()+"/api/admin/image/"+filename;
-            String url = request.getScheme()+"://"+ "101.133.237.239"+":"+request.getServerPort()+"/api/admin/image/"+filename;
-//            RecruitImg img = new RecruitImg();
-//            img.setInfoId(-1);
-//            img.setUrl(url);
-//            img.setImgId(-1);
-//            recruitImgsMapper.addImg(img);
-//            List<Integer> imgIds = recruitImgsMapper.getImgIdByUrl(url);
-//            res = imgIds.get(imgIds.size()-1);
+            String url = "https://118.182.96.49:9020/api/storage/image/"+filename;
             res = url;
         }
         return res;

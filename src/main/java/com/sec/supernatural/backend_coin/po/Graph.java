@@ -14,9 +14,9 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @Document(collection = "graph")
 public class Graph {
     @Id
-    private String picId;
-    private JSONArray fnodes;
-    private JSONArray fedges;
-    private JSONArray snodes;
-    private JSONArray sedges;
+    String picId;
+    JSONArray fnodes;
+    JSONArray fedges;
+    JSONArray snodes;
+    JSONArray sedges;
 }

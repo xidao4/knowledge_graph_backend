@@ -7,7 +7,9 @@ import com.sec.supernatural.backend_coin.bl.StorageService;
 import com.sec.supernatural.backend_coin.constant.MyResponse;
 import com.sec.supernatural.backend_coin.constant.ResponseCode;
 import com.sec.supernatural.backend_coin.data.MongoDBMapper;
+import com.sec.supernatural.backend_coin.data.ThumbnailMapper;
 import com.sec.supernatural.backend_coin.po.Graph;
+import com.sec.supernatural.backend_coin.po.Thumbnail;
 import com.sec.supernatural.backend_coin.vo.*;
 
 import org.apache.commons.io.FileUtils;
@@ -28,9 +30,11 @@ import java.util.List;
 public class GraphServiceImpl implements GraphService {
 
     @Autowired
+    StorageService storageService;
+    @Autowired
     MongoDBMapper mongoDBMapper;
     @Autowired
-    StorageService storageService;
+    ThumbnailMapper thumbnailMapper;
 
     @Override
     public MyResponse json2Dao(MultipartFile mfile) throws IOException {
@@ -88,26 +92,42 @@ public class GraphServiceImpl implements GraphService {
 
     @Override
     public MyResponse getPicElements(PicIdVO picIdVO) {
-        return null;
+        String picId = picIdVO.getPicId();
+        Graph graph = mongoDBMapper.findGraph(picId);
+        if(graph==null || ! graph.getPicId().equals(picId))
+            return MyResponse.error("Can Not Find Pic !");
+        else
+            return MyResponse.ok(graph);
     }
 
     @Override
     public MyResponse getPicTypes(PicIdVO picIdVO) {
+        String picId = picIdVO.getPicId();
+        Graph graph = mongoDBMapper.findGraph(picId);
+        if(graph==null || ! graph.getPicId().equals(picId))
+            return MyResponse.error("Can Not Find Pic !");
+        JSONArray fnodes = graph.getFnodes();
+        JSONArray snodes = graph.getSnodes();
+        // TODO
         return null;
     }
 
     @Override
     public MyResponse getUserPics(UserIdVO userIdVO) {
+        List<Thumbnail> thumbnails = thumbnailMapper.findByUserId(userIdVO.getUserId());
+        // TODO
         return null;
     }
 
     @Override
     public MyResponse getHistory(UserIdVO userIdVO) {
+        // TODO
         return null;
     }
 
     @Override
     public MyResponse search(SearchVO searchVO) {
+        // TODO
         return null;
     }
 }
