@@ -3,7 +3,9 @@ package com.sec.supernatural.backend_coin.blImpl;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.sec.supernatural.backend_coin.bl.GraphService;
+import com.sec.supernatural.backend_coin.bl.StorageService;
 import com.sec.supernatural.backend_coin.constant.MyResponse;
+import com.sec.supernatural.backend_coin.constant.ResponseCode;
 import com.sec.supernatural.backend_coin.data.MongoDBMapper;
 import com.sec.supernatural.backend_coin.po.Graph;
 import com.sec.supernatural.backend_coin.vo.*;
@@ -27,6 +29,8 @@ public class GraphServiceImpl implements GraphService {
 
     @Autowired
     MongoDBMapper mongoDBMapper;
+    @Autowired
+    StorageService storageService;
 
     @Override
     public MyResponse json2Dao(MultipartFile mfile) throws IOException {
@@ -48,21 +52,38 @@ public class GraphServiceImpl implements GraphService {
         graph.setSnodes(nodes);
         graph.setSedges(edges);
         // save data
-        save(graph);
+        MyResponse myResponse = save(graph);
         // build response
-        return MyResponse.ok(graph);
+        if(myResponse.getCode()== ResponseCode.OK)
+            return MyResponse.ok(graph);
+        else
+            return myResponse;
     }
 
     @Override
     public MyResponse dao2JsonUrl(PicIdVO picIdVO) {
-
-        return null;
+        // dao to Graph
+        String picId = picIdVO.getPicId();
+        Graph graph = mongoDBMapper.findGraph(picId);
+        // Graph to json str
+        String str = JSONObject.toJSONString(graph);
+        // str写入file，返回url
+        String url = storageService.storeFile(str,picId+".json");
+        // build response
+        if(url.length()==0 || url==null){
+            return MyResponse.error("Error Generating Json File !");
+        }else{
+            return MyResponse.ok(url);
+        }
     }
 
     @Override
     public MyResponse save(Graph graph) {
         mongoDBMapper.saveGraph(graph);
-        return MyResponse.ok("success");
+        if(graph.getPicId()==null || graph.getPicId()=="")
+            return MyResponse.error("图元信息保存失败");
+        else
+            return MyResponse.ok("success");
     }
 
     @Override

@@ -33,19 +33,8 @@ public class GraphController {
     }
 
     @PostMapping("/download")
-    public ResponseEntity<byte[]> download(@RequestBody PicIdVO picIdVO){
-        MultipartFile mFile = graphService.dao2Json(Integer.parseInt(picIdVO.getPicId()));
-        ResponseEntity<byte[]> response = null;
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.MULTIPART_FORM_DATA);
-        headers.add("content-disposition", "inline;filename=" + mFile.getOriginalFilename());
-        headers.setCacheControl("must-revalidate, post-check=0, pre-check=0");
-        try {
-            response = new ResponseEntity<byte[]>(mFile.getBytes(), headers, HttpStatus.OK);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return response;
+    public MyResponse download(@RequestBody PicIdVO picIdVO){
+        return graphService.dao2JsonUrl(picIdVO);
     }
 
 

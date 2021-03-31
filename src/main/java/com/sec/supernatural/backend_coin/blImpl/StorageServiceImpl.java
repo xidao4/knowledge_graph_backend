@@ -2,6 +2,8 @@ package com.sec.supernatural.backend_coin.blImpl;
 
 import com.sec.supernatural.backend_coin.bl.StorageService;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.UrlResource;
 import org.springframework.stereotype.Service;
 import org.springframework.util.DigestUtils;
 import org.springframework.util.StringUtils;
@@ -12,11 +14,16 @@ import javax.imageio.ImageIO;
 import javax.servlet.http.HttpServletRequest;
 import java.awt.image.BufferedImage;
 import java.io.*;
+import java.net.MalformedURLException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.logging.Logger;
 
+/**
+ * @author shenyichen
+ * @date 2021/3/31
+ */
 @Service
 public class StorageServiceImpl implements StorageService {
     @Value("${storage-dir}")
@@ -46,7 +53,37 @@ public class StorageServiceImpl implements StorageService {
     }
 
     @Override
-    public String store(MultipartFile file, HttpServletRequest request) throws IOException {
+    public String storeFile(String fileStr, String filename) {
+        String res = "";
+        if (fileStr.isEmpty()) {
+            System.out.println("unable to store empty file!");
+            return res;
+        }
+        if (filename.contains("..")) {
+            System.out.println("invalid path : " + filename);
+            return res;
+        }
+        if (!exists(filename)) {
+            File file = root.resolve(filename).toFile();
+            try{
+                PrintStream ps = new PrintStream(new FileOutputStream(file));
+                ps.println(fileStr);
+                ps.close();
+            }catch (FileNotFoundException e){
+                System.out.println("failed to store file : " + filename);
+                e.printStackTrace();
+                return res;
+            }
+        }else{
+            System.out.println("file already exists!");
+            String url = "https://118.182.96.49:9020/api/storage/file/"+filename;
+            res = url;
+        }
+        return res;
+    }
+
+    @Override
+    public String storeImage(MultipartFile file, HttpServletRequest request) throws IOException {
         logger.info(file.getOriginalFilename());
         String prefix = DigestUtils.md5DigestAsHex(file.getBytes());
         String origin = StringUtils.cleanPath(file.getOriginalFilename());
@@ -64,27 +101,69 @@ public class StorageServiceImpl implements StorageService {
         }
         if (!exists(filename)) {
             try (InputStream inputStream = file.getInputStream()) {
-                FileInputStream fileInputStream = (FileInputStream) file.getInputStream();
-                BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream(storageDir + File.separator + filename));
-                byte[] bs = new byte[1024];
-                int len;
-                while((len = fileInputStream.read(bs)) !=-1 ){
-                    bos.write(bs, 0, len);
+                //压缩
+                BufferedImage BI = ImageIO.read(inputStream);
+                double srcWidth = BI.getWidth(); // 源图宽度
+                double srcHeight = BI.getHeight(); // 源图高度
+                int destWidth = (int) srcWidth;
+                int destHeight = (int) srcHeight;
+                if(srcWidth>710){
+                    destWidth = 710;
+                    destHeight = (int) (destWidth * srcHeight / srcWidth);
                 }
-                bos.flush();
-                bos.close();
+                File f = root.resolve(filename).toFile();
+                Thumbnails.of(BI).size(destHeight,destWidth).toFile(f);
+                //Files.copy(inputStream, root.resolve(filename), StandardCopyOption.REPLACE_EXISTING);
+                //url存入数据库，infoId先设为-1
+                //下面构造url
+//                InetAddress inetAddress=InetAddress.getLocalHost();
+//                String ip=inetAddress.getHostAddress();
+                String url = request.getScheme()+"://"+ "101.133.237.239"+":"+request.getServerPort()+"/api/admin/image/"+filename;
+//                String url = request.getScheme()+"://"+ "172.17.244.3"+":"+request.getServerPort()+"/api/admin/image/"+filename;
+
+//                RecruitImg img = new RecruitImg();
+//                img.setInfoId(-1);
+//                img.setUrl(url);
+//                img.setImgId(-1);
+//                recruitImgsMapper.addImg(img);
+//                List<Integer> imgIds = recruitImgsMapper.getImgIdByUrl(url);
+//                res = imgIds.get(imgIds.size()-1);
+                res = url;
             } catch (IOException e) {
                 System.out.println("failed to store file : " + filename);
                 e.printStackTrace();
                 return res;
             }
         }else{
-            System.out.println("file already exists!");
+            System.out.println("img already exists!");
 //            String url = request.getScheme()+"://"+ "172.17.244.3"+":"+request.getServerPort()+"/api/admin/image/"+filename;
             String url = request.getScheme()+"://"+ "101.133.237.239"+":"+request.getServerPort()+"/api/admin/image/"+filename;
+//            RecruitImg img = new RecruitImg();
+//            img.setInfoId(-1);
+//            img.setUrl(url);
+//            img.setImgId(-1);
+//            recruitImgsMapper.addImg(img);
+//            List<Integer> imgIds = recruitImgsMapper.getImgIdByUrl(url);
+//            res = imgIds.get(imgIds.size()-1);
             res = url;
         }
         return res;
+    }
+
+    @Override
+    public Resource load(String filename) {
+        try {
+            Resource resource = new UrlResource(root.resolve(filename).toUri());
+            if (resource.exists() && resource.isReadable()) {
+                return resource;
+            } else {
+                System.out.println("failed to read file : " + filename);
+                return null;
+            }
+        } catch (MalformedURLException e) {
+            System.out.println("failed to read file : " + filename);
+            return null;
+        }
     }
 
     public boolean exists(String filename) {

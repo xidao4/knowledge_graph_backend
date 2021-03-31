@@ -5,6 +5,8 @@ import com.sec.supernatural.backend_coin.data.MongoDBMapper;
 import com.sec.supernatural.backend_coin.po.Graph;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
 
 import java.util.List;
 
@@ -22,6 +24,13 @@ public class MongoDBMapperImpl implements MongoDBMapper {
         // Saves the object, overwriting any object that might have the same id
         // 参考：https://docs.spring.io/spring-data/mongodb/docs/current/reference/html/#mongo-template.save-update-remove
         mongoTemplate.save(graph,"Graph");
+    }
+
+    @Override
+    public Graph findGraph(String picId) {
+        Query query = Query.query(Criteria.where("_id").is(picId));
+        Graph graph = mongoTemplate.findOne(query, Graph.class);
+        return graph;
     }
 
     @Override
