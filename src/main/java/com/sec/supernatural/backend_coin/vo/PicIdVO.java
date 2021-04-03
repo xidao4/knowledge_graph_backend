@@ -8,5 +8,5 @@ import lombok.Data;
  */
 @Data
 public class PicIdVO {
-    private String picId;
+    String picId;
 }

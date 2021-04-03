@@ -44,31 +44,14 @@ public interface GraphService {
     MyResponse getPicElements(PicIdVO picIdVO);
 
     /**
-     * "types":[
-     * {
-     *     "type": xxx,
-     *     "nodes": [...]
-     * },
-     * ...
-     * ]
-     */
-    /**
      * 根据picId获取类型与节点的映射
      * @param picIdVO
      * @return
      */
     MyResponse getPicTypes(PicIdVO picIdVO);
 
-    /**
-     * "userPics":[
-     * {
-     *     "picId": ...,
-     *     "url": ...,
-     *     "picName": ...
-     * },
-     * ...
-     * ]
-     */
+    MyResponse storeThumbnail(ThumbnailVO thumbnailVO);
+
     /**
      * 获取用户图谱缩略图
      * @param userIdVO
@@ -76,9 +59,6 @@ public interface GraphService {
      */
     MyResponse getUserPics(UserIdVO userIdVO);
 
-    /**
-     * 返回string数组
-     */
     /**
      * 获取历史搜索
      * @param userIdVO

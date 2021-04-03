@@ -37,7 +37,6 @@ public class GraphController {
         return graphService.dao2JsonUrl(picIdVO);
     }
 
-
     @PostMapping("/save")
     public MyResponse save(@RequestBody Graph graph) {
         return graphService.save(graph);
@@ -51,6 +50,11 @@ public class GraphController {
     @PostMapping("/getPicTypes")
     public MyResponse getPicTypes(@RequestBody PicIdVO picIdVO) {
         return graphService.getPicTypes(picIdVO);
+    }
+
+    @PostMapping("/thumbnail")
+    public MyResponse thumbnail(@RequestBody ThumbnailVO thumbnailVO){
+        return graphService.storeThumbnail(thumbnailVO);
     }
 
     @PostMapping("/getUserPics")

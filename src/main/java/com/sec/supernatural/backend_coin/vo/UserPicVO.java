@@ -4,10 +4,11 @@ import lombok.Data;
 
 /**
  * @author shenyichen
- * @date 2021/3/29
+ * @date 2021/4/3
  */
 @Data
-public class SearchVO {
+public class UserPicVO {
     String picId;
-    String keyWord;
+    String picName;
+    String url;
 }

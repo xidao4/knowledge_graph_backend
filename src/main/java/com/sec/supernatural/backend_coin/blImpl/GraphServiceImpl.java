@@ -6,13 +6,16 @@ import com.sec.supernatural.backend_coin.bl.GraphService;
 import com.sec.supernatural.backend_coin.bl.StorageService;
 import com.sec.supernatural.backend_coin.constant.MyResponse;
 import com.sec.supernatural.backend_coin.constant.ResponseCode;
+import com.sec.supernatural.backend_coin.data.HistoryMapper;
 import com.sec.supernatural.backend_coin.data.MongoDBMapper;
 import com.sec.supernatural.backend_coin.data.ThumbnailMapper;
 import com.sec.supernatural.backend_coin.po.Graph;
+import com.sec.supernatural.backend_coin.po.History;
 import com.sec.supernatural.backend_coin.po.Thumbnail;
 import com.sec.supernatural.backend_coin.vo.*;
 
 import org.apache.commons.io.FileUtils;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
@@ -20,7 +23,10 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * @author shenyichen
@@ -35,6 +41,8 @@ public class GraphServiceImpl implements GraphService {
     MongoDBMapper mongoDBMapper;
     @Autowired
     ThumbnailMapper thumbnailMapper;
+    @Autowired
+    HistoryMapper historyMapper;
 
     @Override
     public MyResponse json2Dao(MultipartFile mfile) throws IOException {
@@ -106,23 +114,45 @@ public class GraphServiceImpl implements GraphService {
         Graph graph = mongoDBMapper.findGraph(picId);
         if(graph==null || ! graph.getPicId().equals(picId))
             return MyResponse.error("Can Not Find Pic !");
-        JSONArray fnodes = graph.getFnodes();
-        JSONArray snodes = graph.getSnodes();
-        // TODO
-        return null;
+        JSONArray fnodesJson = graph.getFnodes();
+        List<JSONObject> fnodesList = JSONObject.parseArray(fnodesJson.toJSONString(), JSONObject.class);
+        Map<String, List<JSONObject>> fnodesMap = fnodesList.stream().collect(Collectors.groupingBy(item -> item.getString("type")));
+        JSONArray snodesJson = graph.getSnodes();
+        List<JSONObject> snodesList = JSONObject.parseArray(snodesJson.toJSONString(), JSONObject.class);
+        Map<String, List<JSONObject>> snodesMap = snodesList.stream().collect(Collectors.groupingBy(item -> item.getString("type")));
+        PicTypesVO picTypesVO = new PicTypesVO();
+        picTypesVO.setFnodesMap(fnodesMap);
+        picTypesVO.setSnodesMap(snodesMap);
+        return MyResponse.ok(picTypesVO);
+    }
+
+    @Override
+    public MyResponse storeThumbnail(ThumbnailVO thumbnailVO) {
+        String url = storageService.storeImage(thumbnailVO.getFile());
+        Thumbnail thumbnail = new Thumbnail();
+        BeanUtils.copyProperties(thumbnailVO,thumbnail);
+        thumbnail.setUrl(url);
+        thumbnailMapper.addThumbnail(thumbnail);
+        return MyResponse.ok("success");
     }
 
     @Override
     public MyResponse getUserPics(UserIdVO userIdVO) {
         List<Thumbnail> thumbnails = thumbnailMapper.findByUserId(userIdVO.getUserId());
-        // TODO
-        return null;
+        List<UserPicVO> userPicVOS = new ArrayList<>();
+        for(Thumbnail t: thumbnails){
+            UserPicVO userPicVO = new UserPicVO();
+            BeanUtils.copyProperties(t,userPicVO);
+            userPicVOS.add(userPicVO);
+        }
+        return MyResponse.ok(userPicVOS);
     }
 
     @Override
     public MyResponse getHistory(UserIdVO userIdVO) {
-        // TODO
-        return null;
+        Integer userId = userIdVO.getUserId();
+        List<String> histories = historyMapper.find10LatestKeyword(userId);
+        return MyResponse.ok(histories);
     }
 
     @Override
