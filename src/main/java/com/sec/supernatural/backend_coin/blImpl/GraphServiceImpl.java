@@ -23,9 +23,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -157,7 +155,41 @@ public class GraphServiceImpl implements GraphService {
 
     @Override
     public MyResponse search(SearchVO searchVO) {
-        // TODO
-        return null;
+        String picId = searchVO.getPicId();
+        String keyword = searchVO.getKeyWord();
+        Graph graph = mongoDBMapper.findGraph(picId);
+        if(graph==null || ! graph.getPicId().equals(picId))
+            return MyResponse.error("Can Not Find Pic !");
+        List<String> nodes;
+        Set<String> nodesSet = new HashSet<>();
+        List<EdgeVO> edges = new ArrayList<>();
+        JSONArray fedgesJson = graph.getFedges();
+        List<JSONObject> fedgesList = JSONObject.parseArray(fedgesJson.toJSONString(), JSONObject.class);
+        for(JSONObject edge: fedgesList){
+            String label = edge.getString("label");
+            String source = edge.getString("source");
+            String target = edge.getString("target");
+            String type = edge.getString("type");
+            EdgeVO edgeVO = new EdgeVO();
+            if(fuzyMatching(label,keyword)){
+                edges.add(new EdgeVO(label,source,target,type));
+                nodesSet.add(source);
+                nodesSet.add(target);
+            }else if(fuzyMatching(source,keyword)){
+                nodesSet.add(source);
+            }else if(fuzyMatching(target,keyword)){
+                nodesSet.add(target);
+            }
+        }
+        nodes = new ArrayList<>(nodesSet);
+        SearchResultVO searchResultVO = new SearchResultVO();
+        searchResultVO.setPicId(picId);
+        searchResultVO.setNodes(nodes);
+        searchResultVO.setEdges(edges);
+        return MyResponse.ok(searchResultVO);
+    }
+
+    private boolean fuzyMatching(String str, String template){
+        return str.contains(template);
     }
 }

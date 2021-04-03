@@ -50,6 +50,11 @@ public interface GraphService {
      */
     MyResponse getPicTypes(PicIdVO picIdVO);
 
+    /**
+     * 保存/更新缩略图
+     * @param thumbnailVO
+     * @return
+     */
     MyResponse storeThumbnail(ThumbnailVO thumbnailVO);
 
     /**
