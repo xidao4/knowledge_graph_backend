@@ -8,6 +8,7 @@ import lombok.Data;
  */
 @Data
 public class SearchVO {
+    Integer userId;
     String picId;
     String keyWord;
 }

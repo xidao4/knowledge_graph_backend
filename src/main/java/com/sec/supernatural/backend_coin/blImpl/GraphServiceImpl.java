@@ -23,6 +23,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -157,6 +158,15 @@ public class GraphServiceImpl implements GraphService {
     public MyResponse search(SearchVO searchVO) {
         String picId = searchVO.getPicId();
         String keyword = searchVO.getKeyWord();
+        // 加入搜索历史
+        History history = new History();
+        history.setUserId(searchVO.getUserId());
+        history.setKeyword(keyword);
+        Date date = new Date();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        history.setCreateTime(sdf.format(date));
+        historyMapper.addHistory(history);
+        // 返回查找结果
         Graph graph = mongoDBMapper.findGraph(picId);
         if(graph==null || ! graph.getPicId().equals(picId))
             return MyResponse.error("Can Not Find Pic !");
