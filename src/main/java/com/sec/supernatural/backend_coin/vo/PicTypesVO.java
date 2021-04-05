@@ -12,6 +12,6 @@ import java.util.Map;
  */
 @Data
 public class PicTypesVO {
-    Map<String, List<JSONObject>> fnodesMap;
-    Map<String, List<JSONObject>> snodesMap;
+    Map<String, Long> nodesMap;
+    Map<String, Long> edgesMap;
 }

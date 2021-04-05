@@ -115,13 +115,13 @@ public class GraphServiceImpl implements GraphService {
             return MyResponse.error("Can Not Find Pic !");
         JSONArray fnodesJson = graph.getFnodes();
         List<JSONObject> fnodesList = JSONObject.parseArray(fnodesJson.toJSONString(), JSONObject.class);
-        Map<String, List<JSONObject>> fnodesMap = fnodesList.stream().collect(Collectors.groupingBy(item -> item.getString("type")));
-        JSONArray snodesJson = graph.getSnodes();
-        List<JSONObject> snodesList = JSONObject.parseArray(snodesJson.toJSONString(), JSONObject.class);
-        Map<String, List<JSONObject>> snodesMap = snodesList.stream().collect(Collectors.groupingBy(item -> item.getString("type")));
+        Map<String, Long> fnodesMap = fnodesList.stream().collect(Collectors.groupingBy(item -> item.getString("type"),Collectors.counting()));
+        JSONArray fedgesJson = graph.getFedges();
+        List<JSONObject> fedgesList = JSONObject.parseArray(fedgesJson.toJSONString(), JSONObject.class);
+        Map<String, Long> fedgesMap = fedgesList.stream().collect(Collectors.groupingBy(item -> item.getString("type"),Collectors.counting()));
         PicTypesVO picTypesVO = new PicTypesVO();
-        picTypesVO.setFnodesMap(fnodesMap);
-        picTypesVO.setSnodesMap(snodesMap);
+        picTypesVO.setNodesMap(fnodesMap);
+        picTypesVO.setEdgesMap(fedgesMap);
         return MyResponse.ok(picTypesVO);
     }
 
