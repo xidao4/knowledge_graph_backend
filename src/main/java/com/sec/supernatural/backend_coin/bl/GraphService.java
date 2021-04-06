@@ -34,14 +34,18 @@ public interface GraphService {
     MyResponse save(Graph graph);
 
     /**
-     * 返回nodes,edges
-     */
-    /**
      * 根据picId获取所有图元信息
      * @param picIdVO
      * @return
      */
     MyResponse getPicElements(PicIdVO picIdVO);
+
+    /**
+     * 根据节点类型，获取该类型节点的数组
+     * @param picIdVO
+     * @return
+     */
+    MyResponse getNodesByTypes(PicIdVO picIdVO);
 
     /**
      * 根据picId获取类型与节点的映射

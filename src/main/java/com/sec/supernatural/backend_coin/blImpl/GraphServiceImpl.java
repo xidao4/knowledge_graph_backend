@@ -108,6 +108,24 @@ public class GraphServiceImpl implements GraphService {
     }
 
     @Override
+    public MyResponse getNodesByTypes(PicIdVO picIdVO) {
+        String picId = picIdVO.getPicId();
+        Graph graph = mongoDBMapper.findGraph(picId);
+        if(graph==null || ! graph.getPicId().equals(picId))
+            return MyResponse.error("Can Not Find Pic !");
+        JSONArray fnodesJson = graph.getFnodes();
+        List<JSONObject> fnodesList = JSONObject.parseArray(fnodesJson.toJSONString(), JSONObject.class);
+        Map<String, List<JSONObject>> fnodesMap = fnodesList.stream().collect(Collectors.groupingBy(item -> item.getString("type")));
+        JSONArray snodesJson = graph.getSnodes();
+        List<JSONObject> snodesList = JSONObject.parseArray(snodesJson.toJSONString(), JSONObject.class);
+        Map<String, List<JSONObject>> snodesMap = snodesList.stream().collect(Collectors.groupingBy(item -> item.getString("type")));
+        NodesByTypesVO nodesByTypesVO = new NodesByTypesVO();
+        nodesByTypesVO.setFnodesMap(fnodesMap);
+        nodesByTypesVO.setSnodesMap(snodesMap);
+        return MyResponse.ok(nodesByTypesVO);
+    }
+
+    @Override
     public MyResponse getPicTypes(PicIdVO picIdVO) {
         String picId = picIdVO.getPicId();
         Graph graph = mongoDBMapper.findGraph(picId);
