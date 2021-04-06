@@ -35,8 +35,8 @@ public class MongoDBMapperImpl implements MongoDBMapper {
         return graph;
     }
 
-    @Override
-    public void insertMulti(List<JSONObject> jsonObjects, String collectionName) {
-        mongoTemplate.save(jsonObjects, collectionName);
-    }
+//    @Override
+//    public void insertMulti(List<JSONObject> jsonObjects, String collectionName) {
+//        mongoTemplate.save(jsonObjects, collectionName);
+//    }
 }

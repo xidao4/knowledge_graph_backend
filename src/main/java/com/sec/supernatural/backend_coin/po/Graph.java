@@ -11,7 +11,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
  * @date 2021/3/31
  */
 @Data
-@Document(collection = "graph")
+@Document(collection = "Graph")
 public class Graph {
     @Id
     String picId;
