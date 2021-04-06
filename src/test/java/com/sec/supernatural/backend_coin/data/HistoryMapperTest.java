@@ -20,7 +20,7 @@ public class HistoryMapperTest {
     HistoryMapper historyMapper;
 
     @Test
-    @Transactional
+//    @Transactional
     void addHistoryTest(){
         History history = new History();
         history.setUserId(1);
