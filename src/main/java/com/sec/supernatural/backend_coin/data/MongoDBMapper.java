@@ -10,7 +10,6 @@ import java.util.List;
  * @author shenyichen
  * @date 2021/3/29
  */
-@Component
 public interface MongoDBMapper {
     void saveGraph(Graph graph);
     Graph findGraph(String picId);

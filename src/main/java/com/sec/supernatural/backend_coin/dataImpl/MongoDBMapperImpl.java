@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 
@@ -14,6 +15,7 @@ import java.util.List;
  * @author shenyichen
  * @date 2021/3/29
  */
+@Component
 public class MongoDBMapperImpl implements MongoDBMapper {
     @Autowired
     private MongoTemplate mongoTemplate;
