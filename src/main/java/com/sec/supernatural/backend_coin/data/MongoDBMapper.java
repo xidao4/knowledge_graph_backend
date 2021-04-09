@@ -13,5 +13,6 @@ import java.util.List;
 public interface MongoDBMapper {
     void saveGraph(Graph graph);
     Graph findGraph(String picId);
+    void removeGraph(String picId);
 //    void insertMulti(List<JSONObject> jsonObjects, String collectionName);
 }

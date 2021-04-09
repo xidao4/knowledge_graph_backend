@@ -35,6 +35,13 @@ public class MongoDBMapperImpl implements MongoDBMapper {
         return graph;
     }
 
+    @Override
+    public void removeGraph(String picId) {
+        Graph graph = new Graph();
+        graph.setPicId(picId);
+        mongoTemplate.remove(graph);
+    }
+
 //    @Override
 //    public void insertMulti(List<JSONObject> jsonObjects, String collectionName) {
 //        mongoTemplate.save(jsonObjects, collectionName);

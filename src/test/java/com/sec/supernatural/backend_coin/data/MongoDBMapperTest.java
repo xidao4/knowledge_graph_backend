@@ -18,7 +18,6 @@ public class MongoDBMapperTest {
     MongoDBMapper mongoDBMapper;
 
     @Test
-//    @Transactional
     void saveGraphTest(){
         Graph graph = new Graph();
         String testStr = "[{'id': '0', 'label': 'n0', 'class': 'c0'}]";
@@ -27,13 +26,18 @@ public class MongoDBMapperTest {
         graph.setSnodes(testJArray);
         graph.setFedges(testJArray);
         graph.setFnodes(testJArray);
+        graph.setPicId("test_picId");
         mongoDBMapper.saveGraph(graph);
     }
 
     @Test
-//    @Transactional
     void findGraphTest(){
-        Graph graph = mongoDBMapper.findGraph("606c624332e01c00dd449efb");
+        Graph graph = mongoDBMapper.findGraph("60706cf7723fe7362650e27f");
         System.out.println(graph.getFedges());
+    }
+
+    @Test
+    void removeGraphTest(){
+        mongoDBMapper.removeGraph("test_picId");
     }
 }

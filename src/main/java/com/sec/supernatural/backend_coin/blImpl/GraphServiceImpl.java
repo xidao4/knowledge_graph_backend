@@ -46,8 +46,13 @@ public class GraphServiceImpl implements GraphService {
     @Override
     public MyResponse json2Dao(MultipartFile mfile) throws IOException {
         // mFile to file
-        String fullFileName = StringUtils.cleanPath(mfile.getOriginalFilename());//测试时要替换成file.getName
-        File file = File.createTempFile(fullFileName.substring(0,fullFileName.lastIndexOf('.')), fullFileName.substring(fullFileName.lastIndexOf('.')-1));
+        String fullFileName = StringUtils.cleanPath(mfile.getOriginalFilename());
+        if(fullFileName==null || fullFileName.length()==0){// 用于测试
+            fullFileName = StringUtils.cleanPath(mfile.getName());
+        }
+        String prefix = fullFileName.substring(0,fullFileName.lastIndexOf('.'));
+        String suffix = fullFileName.substring(fullFileName.lastIndexOf('.')-1);
+        File file = File.createTempFile(prefix, suffix);
         file.deleteOnExit();
         FileUtils.copyInputStreamToFile(mfile.getInputStream(), file);
         // file to str
@@ -191,6 +196,16 @@ public class GraphServiceImpl implements GraphService {
         List<String> nodes;
         Set<String> nodesSet = new HashSet<>();
         List<EdgeVO> edges = new ArrayList<>();
+        // 遍历nodes
+        JSONArray fnodesJson = graph.getFnodes();
+        List<JSONObject> fnodesList = JSONObject.parseArray(fnodesJson.toJSONString(), JSONObject.class);
+        for(JSONObject node: fnodesList){
+            String label = node.getString("label");
+            if(fuzyMatching(label,keyword)){
+                nodesSet.add(label);
+            }
+        }
+        // 遍历edges
         JSONArray fedgesJson = graph.getFedges();
         List<JSONObject> fedgesList = JSONObject.parseArray(fedgesJson.toJSONString(), JSONObject.class);
         for(JSONObject edge: fedgesList){
@@ -198,14 +213,9 @@ public class GraphServiceImpl implements GraphService {
             String source = edge.getString("source");
             String target = edge.getString("target");
             String type = edge.getString("type");
-            EdgeVO edgeVO = new EdgeVO();
-            if(fuzyMatching(label,keyword)){
+            if(fuzyMatching(label,keyword) || (fuzyMatching(source,keyword) && fuzyMatching(target,keyword))){
                 edges.add(new EdgeVO(label,source,target,type));
                 nodesSet.add(source);
-                nodesSet.add(target);
-            }else if(fuzyMatching(source,keyword)){
-                nodesSet.add(source);
-            }else if(fuzyMatching(target,keyword)){
                 nodesSet.add(target);
             }
         }
