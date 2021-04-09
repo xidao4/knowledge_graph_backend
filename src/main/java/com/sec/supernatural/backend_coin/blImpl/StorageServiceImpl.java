@@ -12,7 +12,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.PostConstruct;
 import javax.imageio.ImageIO;
-import javax.servlet.http.HttpServletRequest;
 import java.awt.image.BufferedImage;
 import java.io.*;
 import java.net.MalformedURLException;
@@ -40,7 +39,7 @@ public class StorageServiceImpl implements StorageService {
         root = Paths.get(storageDir);
         init();
     }
-    @Override
+
     public void init() {
         logger.info("init storage dir!");
         try {
@@ -77,10 +76,8 @@ public class StorageServiceImpl implements StorageService {
             }
         }else{
             System.out.println("file already exists!");
-            String url = "https://118.182.96.49:9020/api/storage/file/"+filename;
-            res = url;
         }
-        return res;
+        return "https://118.182.96.49:9020/api/storage/file/"+filename;
     }
 
     @Override
@@ -95,6 +92,9 @@ public class StorageServiceImpl implements StorageService {
             return res;
         }
         String origin = StringUtils.cleanPath(file.getOriginalFilename());
+        if(origin==null || origin.length()==0){
+            origin = ".jpg";
+        }
         String ext = origin.substring(origin.lastIndexOf('.'));
         String filename = prefix + ext;
         logger.info(filename);

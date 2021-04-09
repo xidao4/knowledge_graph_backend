@@ -11,8 +11,7 @@ import java.io.IOException;
  * @date 2021/3/31
  */
 public interface StorageService {
-    public String storeFile(String fileStr, String filename);
-    public String storeImage(MultipartFile file);
-    public Resource load(String filename);
-    public void init();
+    String storeFile(String fileStr, String filename);
+    String storeImage(MultipartFile file);
+    Resource load(String filename);
 }
