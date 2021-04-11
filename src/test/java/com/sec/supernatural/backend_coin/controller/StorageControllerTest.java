@@ -4,11 +4,14 @@ import com.alibaba.fastjson.JSONObject;
 import com.sec.supernatural.backend_coin.constant.MyResponse;
 import com.sec.supernatural.backend_coin.util.JwtUtil;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
@@ -78,4 +81,16 @@ public class StorageControllerTest {
         assert myResponse.getCode() == expect_code;
         return myResponse;
     }
+
+//    @DisplayName("测试getFile")
+//    @Test
+//    void getFile() throws Exception {
+//        postTemplate("/api/storage/file/test_filename.json", "test_filename", 200, null);
+//    }
+//
+//    @DisplayName("测试previewResume")
+//    @Test
+//    void previewResume(){
+//
+//    }
 }
