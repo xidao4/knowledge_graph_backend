@@ -30,6 +30,7 @@ public class JWTInterceptor implements HandlerInterceptor {
         if(null == token){
             response.setStatus(HttpStatus.SC_UNAUTHORIZED);
             map.put("msg", "请登录");
+            map.put("code", -1);
             response.setContentType("application/json;charset=UTF-8");
             response.getWriter().println(new ObjectMapper().writeValueAsString(map));
             return false;
@@ -47,6 +48,7 @@ public class JWTInterceptor implements HandlerInterceptor {
         } catch (TokenExpiredException e){
             response.setStatus(HttpStatus.SC_UNAUTHORIZED);
             map.put("msg", "请重新登录");
+            map.put("code", -1);
             response.setContentType("application/json;charset=UTF-8");
             response.getWriter().println(new ObjectMapper().writeValueAsString(map));
         } catch (Exception e){
