@@ -1,12 +1,12 @@
 {
-  "nodes": [{"id": "0", "label": "hit_node_1", "type": "type_1", "class": "c0"},
-            {"id": "1", "label": "hit_node_2", "type": "type_1", "class": "c0"},
-            {"id": "2", "label": "node_1", "type": "type_2", "class": "c0"},
-            {"id": "3", "label": "node_2", "type": "type_3", "class": "c0"}
+  "nodes": [{"id": "0", "label": "hit_node_1", "class": "type_1"},
+            {"id": "1", "label": "hit_node_2", "class": "type_1"},
+            {"id": "2", "label": "node_1", "class": "type_2"},
+            {"id": "3", "label": "node_2", "class": "type_3"}
   ],
-  "edges": [{"id": "0", "label": "hit_edge_1", "source": "node_1", "target": "node_2", "type": "test_type_1", "class": "c0"},
-            {"id": "1", "label": "edge_1", "source": "hit_node_1", "target": "hit_node_2", "type": "test_type_2", "class": "c0"},
-            {"id": "2", "label": "hit_edge_2", "source": "node_1", "target": "hit_node_2", "type": "test_type_1", "class": "c0"},
-            {"id": "3", "label": "edge_1", "source": "node_1", "target": "node_2", "type": "test_type_2", "class": "c0"}
+  "edges": [{"id": "0", "label": "hit_edge_1", "source": "node_1", "target": "node_2", "class": "test_type_1"},
+            {"id": "1", "label": "edge_1", "source": "hit_node_1", "target": "hit_node_2", "class": "test_type_2"},
+            {"id": "2", "label": "hit_edge_2", "source": "node_1", "target": "hit_node_2", "class": "test_type_1"},
+            {"id": "3", "label": "edge_1", "source": "node_1", "target": "node_2", "class": "test_type_2"}
   ]
 }

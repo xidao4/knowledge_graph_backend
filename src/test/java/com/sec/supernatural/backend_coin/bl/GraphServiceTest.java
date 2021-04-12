@@ -33,7 +33,6 @@ public class GraphServiceTest {
     GraphService graphService;
 
     @Test
-    @Transactional
     public void json2DaoTest() throws Exception {
         File file = new File("src/test/java/com/sec/supernatural/backend_coin/testData/test.json");
         InputStream inputStream = new FileInputStream(file);
@@ -52,18 +51,17 @@ public class GraphServiceTest {
     }
 
     @Test
-    @Transactional
     public void saveTest() {
         String fileStr = "{\n" +
-                "  \"nodes\": [{\"id\": \"0\", \"label\": \"hit_node_1\", \"type\": \"type_1\", \"class\": \"c0\"},\n" +
-                "            {\"id\": \"1\", \"label\": \"hit_node_2\", \"type\": \"type_1\", \"class\": \"c0\"},\n" +
-                "            {\"id\": \"2\", \"label\": \"node_1\", \"type\": \"type_2\", \"class\": \"c0\"},\n" +
-                "            {\"id\": \"3\", \"label\": \"node_2\", \"type\": \"type_3\", \"class\": \"c0\"}\n" +
+                "  \"nodes\": [{\"id\": \"0\", \"label\": \"hit_node_1\", \"class\": \"type_1\"},\n" +
+                "            {\"id\": \"1\", \"label\": \"hit_node_2\", \"class\": \"type_1\"},\n" +
+                "            {\"id\": \"2\", \"label\": \"node_1\", \"class\": \"type_2\"},\n" +
+                "            {\"id\": \"3\", \"label\": \"node_2\", \"class\": \"type_3\"}\n" +
                 "  ],\n" +
-                "  \"edges\": [{\"id\": \"0\", \"label\": \"hit_edge_1\", \"source\": \"node_1\", \"target\": \"node_2\", \"type\": \"test_type_1\", \"class\": \"c0\"},\n" +
-                "            {\"id\": \"1\", \"label\": \"edge_1\", \"source\": \"hit_node_1\", \"target\": \"hit_node_2\", \"type\": \"test_type_2\", \"class\": \"c0\"},\n" +
-                "            {\"id\": \"2\", \"label\": \"hit_edge_2\", \"source\": \"node_1\", \"target\": \"hit_node_2\", \"type\": \"test_type_1\", \"class\": \"c0\"},\n" +
-                "            {\"id\": \"3\", \"label\": \"edge_1\", \"source\": \"node_1\", \"target\": \"node_2\", \"type\": \"test_type_2\", \"class\": \"c0\"}\n" +
+                "  \"edges\": [{\"id\": \"0\", \"label\": \"hit_edge_1\", \"source\": \"node_1\", \"target\": \"node_2\", \"class\": \"test_type_1\"},\n" +
+                "            {\"id\": \"1\", \"label\": \"edge_1\", \"source\": \"hit_node_1\", \"target\": \"hit_node_2\", \"class\": \"test_type_2\"},\n" +
+                "            {\"id\": \"2\", \"label\": \"hit_edge_2\", \"source\": \"node_1\", \"target\": \"hit_node_2\", \"class\": \"test_type_1\"},\n" +
+                "            {\"id\": \"3\", \"label\": \"edge_1\", \"source\": \"node_1\", \"target\": \"node_2\", \"class\": \"test_type_2\"}\n" +
                 "  ]\n" +
                 "}";
         JSONObject jsonObject = JSONObject.parseObject(fileStr);

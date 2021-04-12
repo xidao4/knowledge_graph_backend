@@ -120,10 +120,10 @@ public class GraphServiceImpl implements GraphService {
             return MyResponse.error("Can Not Find Pic !");
         JSONArray fnodesJson = graph.getFnodes();
         List<JSONObject> fnodesList = JSONObject.parseArray(fnodesJson.toJSONString(), JSONObject.class);
-        Map<String, List<JSONObject>> fnodesMap = fnodesList.stream().collect(Collectors.groupingBy(item -> item.getString("type")));
+        Map<String, List<JSONObject>> fnodesMap = fnodesList.stream().collect(Collectors.groupingBy(item -> item.getString("class")));
         JSONArray snodesJson = graph.getSnodes();
         List<JSONObject> snodesList = JSONObject.parseArray(snodesJson.toJSONString(), JSONObject.class);
-        Map<String, List<JSONObject>> snodesMap = snodesList.stream().collect(Collectors.groupingBy(item -> item.getString("type")));
+        Map<String, List<JSONObject>> snodesMap = snodesList.stream().collect(Collectors.groupingBy(item -> item.getString("class")));
         NodesByTypesVO nodesByTypesVO = new NodesByTypesVO();
         nodesByTypesVO.setFnodesMap(fnodesMap);
         nodesByTypesVO.setSnodesMap(snodesMap);
@@ -138,10 +138,10 @@ public class GraphServiceImpl implements GraphService {
             return MyResponse.error("Can Not Find Pic !");
         JSONArray fnodesJson = graph.getFnodes();
         List<JSONObject> fnodesList = JSONObject.parseArray(fnodesJson.toJSONString(), JSONObject.class);
-        Map<String, Long> fnodesMap = fnodesList.stream().collect(Collectors.groupingBy(item -> item.getString("type"),Collectors.counting()));
+        Map<String, Long> fnodesMap = fnodesList.stream().collect(Collectors.groupingBy(item -> item.getString("class"),Collectors.counting()));
         JSONArray fedgesJson = graph.getFedges();
         List<JSONObject> fedgesList = JSONObject.parseArray(fedgesJson.toJSONString(), JSONObject.class);
-        Map<String, Long> fedgesMap = fedgesList.stream().collect(Collectors.groupingBy(item -> item.getString("type"),Collectors.counting()));
+        Map<String, Long> fedgesMap = fedgesList.stream().collect(Collectors.groupingBy(item -> item.getString("class"),Collectors.counting()));
         PicTypesVO picTypesVO = new PicTypesVO();
         picTypesVO.setNodesMap(fnodesMap);
         picTypesVO.setEdgesMap(fedgesMap);
@@ -212,7 +212,6 @@ public class GraphServiceImpl implements GraphService {
             String label = edge.getString("label");
             String source = edge.getString("source");
             String target = edge.getString("target");
-            String type = edge.getString("type");
             if(fuzyMatching(label,keyword) || (fuzyMatching(source,keyword) && fuzyMatching(target,keyword))){
                 edges.add(edge);
                 nodesSet.addAll(findNodeByLabel(source,fnodesList));
