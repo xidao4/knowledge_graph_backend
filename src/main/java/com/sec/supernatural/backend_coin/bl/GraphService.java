@@ -48,6 +48,13 @@ public interface GraphService {
     MyResponse getNodesByTypes(PicIdVO picIdVO);
 
     /**
+     * 获取节点类型数组
+     * @param picIdVO
+     * @return
+     */
+    MyResponse getNodeTypes(PicIdVO picIdVO);
+
+    /**
      * 根据picId获取类型与节点的映射
      * @param picIdVO
      * @return

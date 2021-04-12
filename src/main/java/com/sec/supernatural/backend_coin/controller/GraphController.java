@@ -51,6 +51,12 @@ public class GraphController {
     public MyResponse getNodesByTypes(@RequestBody PicIdVO picIdVO){
         return graphService.getNodesByTypes(picIdVO);
     }
+
+    @PostMapping("/getNodeTypes")
+    public MyResponse getNodeTypes(@RequestBody PicIdVO picIdVO){
+        return graphService.getNodeTypes(picIdVO);
+    }
+
     @PostMapping("/getPicTypes")
     public MyResponse getPicTypes(@RequestBody PicIdVO picIdVO) {
         return graphService.getPicTypes(picIdVO);

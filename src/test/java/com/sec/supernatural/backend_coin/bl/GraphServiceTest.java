@@ -93,6 +93,15 @@ public class GraphServiceTest {
         System.out.println(myResponse.getData());
     }
 
+
+    @Test
+    public void getNodeTypes(){
+        PicIdVO picIdVO = new PicIdVO();
+        picIdVO.setPicId("60706cf7723fe7362650e27f");
+        MyResponse myResponse = graphService.getNodeTypes(picIdVO);
+        System.out.println(myResponse.getData());
+    }
+
     @Test
     public void getPicTypesTest(){
         PicIdVO picIdVO = new PicIdVO();
