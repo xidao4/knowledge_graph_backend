@@ -193,16 +193,16 @@ public class GraphServiceImpl implements GraphService {
         Graph graph = mongoDBMapper.findGraph(picId);
         if(graph==null || ! graph.getPicId().equals(picId))
             return MyResponse.error("Can Not Find Pic !");
-        List<String> nodes;
-        Set<String> nodesSet = new HashSet<>();
-        List<EdgeVO> edges = new ArrayList<>();
+        List<JSONObject> nodes;
+        Set<JSONObject> nodesSet = new HashSet<>();
+        List<JSONObject> edges = new ArrayList<>();
         // 遍历nodes
         JSONArray fnodesJson = graph.getFnodes();
         List<JSONObject> fnodesList = JSONObject.parseArray(fnodesJson.toJSONString(), JSONObject.class);
         for(JSONObject node: fnodesList){
             String label = node.getString("label");
             if(fuzyMatching(label,keyword)){
-                nodesSet.add(label);
+                nodesSet.add(node);
             }
         }
         // 遍历edges
@@ -214,9 +214,9 @@ public class GraphServiceImpl implements GraphService {
             String target = edge.getString("target");
             String type = edge.getString("type");
             if(fuzyMatching(label,keyword) || (fuzyMatching(source,keyword) && fuzyMatching(target,keyword))){
-                edges.add(new EdgeVO(label,source,target,type));
-                nodesSet.add(source);
-                nodesSet.add(target);
+                edges.add(edge);
+                nodesSet.addAll(findNodeByLabel(source,fnodesList));
+                nodesSet.addAll(findNodeByLabel(target,fnodesList));
             }
         }
         nodes = new ArrayList<>(nodesSet);
@@ -229,5 +229,16 @@ public class GraphServiceImpl implements GraphService {
 
     private boolean fuzyMatching(String str, String template){
         return str.contains(template);
+    }
+
+    private List<JSONObject> findNodeByLabel(String targetLabel, List<JSONObject> nodesList){
+        List<JSONObject> nodes = new ArrayList<>();
+        for(JSONObject node: nodesList){
+            String label = node.getString("label");
+            if(label.equals(targetLabel)){
+                nodes.add(node);
+            }
+        }
+        return nodes;
     }
 }

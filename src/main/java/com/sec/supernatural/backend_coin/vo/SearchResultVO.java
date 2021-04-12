@@ -1,5 +1,6 @@
 package com.sec.supernatural.backend_coin.vo;
 
+import com.alibaba.fastjson.JSONObject;
 import lombok.Data;
 
 import java.util.List;
@@ -11,6 +12,6 @@ import java.util.List;
 @Data
 public class SearchResultVO {
     String picId;
-    List<String> nodes;
-    List<EdgeVO> edges;
+    List<JSONObject> nodes;
+    List<JSONObject> edges;
 }
