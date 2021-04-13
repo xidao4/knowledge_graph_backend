@@ -53,15 +53,15 @@ public class GraphServiceTest {
     @Test
     public void saveTest() {
         String fileStr = "{\n" +
-                "  \"nodes\": [{\"id\": \"0\", \"label\": \"hit_node_1\", \"class\": \"type_1\"},\n" +
-                "            {\"id\": \"1\", \"label\": \"hit_node_2\", \"class\": \"type_1\"},\n" +
-                "            {\"id\": \"2\", \"label\": \"node_1\", \"class\": \"type_2\"},\n" +
-                "            {\"id\": \"3\", \"label\": \"node_2\", \"class\": \"type_3\"}\n" +
+                "  \"nodes\": [{\"id\": \"0\", \"label\": \"hit_node_1\", \"oriLabel\": \"hit_node_1\", \"class\": \"type_1\"},\n" +
+                "            {\"id\": \"1\", \"label\": \"hit_node_2\", \"oriLabel\": \"hit_node_2\", \"class\": \"type_1\"},\n" +
+                "            {\"id\": \"2\", \"label\": \"node_1\", \"oriLabel\": \"node_1\", \"class\": \"type_2\"},\n" +
+                "            {\"id\": \"3\", \"label\": \"node_2\", \"oriLabel\": \"node_2\", \"class\": \"type_3\"}\n" +
                 "  ],\n" +
-                "  \"edges\": [{\"id\": \"0\", \"label\": \"hit_edge_1\", \"source\": \"node_1\", \"target\": \"node_2\", \"class\": \"test_type_1\"},\n" +
-                "            {\"id\": \"1\", \"label\": \"edge_1\", \"source\": \"hit_node_1\", \"target\": \"hit_node_2\", \"class\": \"test_type_2\"},\n" +
-                "            {\"id\": \"2\", \"label\": \"hit_edge_2\", \"source\": \"node_1\", \"target\": \"hit_node_2\", \"class\": \"test_type_1\"},\n" +
-                "            {\"id\": \"3\", \"label\": \"edge_1\", \"source\": \"node_1\", \"target\": \"node_2\", \"class\": \"test_type_2\"}\n" +
+                "  \"edges\": [{\"id\": \"0\", \"label\": \"hit_edge_1\", \"oriLabel\": \"hit_edge_1\", \"source\": \"node_1\", \"target\": \"node_2\", \"class\": \"test_type_1\"},\n" +
+                "            {\"id\": \"1\", \"label\": \"edge_1\", \"oriLabel\": \"edge_1\", \"source\": \"hit_node_1\", \"target\": \"hit_node_2\", \"class\": \"test_type_2\"},\n" +
+                "            {\"id\": \"2\", \"label\": \"hit_edge_2\", \"oriLabel\": \"hit_edge_2\", \"source\": \"node_1\", \"target\": \"hit_node_2\", \"class\": \"test_type_1\"},\n" +
+                "            {\"id\": \"3\", \"label\": \"edge_1\", \"oriLabel\": \"edge_1\", \"source\": \"node_1\", \"target\": \"node_2\", \"class\": \"test_type_2\"}\n" +
                 "  ]\n" +
                 "}";
         JSONObject jsonObject = JSONObject.parseObject(fileStr);

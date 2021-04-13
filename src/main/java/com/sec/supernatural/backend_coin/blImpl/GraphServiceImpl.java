@@ -212,7 +212,7 @@ public class GraphServiceImpl implements GraphService {
         JSONArray fnodesJson = graph.getFnodes();
         List<JSONObject> fnodesList = JSONObject.parseArray(fnodesJson.toJSONString(), JSONObject.class);
         for(JSONObject node: fnodesList){
-            String label = node.getString("label");
+            String label = node.getString("oriLabel");
             if(fuzyMatching(label,keyword)){
                 nodesSet.add(node);
             }
@@ -221,7 +221,7 @@ public class GraphServiceImpl implements GraphService {
         JSONArray fedgesJson = graph.getFedges();
         List<JSONObject> fedgesList = JSONObject.parseArray(fedgesJson.toJSONString(), JSONObject.class);
         for(JSONObject edge: fedgesList){
-            String label = edge.getString("label");
+            String label = edge.getString("oriLabel");
             String source = edge.getString("source");
             String target = edge.getString("target");
             if(fuzyMatching(label,keyword) || (fuzyMatching(source,keyword) && fuzyMatching(target,keyword))){
@@ -245,7 +245,7 @@ public class GraphServiceImpl implements GraphService {
     private List<JSONObject> findNodeByLabel(String targetLabel, List<JSONObject> nodesList){
         List<JSONObject> nodes = new ArrayList<>();
         for(JSONObject node: nodesList){
-            String label = node.getString("label");
+            String label = node.getString("oriLabel");
             if(label.equals(targetLabel)){
                 nodes.add(node);
             }
