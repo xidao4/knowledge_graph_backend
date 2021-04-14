@@ -153,11 +153,19 @@ public class GraphControllerTest {
         picIdVO.setPicId("60706cf7723fe7362650e27f");
         postTemplate("/api/graph/getNodeTypes",picIdVO,0,null);
     }
+
     @Test
     void getPicTypes() throws Exception {
         PicIdVO picIdVO = new PicIdVO();
         picIdVO.setPicId("60706cf7723fe7362650e27f");
         postTemplate("/api/graph/getPicTypes",picIdVO,0,null);
+    }
+
+    @Test
+    void getPicElement() throws Exception {
+        PicIdVO picIdVO = new PicIdVO();
+        picIdVO.setPicId("test_picId");
+        postTemplate("/api/graph/getPicElement",picIdVO,0,null);
     }
 
 //    @Test
