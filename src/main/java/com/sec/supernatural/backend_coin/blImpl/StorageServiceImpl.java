@@ -150,6 +150,8 @@ public class StorageServiceImpl implements StorageService {
 //            System.out.println(e.getMessage());
 //            System.out.println(e.getStackTrace());
 //        }
+        String str=System.getProperty("user.dir");
+        System.out.println(str);
         if(file.exists()){
         }else if(file.canRead()){
             System.out.println("[DEBUG] file not exists!");
