@@ -145,6 +145,9 @@ public class StorageServiceImpl implements StorageService {
             fos.close();
         } catch (Exception e){
             e.printStackTrace();
+            System.out.println("写入失败");
+            System.out.println(e.getMessage());
+            System.out.println(e.getStackTrace());
         }
         if(file.exists()){
         }else if(file.canRead()){
