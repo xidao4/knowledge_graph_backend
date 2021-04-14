@@ -63,7 +63,11 @@ public class GraphController {
     }
 
     @PostMapping("/thumbnail")
-    public MyResponse thumbnail(@RequestBody ThumbnailVO thumbnailVO){
+    public MyResponse thumbnail(@RequestParam(value = "picId") String picId,
+                                @RequestParam(value = "userId") Integer userId,
+                                @RequestParam(value = "picName") String picName,
+                                @RequestBody MultipartFile mFile){
+        ThumbnailVO thumbnailVO = new ThumbnailVO(userId,picId,picName,mFile);
         return graphService.storeThumbnail(thumbnailVO);
     }
 

@@ -167,7 +167,7 @@ public class GraphServiceImpl implements GraphService {
         BeanUtils.copyProperties(thumbnailVO,thumbnail);
         thumbnail.setUrl(url);
         thumbnailMapper.addThumbnail(thumbnail);
-        return MyResponse.ok("success");
+        return MyResponse.ok(url);
     }
 
     @Override
