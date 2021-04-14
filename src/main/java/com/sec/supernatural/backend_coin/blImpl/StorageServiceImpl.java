@@ -152,6 +152,19 @@ public class StorageServiceImpl implements StorageService {
 //        }
         String str=System.getProperty("user.dir");
         System.out.println(str);
+        File dir = new File(str);
+        String[] child = dir.list();
+        if (child == null) {
+            System.out.println("empty!!!");
+
+        } else {
+            System.out.println("not empty");
+            for (int i = 0; i < child.length; i++) {
+                String str1 = child[i];
+                System.out.println(str1);
+
+            }
+        }
         if(file.exists()){
         }else if(file.canRead()){
             System.out.println("[DEBUG] file not exists!");
