@@ -138,11 +138,14 @@ public class StorageServiceImpl implements StorageService {
     @Override
     public File load(String filename) {
         File file = root.resolve(filename).toFile();
-        System.out.println("filename: "+filename);
-        System.out.println("len: "+file.length());
-        System.out.println("toString: "+file.toString());
-        System.out.println("absolute path: "+file.getAbsolutePath());
-        System.out.println("uri: "+file.toURI());
+        try {
+            FileOutputStream fos = new FileOutputStream(file.getAbsolutePath());
+            String s = "哈哈我de不出来啦";
+            fos.write(s.getBytes());
+            fos.close();
+        } catch (Exception e){
+            e.printStackTrace();
+        }
         if(file.exists()){
         }else if(file.canRead()){
             System.out.println("[DEBUG] file not exists!");
