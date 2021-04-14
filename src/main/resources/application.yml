@@ -19,4 +19,4 @@ mybatis:
   mapper-locations: classpath:dataImpl/*Mapper.xml
 
 token:
-  tokenExpireTime: 2
+  tokenExpireTime: 24
