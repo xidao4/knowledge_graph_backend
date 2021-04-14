@@ -138,12 +138,13 @@ public class StorageServiceImpl implements StorageService {
     @Override
     public File load(String filename) {
         File file = root.resolve(filename).toFile();
-        if(file.exists() && file.canRead()){
-            return file;
-        }else {
-            System.out.println("[file not exists or readable] failed to read file : " + filename);
-            return null;
+        if(file.exists()){
+        }else if(file.canRead()){
+            System.out.println("[DEBUG] file not exists!");
+        }else{
+            System.out.println("[DEBUG] file not exists and not readable: failed to read file : " + filename);
         }
+        return file;
     }
 
     public boolean exists(String filename) {
