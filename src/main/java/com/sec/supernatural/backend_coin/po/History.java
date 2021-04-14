@@ -9,7 +9,6 @@ import lombok.Data;
  */
 @Data
 public class History {
-    Integer historyId;
     Integer userId;
     String keyword;
     String createTime;

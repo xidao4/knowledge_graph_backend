@@ -193,7 +193,7 @@ public class GraphServiceImpl implements GraphService {
     public MyResponse search(SearchVO searchVO) {
         String picId = searchVO.getPicId();
         String keyword = searchVO.getKeyWord();
-        // 加入搜索历史
+        // 加入搜索历史(如果已存在，则更新时间)
         History history = new History();
         history.setUserId(searchVO.getUserId());
         history.setKeyword(keyword);

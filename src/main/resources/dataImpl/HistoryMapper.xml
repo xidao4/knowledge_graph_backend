@@ -7,13 +7,14 @@
         order by createTime desc limit 10
     </select>
 
-    <insert id="addHistory" parameterType="com.sec.supernatural.backend_coin.po.History" useGeneratedKeys="true" keyProperty="historyId">
+    <insert id="addHistory" parameterType="com.sec.supernatural.backend_coin.po.History">
         insert into History (userId, keyword, createTime) VALUES
         (#{userId}, #{keyword}, #{createTime})
+        ON DUPLICATE KEY
+        update createTime=#{createTime}
     </insert>
 
     <resultMap id="History" type="com.sec.supernatural.backend_coin.po.History">
-        <id column="historyId" property="historyId"></id>
         <result column="userId" property="userId"></result>
         <result column="keyword" property="keyword"></result>
         <result column="createTime" property="createTime"></result>
