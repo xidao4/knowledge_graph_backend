@@ -141,7 +141,6 @@ public class GraphServiceTest {
     }
 
     @Test
-    @Transactional
     public void searchTest(){
         SearchVO searchVO = new SearchVO();
         searchVO.setUserId(1);
