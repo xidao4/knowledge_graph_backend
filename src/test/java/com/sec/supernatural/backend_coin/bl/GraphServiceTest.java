@@ -4,10 +4,7 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.sec.supernatural.backend_coin.constant.MyResponse;
 import com.sec.supernatural.backend_coin.po.Graph;
-import com.sec.supernatural.backend_coin.vo.PicIdVO;
-import com.sec.supernatural.backend_coin.vo.SearchVO;
-import com.sec.supernatural.backend_coin.vo.ThumbnailVO;
-import com.sec.supernatural.backend_coin.vo.UserIdVO;
+import com.sec.supernatural.backend_coin.vo.*;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +16,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.InputStream;
 
 /**
@@ -107,6 +105,24 @@ public class GraphServiceTest {
         PicIdVO picIdVO = new PicIdVO();
         picIdVO.setPicId("60706cf7723fe7362650e27f");
         MyResponse myResponse = graphService.getPicTypes(picIdVO);
+        System.out.println(myResponse.getData());
+    }
+
+    @Test
+    public void picElement() throws Exception {
+        File file = new File("src/test/java/com/sec/supernatural/backend_coin/testData/ikura.jpeg");
+        InputStream inputStream = new FileInputStream(file);
+        MultipartFile mFile = new MockMultipartFile(file.getName(), inputStream);
+        PicUnitVO picUnitVO = new PicUnitVO(1,"test_picId","test_picName",mFile);
+        MyResponse myResponse = graphService.picElement(picUnitVO);
+        System.out.println(myResponse.getData());
+    }
+
+    @Test
+    public void getPicElement(){
+        PicIdVO picIdVO = new PicIdVO();
+        picIdVO.setPicId("test_picId");
+        MyResponse myResponse = graphService.getPicElement(picIdVO);
         System.out.println(myResponse.getData());
     }
 

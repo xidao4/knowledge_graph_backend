@@ -43,7 +43,7 @@ public class StorageServiceTest {
 
     @Test
     public void loadTest() throws IOException {
-        Resource resource = storageService.load("test_filename.json");
-        System.out.println(resource.getFile().length());
+        File file = storageService.load("test_filename.json");
+        System.out.println(file.length());
     }
 }
