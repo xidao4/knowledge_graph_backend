@@ -30,13 +30,13 @@ public class StorageController {
     @GetMapping("/file/{filename:.+}")
     public ResponseEntity<byte[]> getFile(@PathVariable String filename) {
         ResponseEntity<byte[]> response = null;
-        Resource file = storageService.load(filename);
+        File file = storageService.load(filename);
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
         headers.add("content-disposition", "inline;filename=" + filename);
         headers.setCacheControl("must-revalidate, post-check=0, pre-check=0");
         try {
-            response = new ResponseEntity<byte[]>(getBytesFromFile(file.getFile()), headers, HttpStatus.OK);
+            response = new ResponseEntity<byte[]>(getBytesFromFile(file), headers, HttpStatus.OK);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -46,13 +46,13 @@ public class StorageController {
     @GetMapping("/image/{filename:.+}")
     public ResponseEntity<byte[]> previewResume(@PathVariable String filename) {
         ResponseEntity<byte[]> response = null;
-        Resource file = storageService.load(filename);
+        File file = storageService.load(filename);
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.IMAGE_JPEG);
         headers.add("content-disposition", "inline;filename=" + filename);
         headers.setCacheControl("must-revalidate, post-check=0, pre-check=0");
         try {
-            response = new ResponseEntity<byte[]>(getBytesFromFile(file.getFile()), headers, HttpStatus.OK);
+            response = new ResponseEntity<byte[]>(getBytesFromFile(file), headers, HttpStatus.OK);
         } catch (IOException e) {
             e.printStackTrace();
         }

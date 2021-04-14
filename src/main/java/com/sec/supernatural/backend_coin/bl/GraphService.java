@@ -62,6 +62,20 @@ public interface GraphService {
     MyResponse getPicTypes(PicIdVO picIdVO);
 
     /**
+     * 上传用户自定义图片
+     * @param picUnitVO
+     * @return
+     */
+    MyResponse picElement(PicUnitVO picUnitVO);
+
+    /**
+     * 根据picId获取自定义的所有图元
+     * @param picIdVO
+     * @return
+     */
+    MyResponse getPicElement(PicIdVO picIdVO);
+
+    /**
      * 保存/更新缩略图
      * @param thumbnailVO
      * @return

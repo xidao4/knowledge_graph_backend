@@ -8,9 +8,11 @@ import com.sec.supernatural.backend_coin.constant.MyResponse;
 import com.sec.supernatural.backend_coin.constant.ResponseCode;
 import com.sec.supernatural.backend_coin.data.HistoryMapper;
 import com.sec.supernatural.backend_coin.data.MongoDBMapper;
+import com.sec.supernatural.backend_coin.data.PicUnitMapper;
 import com.sec.supernatural.backend_coin.data.ThumbnailMapper;
 import com.sec.supernatural.backend_coin.po.Graph;
 import com.sec.supernatural.backend_coin.po.History;
+import com.sec.supernatural.backend_coin.po.PicUnit;
 import com.sec.supernatural.backend_coin.po.Thumbnail;
 import com.sec.supernatural.backend_coin.vo.*;
 
@@ -40,6 +42,8 @@ public class GraphServiceImpl implements GraphService {
     MongoDBMapper mongoDBMapper;
     @Autowired
     ThumbnailMapper thumbnailMapper;
+    @Autowired
+    PicUnitMapper picUnitMapper;
     @Autowired
     HistoryMapper historyMapper;
 
@@ -158,6 +162,26 @@ public class GraphServiceImpl implements GraphService {
         picTypesVO.setNodesMap(fnodesMap);
         picTypesVO.setEdgesMap(fedgesMap);
         return MyResponse.ok(picTypesVO);
+    }
+
+    @Override
+    public MyResponse picElement(PicUnitVO picUnitVO) {
+        String picUrl = storageService.storeImage(picUnitVO.getFile());
+        PicUnit picUnit = new PicUnit();
+        BeanUtils.copyProperties(picUnitVO,picUnit);
+        picUnit.setUrl(picUrl);
+        picUnitMapper.addPicUnit(picUnit);
+        return MyResponse.ok(picUrl);
+    }
+
+    @Override
+    public MyResponse getPicElement(PicIdVO picIdVO) {
+        List<PicUnit> picUnits = picUnitMapper.findByPicId(picIdVO.getPicId());
+        List<String> urls = new ArrayList<>();
+        for(PicUnit u: picUnits){
+            urls.add(u.getUrl());
+        }
+        return MyResponse.ok(urls);
     }
 
     @Override

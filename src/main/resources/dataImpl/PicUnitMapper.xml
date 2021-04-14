@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org/DTD Mapper 3.0" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sec.supernatural.backend_coin.data.PicUnitMapper">
+    <insert id="addPicUnit" parameterType="com.sec.supernatural.backend_coin.po.PicUnit"  useGeneratedKeys="true" keyProperty="picUnitId">
+        insert into PicUnit(userId,picId,picName,url)
+        values(#{userId},#{picId},#{picName},#{url})
+    </insert>
+    <select id="findByPicId" resultMap="PicUnit">
+        select * from PicUnit where picId=#{picId}
+    </select>
+
+    <resultMap id="PicUnit" type="com.sec.supernatural.backend_coin.po.PicUnit">
+        <id column="picUnitId" property="picUnitId"></id>
+        <result column="picId" property="picId"></result>
+        <result column="userId" property="userId"></result>
+        <result column="picName" property="picName"></result>
+        <result column="url" property="url"></result>
+    </resultMap>
+</mapper>

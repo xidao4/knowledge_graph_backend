@@ -62,6 +62,20 @@ public class GraphController {
         return graphService.getPicTypes(picIdVO);
     }
 
+    @PostMapping("/picElement")
+    public MyResponse picElement(@RequestParam(value = "picId") String picId,
+                                 @RequestParam(value = "userId") Integer userId,
+                                 @RequestParam(value = "picName") String picName,
+                                 @RequestBody MultipartFile mFile){
+        PicUnitVO picUnitVO = new PicUnitVO(userId,picId,picName,mFile);
+        return graphService.picElement(picUnitVO);
+    }
+
+    @PostMapping("/getPicElement")
+    public MyResponse getPicElement(@RequestBody PicIdVO picIdVO){
+        return graphService.getPicElement(picIdVO);
+    }
+
     @PostMapping("/thumbnail")
     public MyResponse thumbnail(@RequestParam(value = "picId") String picId,
                                 @RequestParam(value = "userId") Integer userId,

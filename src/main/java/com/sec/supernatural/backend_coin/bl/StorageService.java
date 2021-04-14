@@ -1,10 +1,7 @@
 package com.sec.supernatural.backend_coin.bl;
 
-import org.springframework.core.io.Resource;
 import org.springframework.web.multipart.MultipartFile;
-
-import javax.servlet.http.HttpServletRequest;
-import java.io.IOException;
+import java.io.File;
 
 /**
  * @author shenyichen
@@ -13,5 +10,5 @@ import java.io.IOException;
 public interface StorageService {
     String storeFile(String fileStr, String filename);
     String storeImage(MultipartFile file);
-    Resource load(String filename);
+    File load(String filename);
 }
