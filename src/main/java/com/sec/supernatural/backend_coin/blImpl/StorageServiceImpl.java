@@ -37,7 +37,6 @@ public class StorageServiceImpl implements StorageService {
     public void initRoot() {
         logger.info("storage-dir = " + storageDir);
         root = Paths.get(storageDir);
-        System.out.println(root);
         init();
     }
 
