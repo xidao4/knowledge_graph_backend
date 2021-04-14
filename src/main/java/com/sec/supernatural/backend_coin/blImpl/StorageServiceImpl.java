@@ -150,9 +150,10 @@ public class StorageServiceImpl implements StorageService {
 //            System.out.println(e.getMessage());
 //            System.out.println(e.getStackTrace());
 //        }
+        System.out.println("path"+file.getAbsolutePath());
         String str=System.getProperty("user.dir");
         System.out.println(str);
-        File dir = new File(str);
+        File dir = new File(storageDir);
         String[] child = dir.list();
         if (child == null) {
             System.out.println("empty!!!");
