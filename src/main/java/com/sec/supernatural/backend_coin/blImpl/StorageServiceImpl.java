@@ -151,22 +151,22 @@ public class StorageServiceImpl implements StorageService {
 //            System.out.println(e.getMessage());
 //            System.out.println(e.getStackTrace());
 //        }
-        System.out.println("path"+file.getAbsolutePath());
-        String str=System.getProperty("user.dir");
-        System.out.println("find: " + str + "/datastore");
-        File dir = new File(str + "/datastore");
-        String[] child = dir.list();
-        System.out.println(Arrays.toString(child));
-        if (child == null) {
-            System.out.println("empty!!!");
-        } else {
-            System.out.println("not empty");
-            for (int i = 0; i < child.length; i++) {
-                String str1 = child[i];
-                System.out.println(str1);
-
-            }
-        }
+//        System.out.println("path"+file.getAbsolutePath());
+//        String str=System.getProperty("user.dir");
+//        System.out.println("find: " + str + "/datastore");
+//        File dir = new File(str + "/datastore");
+//        String[] child = dir.list();
+//        System.out.println(Arrays.toString(child));
+//        if (child == null) {
+//            System.out.println("empty!!!");
+//        } else {
+//            System.out.println("not empty");
+//            for (int i = 0; i < child.length; i++) {
+//                String str1 = child[i];
+//                System.out.println(str1);
+//
+//            }
+//        }
         if(file.exists()){
         }else if(file.canRead()){
             System.out.println("[DEBUG] file not exists!");
