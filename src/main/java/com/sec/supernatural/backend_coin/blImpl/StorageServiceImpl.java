@@ -18,6 +18,7 @@ import java.net.MalformedURLException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Arrays;
 import java.util.logging.Logger;
 
 /**
@@ -155,6 +156,7 @@ public class StorageServiceImpl implements StorageService {
         System.out.println("find: " + str + "/datastore");
         File dir = new File(str + "/datastore");
         String[] child = dir.list();
+        System.out.println(Arrays.toString(child));
         if (child == null) {
             System.out.println("empty!!!");
         } else {
