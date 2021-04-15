@@ -15,8 +15,8 @@
     </insert>
 
     <resultMap id="History" type="com.sec.supernatural.backend_coin.po.History">
-        <result column="userId" property="userId"></result>
-        <result column="keyword" property="keyword"></result>
+        <id column="userId" property="userId"></id>
+        <id column="keyword" property="keyword"></id>
         <result column="createTime" property="createTime"></result>
     </resultMap>
 </mapper>

@@ -233,25 +233,25 @@ public class GraphServiceImpl implements GraphService {
         Set<JSONObject> nodesSet = new HashSet<>();
         List<JSONObject> edges = new ArrayList<>();
         // 遍历nodes
-        JSONArray fnodesJson = graph.getFnodes();
-        List<JSONObject> fnodesList = JSONObject.parseArray(fnodesJson.toJSONString(), JSONObject.class);
-        for(JSONObject node: fnodesList){
+        JSONArray snodesJson = graph.getSnodes();
+        List<JSONObject> snodesList = JSONObject.parseArray(snodesJson.toJSONString(), JSONObject.class);
+        for(JSONObject node: snodesList){
             String label = node.getString("oriLabel");
             if(fuzyMatching(label,keyword)){
                 nodesSet.add(node);
             }
         }
         // 遍历edges
-        JSONArray fedgesJson = graph.getFedges();
-        List<JSONObject> fedgesList = JSONObject.parseArray(fedgesJson.toJSONString(), JSONObject.class);
-        for(JSONObject edge: fedgesList){
+        JSONArray sedgesJson = graph.getFedges();
+        List<JSONObject> sedgesList = JSONObject.parseArray(sedgesJson.toJSONString(), JSONObject.class);
+        for(JSONObject edge: sedgesList){
             String label = edge.getString("oriLabel");
             String source = edge.getString("source");
             String target = edge.getString("target");
             if(fuzyMatching(label,keyword) || (fuzyMatching(source,keyword) && fuzyMatching(target,keyword))){
                 edges.add(edge);
-                nodesSet.addAll(findNodeByLabel(source,fnodesList));
-                nodesSet.addAll(findNodeByLabel(target,fnodesList));
+                nodesSet.addAll(findNodeByLabel(source,snodesList));
+                nodesSet.addAll(findNodeByLabel(target,snodesList));
             }
         }
         nodes = new ArrayList<>(nodesSet);
