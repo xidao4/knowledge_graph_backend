@@ -152,8 +152,8 @@ public class StorageServiceImpl implements StorageService {
 //        }
         System.out.println("path"+file.getAbsolutePath());
         String str=System.getProperty("user.dir");
-        System.out.println("find: " + str + "datastore");
-        File dir = new File(str + "datastore");
+        System.out.println("find: " + str + "/datastore");
+        File dir = new File(str + "/datastore");
         String[] child = dir.list();
         if (child == null) {
             System.out.println("empty!!!");
