@@ -71,9 +71,9 @@ public class GraphController {
         return graphService.uploadCustomizeImg(picUnitVO);
     }
 
-    @PostMapping("/getPicElement")
-    public MyResponse getPicElement(@RequestBody PicIdVO picIdVO){
-        return graphService.getPicElement(picIdVO);
+    @PostMapping("/getPicCustomizeElements")
+    public MyResponse getPicCustomizeElements(@RequestBody PicIdVO picIdVO){
+        return graphService.getPicCustomizeElements(picIdVO);
     }
 
     @PostMapping("/thumbnail/{picId}/{userId}/{picName}")

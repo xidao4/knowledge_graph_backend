@@ -175,13 +175,13 @@ public class GraphServiceImpl implements GraphService {
     }
 
     @Override
-    public MyResponse getPicElement(PicIdVO picIdVO) {
+    public MyResponse getPicCustomizeElements(PicIdVO picIdVO) {
         List<PicUnit> picUnits = picUnitMapper.findByPicId(picIdVO.getPicId());
-        List<String> urls = new ArrayList<>();
+        List<PicElementVO> picElementVOS = new ArrayList<>();
         for(PicUnit u: picUnits){
-            urls.add(u.getUrl());
+            picElementVOS.add(new PicElementVO(u.getUrl(),u.getUnitName()));
         }
-        return MyResponse.ok(urls);
+        return MyResponse.ok(picElementVOS);
     }
 
     @Override

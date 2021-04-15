@@ -119,10 +119,10 @@ public class GraphServiceTest {
     }
 
     @Test
-    public void getPicElement(){
+    public void getPicCustomizeElements(){
         PicIdVO picIdVO = new PicIdVO();
         picIdVO.setPicId("test_picId");
-        MyResponse myResponse = graphService.getPicElement(picIdVO);
+        MyResponse myResponse = graphService.getPicCustomizeElements(picIdVO);
         System.out.println(myResponse.getData());
     }
 

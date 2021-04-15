@@ -73,7 +73,7 @@ public interface GraphService {
      * @param picIdVO
      * @return
      */
-    MyResponse getPicElement(PicIdVO picIdVO);
+    MyResponse getPicCustomizeElements(PicIdVO picIdVO);
 
     /**
      * 保存/更新缩略图
