@@ -62,13 +62,13 @@ public class GraphController {
         return graphService.getPicTypes(picIdVO);
     }
 
-    @PostMapping("/picElement/{picId}/{userId}/{picName}")
-    public MyResponse picElement(@PathVariable String picId,
+    @PostMapping("/uploadCustomizeImg/{picId}/{userId}/{picName}")
+    public MyResponse uploadCustomizeImg(@PathVariable String picId,
                                  @PathVariable Integer userId,
                                  @PathVariable String picName,
                                  @RequestBody MultipartFile mFile){
         PicUnitVO picUnitVO = new PicUnitVO(userId,picId,picName,mFile);
-        return graphService.picElement(picUnitVO);
+        return graphService.uploadCustomizeImg(picUnitVO);
     }
 
     @PostMapping("/getPicElement")

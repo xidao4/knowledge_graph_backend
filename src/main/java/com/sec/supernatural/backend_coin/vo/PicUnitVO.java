@@ -11,7 +11,7 @@ import org.springframework.web.multipart.MultipartFile;
 public class PicUnitVO {
     Integer userId;
     String picId;
-    String picName;
+    String unitName;
     MultipartFile file;
 
     public PicUnitVO(){
@@ -21,7 +21,7 @@ public class PicUnitVO {
     public PicUnitVO(Integer userId,String picId, String picName, MultipartFile file){
         this.setUserId(userId);
         this.setPicId(picId);
-        this.setPicName(picName);
+        this.setUnitName(picName);
         this.setFile(file);
     }
 }

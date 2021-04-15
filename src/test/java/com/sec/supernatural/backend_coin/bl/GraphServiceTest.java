@@ -109,12 +109,12 @@ public class GraphServiceTest {
     }
 
     @Test
-    public void picElement() throws Exception {
+    public void uploadCustomizeImg() throws Exception {
         File file = new File("src/test/java/com/sec/supernatural/backend_coin/testData/ikura.jpeg");
         InputStream inputStream = new FileInputStream(file);
         MultipartFile mFile = new MockMultipartFile(file.getName(), inputStream);
         PicUnitVO picUnitVO = new PicUnitVO(1,"test_picId","test_picName",mFile);
-        MyResponse myResponse = graphService.picElement(picUnitVO);
+        MyResponse myResponse = graphService.uploadCustomizeImg(picUnitVO);
         System.out.println(myResponse.getData());
     }
 

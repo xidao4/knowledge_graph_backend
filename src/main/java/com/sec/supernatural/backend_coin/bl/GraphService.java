@@ -66,7 +66,7 @@ public interface GraphService {
      * @param picUnitVO
      * @return
      */
-    MyResponse picElement(PicUnitVO picUnitVO);
+    MyResponse uploadCustomizeImg(PicUnitVO picUnitVO);
 
     /**
      * 根据picId获取自定义的所有图元

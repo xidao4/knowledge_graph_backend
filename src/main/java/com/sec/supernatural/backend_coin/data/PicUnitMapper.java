@@ -15,4 +15,5 @@ import java.util.List;
 public interface PicUnitMapper {
     void addPicUnit(PicUnit picUnit);
     List<PicUnit> findByPicId(String picId);
+
 }

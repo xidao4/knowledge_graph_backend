@@ -165,7 +165,7 @@ public class GraphServiceImpl implements GraphService {
     }
 
     @Override
-    public MyResponse picElement(PicUnitVO picUnitVO) {
+    public MyResponse uploadCustomizeImg(PicUnitVO picUnitVO) {
         String picUrl = storageService.storeImage(picUnitVO.getFile());
         PicUnit picUnit = new PicUnit();
         BeanUtils.copyProperties(picUnitVO,picUnit);

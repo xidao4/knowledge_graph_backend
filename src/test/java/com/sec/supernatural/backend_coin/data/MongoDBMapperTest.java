@@ -32,8 +32,10 @@ public class MongoDBMapperTest {
 
     @Test
     void findGraphTest(){
+//        Graph graph = mongoDBMapper.findGraph("60783f673662635dda332d20");
+//        System.out.println(graph.getSnodes());
         Graph graph = mongoDBMapper.findGraph("60706cf7723fe7362650e27f");
-        System.out.println(graph.getFedges());
+        System.out.println(graph.getSedges());
     }
 
     @Test

@@ -11,6 +11,6 @@ public class PicUnit {
     Integer picUnitId;
     Integer userId;
     String picId;
-    String picName;
+    String unitName;
     String url;
 }
