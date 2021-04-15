@@ -242,7 +242,7 @@ public class GraphServiceImpl implements GraphService {
             }
         }
         // 遍历edges
-        JSONArray sedgesJson = graph.getFedges();
+        JSONArray sedgesJson = graph.getSedges();
         List<JSONObject> sedgesList = JSONObject.parseArray(sedgesJson.toJSONString(), JSONObject.class);
         for(JSONObject edge: sedgesList){
             String label = edge.getString("oriLabel");
