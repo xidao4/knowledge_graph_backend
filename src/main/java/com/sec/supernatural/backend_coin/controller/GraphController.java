@@ -6,6 +6,7 @@ import com.sec.supernatural.backend_coin.constant.MyResponse;
 import com.sec.supernatural.backend_coin.po.Graph;
 import com.sec.supernatural.backend_coin.vo.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -74,6 +75,11 @@ public class GraphController {
     @PostMapping("/getPicCustomizeElements")
     public MyResponse getPicCustomizeElements(@RequestBody PicIdVO picIdVO){
         return graphService.getPicCustomizeElements(picIdVO);
+    }
+
+    @PostMapping("/bindUrlToPic")
+    public MyResponse bindUrlToPic(@RequestBody BindUrlToPicVO bindUrlToPicVO){
+        return graphService.bindUrlToPic(bindUrlToPicVO);
     }
 
     @PostMapping("/thumbnail/{picId}/{userId}/{picName}")

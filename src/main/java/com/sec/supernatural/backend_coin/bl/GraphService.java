@@ -76,6 +76,13 @@ public interface GraphService {
     MyResponse getPicCustomizeElements(PicIdVO picIdVO);
 
     /**
+     * 绑定url到对应picId
+     * @param bindUrlToPicVO
+     * @return
+     */
+    MyResponse bindUrlToPic(BindUrlToPicVO bindUrlToPicVO);
+
+    /**
      * 保存/更新缩略图
      * @param thumbnailVO
      * @return

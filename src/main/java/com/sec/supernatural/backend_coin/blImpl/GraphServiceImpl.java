@@ -185,6 +185,12 @@ public class GraphServiceImpl implements GraphService {
     }
 
     @Override
+    public MyResponse bindUrlToPic(BindUrlToPicVO bindUrlToPicVO) {
+        picUnitMapper.updateUnitName(bindUrlToPicVO.getPicId(),bindUrlToPicVO.getCustomizeImgUrl(),bindUrlToPicVO.getCustomizeEntityName());
+        return MyResponse.ok("success");
+    }
+
+    @Override
     public MyResponse storeThumbnail(ThumbnailVO thumbnailVO) {
         String url = storageService.storeImage(thumbnailVO.getFile());
         Thumbnail thumbnail = new Thumbnail();

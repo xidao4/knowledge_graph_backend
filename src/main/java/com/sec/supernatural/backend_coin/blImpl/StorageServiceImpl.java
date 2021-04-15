@@ -79,7 +79,7 @@ public class StorageServiceImpl implements StorageService {
         }else{
             System.out.println("file already exists!");
         }
-        return "https://118.182.96.49:8001/api/storage/file/"+filename;
+        return "http://118.182.96.49:8001/api/storage/file/"+filename;
     }
 
     @Override
@@ -122,7 +122,7 @@ public class StorageServiceImpl implements StorageService {
                 }
                 File f = root.resolve(filename).toFile();
                 Thumbnails.of(BI).size(destHeight,destWidth).toFile(f);
-                String url = "https://118.182.96.49:8001/api/storage/image/"+filename;
+                String url = "http://118.182.96.49:8001/api/storage/image/"+filename;
                 res = url;
             } catch (IOException e) {
                 System.out.println("failed to store file : " + filename);
@@ -131,7 +131,7 @@ public class StorageServiceImpl implements StorageService {
             }
         }else{
             System.out.println("img already exists!");
-            String url = "https://118.182.96.49:8001/api/storage/image/"+filename;
+            String url = "http://118.182.96.49:8001/api/storage/image/"+filename;
             res = url;
         }
         return res;
