@@ -152,15 +152,15 @@ public class GraphServiceImpl implements GraphService {
         Graph graph = mongoDBMapper.findGraph(picId);
         if(graph==null || ! graph.getPicId().equals(picId))
             return MyResponse.error("Can Not Find Pic !");
-        JSONArray fnodesJson = graph.getFnodes();
-        List<JSONObject> fnodesList = JSONObject.parseArray(fnodesJson.toJSONString(), JSONObject.class);
-        Map<String, Long> fnodesMap = fnodesList.stream().collect(Collectors.groupingBy(item -> item.getString("class"),Collectors.counting()));
-        JSONArray fedgesJson = graph.getFedges();
-        List<JSONObject> fedgesList = JSONObject.parseArray(fedgesJson.toJSONString(), JSONObject.class);
-        Map<String, Long> fedgesMap = fedgesList.stream().collect(Collectors.groupingBy(item -> item.getString("class"),Collectors.counting()));
+        JSONArray snodesJson = graph.getSnodes();
+        List<JSONObject> snodesList = JSONObject.parseArray(snodesJson.toJSONString(), JSONObject.class);
+        Map<String, Long> snodesMap = snodesList.stream().collect(Collectors.groupingBy(item -> item.getString("class"),Collectors.counting()));
+        JSONArray sedgesJson = graph.getSedges();
+        List<JSONObject> sedgesList = JSONObject.parseArray(sedgesJson.toJSONString(), JSONObject.class);
+        Map<String, Long> sedgesMap = sedgesList.stream().collect(Collectors.groupingBy(item -> item.getString("class"),Collectors.counting()));
         PicTypesVO picTypesVO = new PicTypesVO();
-        picTypesVO.setNodesMap(fnodesMap);
-        picTypesVO.setEdgesMap(fedgesMap);
+        picTypesVO.setNodesMap(snodesMap);
+        picTypesVO.setEdgesMap(sedgesMap);
         return MyResponse.ok(picTypesVO);
     }
 
