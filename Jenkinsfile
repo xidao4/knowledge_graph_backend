@@ -45,7 +45,7 @@ pipeline {
             }
             steps{
                 sh "if (docker ps -a |grep backend-coin) then (docker stop backend-coin && docker rm backend-coin) fi"
-                sh "docker run -p 8001:8001 --name backend-coin -v /log:/log -d backend-coin:${BUILD_ID}"
+                sh "docker run -p 8001:8001 --name backend-coin -v /log:/log -v /app/datastore:/app/datastore -d backend-coin:${BUILD_ID}"
             }
         }
     }

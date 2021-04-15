@@ -18,6 +18,7 @@ import java.net.MalformedURLException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Arrays;
 import java.util.logging.Logger;
 
 /**
@@ -37,6 +38,7 @@ public class StorageServiceImpl implements StorageService {
     public void initRoot() {
         logger.info("storage-dir = " + storageDir);
         root = Paths.get(storageDir);
+        System.out.println("root: " + root);
         init();
     }
 
@@ -148,6 +150,22 @@ public class StorageServiceImpl implements StorageService {
 //            System.out.println("写入失败");
 //            System.out.println(e.getMessage());
 //            System.out.println(e.getStackTrace());
+//        }
+//        System.out.println("path"+file.getAbsolutePath());
+//        String str=System.getProperty("user.dir");
+//        System.out.println("find: " + str + "/datastore");
+//        File dir = new File(str + "/datastore");
+//        String[] child = dir.list();
+//        System.out.println(Arrays.toString(child));
+//        if (child == null) {
+//            System.out.println("empty!!!");
+//        } else {
+//            System.out.println("not empty");
+//            for (int i = 0; i < child.length; i++) {
+//                String str1 = child[i];
+//                System.out.println(str1);
+//
+//            }
 //        }
         if(file.exists()){
         }else if(file.canRead()){
