@@ -10,10 +10,10 @@
         select * from PicUnit where picId=#{picId}
     </select>
 
-<!--    <update id="updateUnitName">-->
-<!--        update PicUnit set unitName=#{unitName}-->
-<!--        where picId=#{picId} and url=#{url}-->
-<!--    </update>-->
+    <update id="updateUnitName">
+        update PicUnit set unitName=#{unitName}
+        where picId=#{picId} and url=#{url}
+    </update>
 
     <resultMap id="PicUnit" type="com.sec.supernatural.backend_coin.po.PicUnit">
         <id column="picUnitId" property="picUnitId"></id>

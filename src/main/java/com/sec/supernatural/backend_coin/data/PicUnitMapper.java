@@ -2,6 +2,7 @@ package com.sec.supernatural.backend_coin.data;
 
 import com.sec.supernatural.backend_coin.po.PicUnit;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -15,5 +16,5 @@ import java.util.List;
 public interface PicUnitMapper {
     void addPicUnit(PicUnit picUnit);
     List<PicUnit> findByPicId(String picId);
-//    void updateUnitName(String picId, String url, String unitName);
+    void updateUnitName(@Param("picId") String picId, @Param("url") String url, @Param("unitName") String unitName);
 }
