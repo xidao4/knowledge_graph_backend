@@ -85,8 +85,26 @@ public class GraphServiceImpl implements GraphService {
         // dao to Graph
         String picId = picIdVO.getPicId();
         Graph graph = mongoDBMapper.findGraph(picId);
-        // Graph to json str
-        String str = JSONObject.toJSONString(graph);
+        // Graph to GraphVO
+        GraphVO graphVO = new GraphVO();
+        // step 1: set nodes
+        JSONArray snodesJson = graph.getSnodes();
+        List<JSONObject> snodesList = JSONObject.parseArray(snodesJson.toJSONString(), JSONObject.class);
+        List<NodeVO> nodes = new ArrayList<>();
+        for(JSONObject node: snodesList){
+            nodes.add(new NodeVO(node.getString("id"),node.getString("label"),node.getString("class")));
+        }
+        graphVO.setNodes(nodes);
+        // step 2: set edges
+        JSONArray sedgesJson = graph.getSedges();
+        List<JSONObject> sedgesList = JSONObject.parseArray(sedgesJson.toJSONString(), JSONObject.class);
+        List<EdgeVO> edges = new ArrayList<>();
+        for(JSONObject edge: sedgesList){
+            edges.add(new EdgeVO(edge.getString("id"),edge.getString("label"),edge.getString("class"),edge.getString("source"),edge.getString("target")));
+        }
+        graphVO.setEdges(edges);
+        // GraphVO to json str
+        String str = JSONObject.toJSONString(graphVO);
         // str写入file，返回url
         String url = storageService.storeFile(str,picId+".json");
         // build response
@@ -140,9 +158,9 @@ public class GraphServiceImpl implements GraphService {
         Graph graph = mongoDBMapper.findGraph(picId);
         if(graph==null || ! graph.getPicId().equals(picId))
             return MyResponse.error("Can Not Find Pic !");
-        JSONArray fnodesJson = graph.getFnodes();
-        List<JSONObject> fnodesList = JSONObject.parseArray(fnodesJson.toJSONString(), JSONObject.class);
-        List<String> types = fnodesList.stream().map(item -> item.getString("class")).distinct().collect(Collectors.toList());
+        JSONArray snodesJson = graph.getSnodes();
+        List<JSONObject> snodesList = JSONObject.parseArray(snodesJson.toJSONString(), JSONObject.class);
+        List<String> types = snodesList.stream().map(item -> item.getString("class")).distinct().collect(Collectors.toList());
         return MyResponse.ok(types);
     }
 
