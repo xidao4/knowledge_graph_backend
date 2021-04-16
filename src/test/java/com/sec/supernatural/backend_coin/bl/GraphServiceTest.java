@@ -130,7 +130,7 @@ public class GraphServiceTest {
     public void bindUrlToPic(){
         BindUrlToPicVO bindUrlToPicVO = new BindUrlToPicVO();
         bindUrlToPicVO.setPicId("test_picId");
-        bindUrlToPicVO.setCustomizeEntityName("modify416");
+        bindUrlToPicVO.setCustomizeEntityName("m416");
         bindUrlToPicVO.setCustomizeImgUrl("http://118.182.96.49:8001/api/storage/image/3a588607c3c1b600b742acb5893b3864.jpg");
         MyResponse myResponse = graphService.bindUrlToPic(bindUrlToPicVO);
         System.out.println(myResponse.getData());

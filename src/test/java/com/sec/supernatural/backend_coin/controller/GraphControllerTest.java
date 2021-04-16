@@ -5,10 +5,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.sec.supernatural.backend_coin.constant.MyResponse;
 import com.sec.supernatural.backend_coin.po.Graph;
 import com.sec.supernatural.backend_coin.util.JwtUtil;
-import com.sec.supernatural.backend_coin.vo.PicIdVO;
-import com.sec.supernatural.backend_coin.vo.SearchVO;
-import com.sec.supernatural.backend_coin.vo.ThumbnailVO;
-import com.sec.supernatural.backend_coin.vo.UserIdVO;
+import com.sec.supernatural.backend_coin.vo.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -170,6 +167,16 @@ public class GraphControllerTest {
         MyResponse myResponse = postTemplate("/api/graph/getPicCustomizeElements",picIdVO,0,null);
         System.out.println(myResponse.getData());
     }
+
+//    @Test
+//    void bindUrlToPic() throws Exception{
+//        BindUrlToPicVO bindUrlToPicVO = new BindUrlToPicVO();
+//        bindUrlToPicVO.setPicId("test_picId");
+//        bindUrlToPicVO.setCustomizeEntityName("modify416");
+//        bindUrlToPicVO.setCustomizeImgUrl("http://118.182.96.49:8001/api/storage/image/3a588607c3c1b600b742acb5893b3864.jpg");
+//        MyResponse myResponse = postTemplate("/api/storage/image/3a588607c3c1b600b742acb5893b3864.jpg",bindUrlToPicVO,0,null);
+//        System.out.println(myResponse.getData());
+//    }
 
 //    @Test
 //    void thumbnail() throws Exception {
