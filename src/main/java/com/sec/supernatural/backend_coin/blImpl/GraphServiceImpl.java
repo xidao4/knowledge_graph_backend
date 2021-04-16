@@ -186,7 +186,7 @@ public class GraphServiceImpl implements GraphService {
 
     @Override
     public MyResponse bindUrlToPic(BindUrlToPicVO bindUrlToPicVO) {
-        picUnitMapper.updateUnitName(bindUrlToPicVO.getPicId(),bindUrlToPicVO.getCustomizeImgUrl(),bindUrlToPicVO.getCustomizeEntityName());
+//        picUnitMapper.updateUnitName(bindUrlToPicVO.getPicId(),bindUrlToPicVO.getCustomizeImgUrl(),bindUrlToPicVO.getCustomizeEntityName());
         return MyResponse.ok("success");
     }
 
