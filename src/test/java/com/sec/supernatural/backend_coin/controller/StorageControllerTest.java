@@ -33,64 +33,15 @@ import java.util.Map;
 @ExtendWith(SpringExtension.class)
 public class StorageControllerTest {
     @Autowired
-    private WebApplicationContext webApplicationContext;
+    private StorageController storageController;
 
-    private MockMvc mockMvc;
-
-    @BeforeEach
-    public void setupMockMvc(){
-        mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
+    @Test
+    void getFile() {
+        storageController.getFile("60768a917fe1e67c1e116f53");
     }
 
-    private MyResponse postTemplate(String url, Object object, int expect_code, Map<String, Object> headers) throws Exception{
-
-        MockHttpServletRequestBuilder mockHttpServletRequestBuilder = MockMvcRequestBuilders
-                .post(url)
-                .accept(MediaType.APPLICATION_JSON)
-                .header("Accept-Encoding", "gzip, deflate")
-                .header("Connection", "keep-alive")
-                .header("Accept-Language", "zh-CN,zh;q=0.9,en-US;q=0.8,en;q=0.7")
-                .header("token", JwtUtil.createToken(1, 24))
-                .contentType("application/json;charset=UTF-8");
-
-        if(object != null){
-            String jsonResult = JSONObject.toJSONString(object);
-            mockHttpServletRequestBuilder = mockHttpServletRequestBuilder.content(jsonResult);
-        }
-
-        if(headers != null){
-            for (Map.Entry<String, Object> entry : headers.entrySet()) {
-                mockHttpServletRequestBuilder = mockHttpServletRequestBuilder.header(entry.getKey(), entry.getValue());
-            }
-        }
-
-        MvcResult mvcResult = mockMvc.perform(mockHttpServletRequestBuilder)
-                .andExpect(MockMvcResultMatchers.status().isOk())
-                .andReturn();
-
-        String result = mvcResult.getResponse().getContentAsString();
-
-        MyResponse myResponse = JSONObject.parseObject(result, MyResponse.class);
-
-        if(myResponse.getCode() != expect_code){
-            System.out.println(myResponse.getCode());
-            System.out.println(new String(myResponse.getData().toString()
-                    .getBytes(StandardCharsets.ISO_8859_1), "UTF-8"));
-        }
-
-        assert myResponse.getCode() == expect_code;
-        return myResponse;
+    @Test
+    void previewResume(){
+        storageController.previewResume("3ffa28efaaa5c3c92a86f8626c2b3eaf.jpg");
     }
-
-//    @DisplayName("测试getFile")
-//    @Test
-//    void getFile() throws Exception {
-//        postTemplate("/api/storage/file/test_filename.json", "test_filename", 200, null);
-//    }
-//
-//    @DisplayName("测试previewResume")
-//    @Test
-//    void previewResume(){
-//
-//    }
 }
