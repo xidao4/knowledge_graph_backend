@@ -28,13 +28,13 @@ public class StorageServiceTest {
 
     @Test
     public void storeFileTest(){
-        String url = storageService.storeFile("test_file_str","test_filename.json");
+        String url = storageService.storeFile("lalala_test_file_str","lalala_test_filename.json");
         System.out.println(url);
     }
 
     @Test
     public void storeImageTest() throws Exception {
-        File file = new File("src/test/java/com/sec/supernatural/backend_coin/testData/ikura.jpeg");
+        File file = new File("src/test/java/com/sec/supernatural/backend_coin/testData/9fff4885d9fd613fcecb64ab8129b116.jpeg");
         InputStream inputStream = new FileInputStream(file);
         MultipartFile multipartFile = new MockMultipartFile(file.getName(), inputStream);
         String url = storageService.storeImage(multipartFile);

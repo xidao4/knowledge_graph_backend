@@ -37,11 +37,11 @@ public class StorageControllerTest {
 
     @Test
     void getFile() {
-        storageController.getFile("60768a917fe1e67c1e116f53");
+        storageController.getFile("60706cf7723fe7362650e27f.json");
     }
 
     @Test
     void previewResume(){
-        storageController.previewResume("3ffa28efaaa5c3c92a86f8626c2b3eaf.jpg");
+        storageController.previewResume("3a588607c3c1b600b742acb5893b3864.jpg");
     }
 }
