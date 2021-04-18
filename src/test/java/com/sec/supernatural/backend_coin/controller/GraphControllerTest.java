@@ -41,6 +41,8 @@ import java.util.Map;
 public class GraphControllerTest {
     @Autowired
     private WebApplicationContext webApplicationContext;
+    @Autowired
+    private GraphController graphController;
 
     private MockMvc mockMvc;
 
@@ -89,13 +91,14 @@ public class GraphControllerTest {
         return myResponse;
     }
 
-//    @Test
-//    void getAll() throws Exception {
-//        File file = new File("src/test/java/com/sec/supernatural/backend_coin/testData/test.json");
-//        InputStream inputStream = new FileInputStream(file);
-//        MultipartFile mFile = new MockMultipartFile(file.getName(), inputStream);
-//        postTemplate("/api/graph/getAll",mFile,0,null);
-//    }
+    @Test
+    void getAll() throws Exception {
+        File file = new File("src/test/java/com/sec/supernatural/backend_coin/testData/test.json");
+        InputStream inputStream = new FileInputStream(file);
+        MultipartFile mFile = new MockMultipartFile(file.getName(), inputStream);
+        MyResponse myResponse = graphController.getAll(mFile);
+        System.out.println(myResponse.getData());
+    }
 
     @Test
     void download() throws Exception {
@@ -104,31 +107,32 @@ public class GraphControllerTest {
         postTemplate("/api/graph/download",picIdVO,0,null);
     }
 
-//    @Test
-//    void save() throws Exception {
-//        String fileStr = "{\n" +
-//                "  \"nodes\": [{\"id\": \"0\", \"label\": \"hit_node_1\", \"type\": \"type_1\", \"class\": \"c0\"},\n" +
-//                "            {\"id\": \"1\", \"label\": \"hit_node_2\", \"type\": \"type_1\", \"class\": \"c0\"},\n" +
-//                "            {\"id\": \"2\", \"label\": \"node_1\", \"type\": \"type_2\", \"class\": \"c0\"},\n" +
-//                "            {\"id\": \"3\", \"label\": \"node_2\", \"type\": \"type_3\", \"class\": \"c0\"}\n" +
-//                "  ],\n" +
-//                "  \"edges\": [{\"id\": \"0\", \"label\": \"hit_edge_1\", \"source\": \"node_1\", \"target\": \"node_2\", \"type\": \"test_type_1\", \"class\": \"c0\"},\n" +
-//                "            {\"id\": \"1\", \"label\": \"edge_1\", \"source\": \"hit_node_1\", \"target\": \"hit_node_2\", \"type\": \"test_type_2\", \"class\": \"c0\"},\n" +
-//                "            {\"id\": \"2\", \"label\": \"hit_edge_2\", \"source\": \"node_1\", \"target\": \"hit_node_2\", \"type\": \"test_type_1\", \"class\": \"c0\"},\n" +
-//                "            {\"id\": \"3\", \"label\": \"edge_1\", \"source\": \"node_1\", \"target\": \"node_2\", \"type\": \"test_type_2\", \"class\": \"c0\"}\n" +
-//                "  ]\n" +
-//                "}";
-//        JSONObject jsonObject = JSONObject.parseObject(fileStr);
-//        JSONArray nodes = jsonObject.getJSONArray("nodes");
-//        JSONArray edges = jsonObject.getJSONArray("edges");
-//        Graph graph = new Graph();
-//        graph.setFnodes(nodes);
-//        graph.setFedges(edges);
-//        graph.setSnodes(nodes);
-//        graph.setSedges(edges);
-//        graph.setPicId("60706cf7723fe7362650e27f");
-//        postTemplate("/api/graph/save",graph,0,null);
-//    }
+    @Test
+    void save() throws Exception {
+        String fileStr = "{\n" +
+                "  \"nodes\": [{\"id\": \"0\", \"label\": \"hit_node_1\", \"oriLabel\": \"hit_node_1\", \"class\": \"type_1\"},\n" +
+                "            {\"id\": \"1\", \"label\": \"hit_node_2\", \"oriLabel\": \"hit_node_2\", \"class\": \"type_1\"},\n" +
+                "            {\"id\": \"2\", \"label\": \"node_1\", \"oriLabel\": \"node_1\", \"class\": \"type_2\"},\n" +
+                "            {\"id\": \"3\", \"label\": \"node_2\", \"oriLabel\": \"node_2\", \"class\": \"type_3\"}\n" +
+                "  ],\n" +
+                "  \"edges\": [{\"id\": \"0\", \"label\": \"hit_edge_1\", \"oriLabel\": \"hit_edge_1\", \"source\": \"node_1\", \"target\": \"node_2\", \"class\": \"test_type_1\"},\n" +
+                "            {\"id\": \"1\", \"label\": \"edge_1\", \"oriLabel\": \"edge_1\", \"source\": \"hit_node_1\", \"target\": \"hit_node_2\", \"class\": \"test_type_2\"},\n" +
+                "            {\"id\": \"2\", \"label\": \"hit_edge_2\", \"oriLabel\": \"hit_edge_2\", \"source\": \"node_1\", \"target\": \"hit_node_2\", \"class\": \"test_type_1\"},\n" +
+                "            {\"id\": \"3\", \"label\": \"edge_1\", \"oriLabel\": \"edge_1\", \"source\": \"node_1\", \"target\": \"node_2\", \"class\": \"test_type_2\"}\n" +
+                "  ]\n" +
+                "}";
+        JSONObject jsonObject = JSONObject.parseObject(fileStr);
+        JSONArray nodes = jsonObject.getJSONArray("nodes");
+        JSONArray edges = jsonObject.getJSONArray("edges");
+        Graph graph = new Graph();
+        graph.setFnodes(nodes);
+        graph.setFedges(edges);
+        graph.setSnodes(nodes);
+        graph.setSedges(edges);
+        graph.setPicId("60706cf7723fe7362650e27f");
+        MyResponse myResponse = graphController.save(graph);
+        System.out.println(myResponse.getData());
+    }
 
     @Test
     void getPicElements() throws Exception {
@@ -161,6 +165,16 @@ public class GraphControllerTest {
     }
 
     @Test
+    void uploadCustomizeImg() throws Exception {
+        File file = new File("src/test/java/com/sec/supernatural/backend_coin/testData/ikura.jpeg");
+        InputStream inputStream = new FileInputStream(file);
+        MultipartFile mFile = new MockMultipartFile(file.getName(), inputStream);
+        PicUnitVO picUnitVO = new PicUnitVO(1,"test_picId","test_picName",mFile);
+        MyResponse myResponse = graphController.uploadCustomizeImg("test_picId",1,"test_picName",mFile);
+        System.out.println(myResponse.getData());
+    }
+
+    @Test
     void getPicCustomizeElements() throws Exception {
         PicIdVO picIdVO = new PicIdVO();
         picIdVO.setPicId("test_picId");
@@ -168,28 +182,24 @@ public class GraphControllerTest {
         System.out.println(myResponse.getData());
     }
 
-//    @Test
-//    void bindUrlToPic() throws Exception{
-//        BindUrlToPicVO bindUrlToPicVO = new BindUrlToPicVO();
-//        bindUrlToPicVO.setPicId("test_picId");
-//        bindUrlToPicVO.setCustomizeEntityName("modify416");
-//        bindUrlToPicVO.setCustomizeImgUrl("http://118.182.96.49:8001/api/storage/image/3a588607c3c1b600b742acb5893b3864.jpg");
-//        MyResponse myResponse = postTemplate("/api/storage/image/3a588607c3c1b600b742acb5893b3864.jpg",bindUrlToPicVO,0,null);
-//        System.out.println(myResponse.getData());
-//    }
+    @Test
+    void bindUrlToPic() throws Exception{
+        BindUrlToPicVO bindUrlToPicVO = new BindUrlToPicVO();
+        bindUrlToPicVO.setPicId("test_picId");
+        bindUrlToPicVO.setCustomizeEntityName("m416");
+        bindUrlToPicVO.setCustomizeImgUrl("http://118.182.96.49:8001/api/storage/image/3a588607c3c1b600b742acb5893b3864.jpg");
+        MyResponse myResponse = graphController.bindUrlToPic(bindUrlToPicVO);
+        System.out.println(myResponse.getData());
+    }
 
-//    @Test
-//    void thumbnail() throws Exception {
-//        ThumbnailVO thumbnailVO = new ThumbnailVO();
-//        thumbnailVO.setPicId("test_picId_3");
-//        thumbnailVO.setPicName("ikura");
-//        thumbnailVO.setUserId(1);
-//        File file = new File("src/test/java/com/sec/supernatural/backend_coin/testData/ikura.jpeg");
-//        InputStream inputStream = new FileInputStream(file);
-//        MultipartFile mFile = new MockMultipartFile(file.getName(), inputStream);
-//        thumbnailVO.setFile(mFile);
-//        postTemplate("/api/graph/thumbnail",thumbnailVO,0,null);
-//    }
+    @Test
+    void thumbnail() throws Exception {
+        File file = new File("src/test/java/com/sec/supernatural/backend_coin/testData/ikura.jpeg");
+        InputStream inputStream = new FileInputStream(file);
+        MultipartFile mFile = new MockMultipartFile(file.getName(), inputStream);
+        MyResponse myResponse = graphController.thumbnail("test_picId_3",1,"ikura",mFile);
+        System.out.println(myResponse.getData());
+    }
 
     @Test
     void getUserPics() throws Exception {

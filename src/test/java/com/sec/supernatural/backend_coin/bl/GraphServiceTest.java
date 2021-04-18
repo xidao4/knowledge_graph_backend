@@ -25,7 +25,6 @@ import java.io.InputStream;
  **/
 @RunWith(SpringRunner.class)
 @SpringBootTest
-//@WebAppConfiguration
 public class GraphServiceTest {
     @Autowired
     GraphService graphService;

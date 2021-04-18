@@ -62,7 +62,7 @@ public interface GraphService {
     MyResponse getPicTypes(PicIdVO picIdVO);
 
     /**
-     * 上传用户自定义图片
+     * 上传用户自定义图元
      * @param picUnitVO
      * @return
      */
