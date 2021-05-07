@@ -31,4 +31,9 @@ public class ConstantTest {
         myResponse = new MyResponse(false);
         myResponse = new MyResponse(0, "", "Exception");
     }
+
+    @Test
+    public void testCodeConstructorTest(){
+        ResponseCode responseCode = new ResponseCode();
+    }
 }
