@@ -1,10 +1,9 @@
-package com.sec.supernatural.backend_coin.interceptor;
+package com.sec.supernatural.backend_coin.util;
 
 import com.alibaba.fastjson.JSONObject;
-import com.sec.supernatural.backend_coin.constant.MyResponse;
-import com.sec.supernatural.backend_coin.util.JwtUtil;
-import com.sec.supernatural.backend_coin.vo.LoginVO;
+import com.auth0.jwt.exceptions.JWTCreationException;
 import com.sec.supernatural.backend_coin.vo.PicIdVO;
+import org.junit.Assert;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -19,9 +18,7 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
-import java.nio.charset.StandardCharsets;
 import java.util.Calendar;
-import java.util.Map;
 
 /**
  * @author wangyuchen
@@ -79,5 +76,30 @@ public class JWTTest {
         PicIdVO picIdVO = new PicIdVO();
         picIdVO.setPicId("60706cf7723fe7362650e27f");
         postTemplate("/api/graph/download", picIdVO, token,401);
+    }
+
+    @DisplayName("userId缺失过期访问")
+    @Test
+    void userIdLostTest() throws Exception{
+        String token = JwtUtil.createToken(null, 10, Calendar.MINUTE);
+        PicIdVO picIdVO = new PicIdVO();
+        picIdVO.setPicId("60706cf7723fe7362650e27f");
+        postTemplate("/api/graph/download", picIdVO, token,406);
+    }
+
+    @DisplayName("token不合规范（3 part）")
+    @Test
+    void tokenNotAllowed() throws Exception{
+        String token = JwtUtil.createToken(null, 10, Calendar.MINUTE);
+        PicIdVO picIdVO = new PicIdVO();
+        picIdVO.setPicId("60706cf7723fe7362650e27f");
+        postTemplate("/api/graph/download", picIdVO, "111",401);
+    }
+
+    @DisplayName("过期时间类型不合法")
+    @Test
+    public void timeTypeNotAllowedTest() throws JWTCreationException {
+        JwtUtil jwtUtil = new JwtUtil();
+        Assert.assertEquals(null, JwtUtil.createToken(1, 10, 1000));
     }
 }

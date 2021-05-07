@@ -45,7 +45,7 @@ public class JwtUtil {
                     .withExpiresAt(expireDate)
                     // 签名 Signature
                     .sign(algorithm);
-        } catch (JWTCreationException exception) {
+        } catch (Exception exception) {
             log.error(exception.getMessage());
         }
         return null;
