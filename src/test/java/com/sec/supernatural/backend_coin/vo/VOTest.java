@@ -23,6 +23,11 @@ public class VOTest {
         EdgeVO edgeVO = new EdgeVO();
         edgeVO.hashCode();
         edgeVO.toString();
+        edgeVO.setId("1");
+        edgeVO.setLabel("1");
+        edgeVO.setSource("1");
+        edgeVO.setTarget("2");
+        edgeVO.setType("1");
         // GraphVO
         GraphVO graphVO = new GraphVO();
         graphVO.hashCode();
@@ -39,10 +44,15 @@ public class VOTest {
         NodeVO nodeVO = new NodeVO();
         nodeVO.hashCode();
         nodeVO.toString();
+        nodeVO.setId("1");
+        nodeVO.setLabel("1");
+        nodeVO.setType("1");
         // PicElementVO
         PicElementVO picElementVO = new PicElementVO();
         picElementVO.hashCode();
         picElementVO.toString();
+        picElementVO.setCustomizeEntityName("1");
+        picElementVO.setCustomizeImgUrl("1");
         // PicIdVO
         PicIdVO picIdVO = new PicIdVO();
         picIdVO.hashCode();
