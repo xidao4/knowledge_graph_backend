@@ -80,12 +80,12 @@ public class MyResponse {
         return new MyResponse(result);
     }
 
-    public static MyResponse ifTrue(boolean result, Supplier<?> data) {
-        if (result) {
-            return ok(data.get());
-        }
-        return new MyResponse(false);
-    }
+//    public static MyResponse ifTrue(boolean result, Supplier<?> data) {
+//        if (result) {
+//            return ok(data.get());
+//        }
+//        return new MyResponse(false);
+//    }
 
     public static MyResponse checkForbidden(boolean result) {
         if (result == true) {
