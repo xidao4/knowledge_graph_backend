@@ -16,32 +16,22 @@ public class POTest {
     public void poTest(){
         // Graph
         Graph graph = new Graph();
-        graph.equals(graph);
-        graph.canEqual(graph);
         graph.hashCode();
         graph.toString();
         // History
         History history = new History();
-        history.equals(history);
-        history.canEqual(history);
         history.hashCode();
         graph.toString();
         // PicUnit
         PicUnit picUnit = new PicUnit();
-        picUnit.equals(picUnit);
-        picUnit.canEqual(picUnit);
         picUnit.hashCode();
         picUnit.toString();
         // Thumbnail
         Thumbnail thumbnail = new Thumbnail();
-        thumbnail.equals(thumbnail);
-        thumbnail.canEqual(thumbnail);
         thumbnail.hashCode();
         thumbnail.toString();
         // User
         User user = new User();
-        user.equals(user);
-        user.canEqual(user);
         user.hashCode();
         user.toString();
     }
