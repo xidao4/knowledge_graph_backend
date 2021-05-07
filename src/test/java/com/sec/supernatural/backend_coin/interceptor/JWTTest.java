@@ -1,19 +1,16 @@
-package com.sec.supernatural.backend_coin.controller;
+package com.sec.supernatural.backend_coin.interceptor;
 
 import com.alibaba.fastjson.JSONObject;
 import com.sec.supernatural.backend_coin.constant.MyResponse;
 import com.sec.supernatural.backend_coin.util.JwtUtil;
 import com.sec.supernatural.backend_coin.vo.LoginVO;
+import com.sec.supernatural.backend_coin.vo.PicIdVO;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
-import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
@@ -27,13 +24,11 @@ import java.util.Calendar;
 import java.util.Map;
 
 /**
- * @author shenyichen
- * @date 2021/4/9
- **/
+ * @author wangyuchen
+ * @date 2021/5/7 8:06 下午
+ */
 @SpringBootTest
-@ExtendWith(SpringExtension.class)
-public class UserControllerTest {
-
+public class JWTTest {
     @Autowired
     private WebApplicationContext webApplicationContext;
 
@@ -44,7 +39,7 @@ public class UserControllerTest {
         mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
     }
 
-    private MyResponse postTemplate(String url, Object object, int expect_code, Map<String, Object> headers) throws Exception{
+    private String postTemplate(String url, Object object, String token, int expectStatusCode) throws Exception{
 
         MockHttpServletRequestBuilder mockHttpServletRequestBuilder = MockMvcRequestBuilders
                 .post(url)
@@ -52,7 +47,7 @@ public class UserControllerTest {
                 .header("Accept-Encoding", "gzip, deflate")
                 .header("Connection", "keep-alive")
                 .header("Accept-Language", "zh-CN,zh;q=0.9,en-US;q=0.8,en;q=0.7")
-                .header("token", JwtUtil.createToken(1, 24, Calendar.HOUR))
+                .header((token!=null)?"token":"token2", (token!=null)?token:"w.w.w")
                 .contentType("application/json;charset=UTF-8");
 
         if(object != null){
@@ -60,42 +55,29 @@ public class UserControllerTest {
             mockHttpServletRequestBuilder = mockHttpServletRequestBuilder.content(jsonResult);
         }
 
-        if(headers != null){
-            for (Map.Entry<String, Object> entry : headers.entrySet()) {
-                mockHttpServletRequestBuilder = mockHttpServletRequestBuilder.header(entry.getKey(), entry.getValue());
-            }
-        }
 
         MvcResult mvcResult = mockMvc.perform(mockHttpServletRequestBuilder)
-                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.status().is(expectStatusCode))
                 .andReturn();
 
-        String result = mvcResult.getResponse().getContentAsString();
-
-        MyResponse myResponse = JSONObject.parseObject(result, MyResponse.class);
-
-        if(myResponse.getCode() != expect_code){
-            System.out.println(myResponse.getCode());
-            System.out.println(new String(myResponse.getData().toString()
-                    .getBytes(StandardCharsets.ISO_8859_1), "UTF-8"));
-        }
-
-        assert myResponse.getCode() == expect_code;
-        return myResponse;
+        return mvcResult.getResponse().getContentAsString();
     }
 
-    @DisplayName("测试普通用户登录")
+    @DisplayName("测试无token访问")
     @Test
-    void login() throws Exception{
-        LoginVO loginVO = new LoginVO();
-        loginVO.setUsername("super");
-        loginVO.setPassword("super");
+    void noTokenTest() throws Exception{
+        PicIdVO picIdVO = new PicIdVO();
+        picIdVO.setPicId("60706cf7723fe7362650e27f");
+        postTemplate("/api/graph/download", picIdVO,null, 401);
+    }
 
-        // 密码正确
-        postTemplate("/api/user/login", loginVO, 0, null);
-
-        // 密码错误
-        loginVO.setPassword("111");
-        postTemplate("/api/user/login", loginVO, -1, null);
+    @DisplayName("测试token过期访问")
+    @Test
+    void tokenExpiredTest() throws Exception{
+        String token = JwtUtil.createToken(1, 1, Calendar.SECOND);
+        Thread.sleep(2000);
+        PicIdVO picIdVO = new PicIdVO();
+        picIdVO.setPicId("60706cf7723fe7362650e27f");
+        postTemplate("/api/graph/download", picIdVO, token,401);
     }
 }

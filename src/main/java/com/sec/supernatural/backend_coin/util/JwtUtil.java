@@ -21,13 +21,13 @@ public class JwtUtil {
     static final String SUBJECT = "this is supernatural coin token";
     static final String AUDIENCE = "WEB";
 
-    public static String createToken(Integer userId, Integer expireMin) {
+    public static String createToken(Integer userId, Integer expireTime, int expireTimeType) {
         try {
             Algorithm algorithm = Algorithm.HMAC256(SIGNATURE);
             Map<String, Object> map = new HashMap<>();
             Date nowDate = new Date();
             Calendar instance = Calendar.getInstance();
-            instance.add(Calendar.HOUR, expireMin);
+            instance.add(expireTimeType, expireTime);
             Date expireDate = instance.getTime();
             map.put("alg", "HS256");
             map.put("typ", "JWT");
