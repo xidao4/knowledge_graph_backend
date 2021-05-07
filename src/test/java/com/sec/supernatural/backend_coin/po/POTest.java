@@ -21,7 +21,7 @@ public class POTest {
         // History
         History history = new History();
         history.hashCode();
-        graph.toString();
+        history.toString();
         // PicUnit
         PicUnit picUnit = new PicUnit();
         picUnit.hashCode();

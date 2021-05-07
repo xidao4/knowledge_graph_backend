@@ -14,6 +14,9 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 public class VOTest {
     @Test
     public void voTest(){
-
+        // BindUrlToPicVO
+        BindUrlToPicVO bindUrlToPicVO = new BindUrlToPicVO();
+        bindUrlToPicVO.hashCode();
+        bindUrlToPicVO.toString();
     }
 }
