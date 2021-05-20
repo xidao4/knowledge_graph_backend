@@ -16,7 +16,7 @@ import java.util.function.Supplier;
 public class ConstantTest {
     @Test
     public void myResponseTest(){
-        MyResponse myResponse = new MyResponse(ResponseCode.OK);
+        MyResponse myResponse = new MyResponse(true);
         MyResponse.checkForbidden(true);
         MyResponse.checkForbidden(false);
         MyResponse.checkNull(null);
