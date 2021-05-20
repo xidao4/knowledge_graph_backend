@@ -11,6 +11,7 @@ import org.springframework.web.servlet.HandlerInterceptor;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -39,10 +40,9 @@ public class JWTInterceptor implements HandlerInterceptor {
             DecodedJWT jwt = JwtUtil.verifyTokenAndGetUserId(token);
             Map<String, Claim> claims = jwt.getClaims();
             Claim claim = claims.get("userId");
-            Integer userId = claim.asInt();
-            if(null == userId){
-                response.setHeader("token", JwtUtil.createToken(userId, tokenExpireTime));
+            if(null == claim){
                 response.setStatus(HttpStatus.SC_NOT_ACCEPTABLE);
+                return false;
             }
             return true;
         } catch (TokenExpiredException e){
@@ -53,6 +53,7 @@ public class JWTInterceptor implements HandlerInterceptor {
             response.getWriter().println(new ObjectMapper().writeValueAsString(map));
         } catch (Exception e){
             e.printStackTrace();
+            response.setStatus(HttpStatus.SC_UNAUTHORIZED);
         }
         return false;
     }

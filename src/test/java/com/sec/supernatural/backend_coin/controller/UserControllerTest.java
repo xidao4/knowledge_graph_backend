@@ -23,6 +23,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
 import java.nio.charset.StandardCharsets;
+import java.util.Calendar;
 import java.util.Map;
 
 /**
@@ -51,7 +52,7 @@ public class UserControllerTest {
                 .header("Accept-Encoding", "gzip, deflate")
                 .header("Connection", "keep-alive")
                 .header("Accept-Language", "zh-CN,zh;q=0.9,en-US;q=0.8,en;q=0.7")
-                .header("token", JwtUtil.createToken(1, 24))
+                .header("token", JwtUtil.createToken(1, 24, Calendar.HOUR))
                 .contentType("application/json;charset=UTF-8");
 
         if(object != null){

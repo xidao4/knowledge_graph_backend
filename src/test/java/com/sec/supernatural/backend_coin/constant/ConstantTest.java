@@ -21,5 +21,19 @@ public class ConstantTest {
         MyResponse.checkForbidden(false);
         MyResponse.checkNull(null);
         MyResponse.checkNull(myResponse);
+        MyResponse.checkBoolean(false);
+        MyResponse.exception("exception test");
+    }
+
+    @Test
+    public void myResponseConstructorTest(){
+        MyResponse myResponse = new MyResponse(true);
+        myResponse = new MyResponse(false);
+        myResponse = new MyResponse(0, "", "Exception");
+    }
+
+    @Test
+    public void testCodeConstructorTest(){
+        ResponseCode responseCode = new ResponseCode();
     }
 }

@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import java.util.Calendar;
 import java.util.Date;
 
 /**
@@ -44,7 +45,7 @@ public class UserServiceImpl implements UserService {
             userMapper.updateLastLoginTime(userVO.getUserId(), date);
             userVO.setCreateTime(user.getCreateTime().toString());
             userVO.setLastLoginTime(date.toString());
-            userVO.setToken(JwtUtil.createToken(userVO.getUserId(), tokenExpireTime));
+            userVO.setToken(JwtUtil.createToken(userVO.getUserId(), tokenExpireTime, Calendar.HOUR));
             return MyResponse.ok(userVO);
         }
         else {
