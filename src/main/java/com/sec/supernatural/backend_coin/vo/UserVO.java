@@ -18,4 +18,5 @@ public class UserVO {
     String createTime;
     String lastLoginTime;
     String token;
+    String userType;
 }

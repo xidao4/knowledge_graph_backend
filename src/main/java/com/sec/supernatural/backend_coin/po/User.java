@@ -20,4 +20,5 @@ public class User {
     String password;
     Date createTime;
     Date lastLoginTime;
+    String userType;
 }

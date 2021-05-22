@@ -11,8 +11,8 @@
     </update>
 
     <insert id="register" parameterType="com.sec.supernatural.backend_coin.po.User" useGeneratedKeys="true" keyProperty="userId">
-        insert into User (username, password, createTime, lastLoginTime) VALUES
-        (#{username}, #{password}, #{createTime}, #{lastLoginTime})
+        insert into User (username, password, createTime, lastLoginTime, userType) VALUES
+        (#{username}, #{password}, #{createTime}, #{lastLoginTime}, #{userType})
     </insert>
 
     <resultMap id="User" type="com.sec.supernatural.backend_coin.po.User">
@@ -21,5 +21,6 @@
         <result column="username" property="username"></result>
         <result column="createTime" property="createTime"></result>
         <result column="lastLoginTime" property="lastLoginTime"></result>
+        <result column="userType" property="userType"></result>
     </resultMap>
 </mapper>
