@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -38,5 +39,16 @@ public class NodeMapperTest {
         nodeMapper.insert(node);
     }
 
+    @Test
+    void findByName(){
+        Node node=nodeMapper.findByName("贾宝玉","0");
+        System.out.println(node.getProperties().get("label"));
+        System.out.println(node.getProperties().get("identity"));//null
+    }
 
+    @Test
+    void getNeighborsByLabel(){
+        List<Node> nodes=nodeMapper.getNeighborsByLabel("贾宝玉","0");
+        System.out.println(nodes.size());
+    }
 }

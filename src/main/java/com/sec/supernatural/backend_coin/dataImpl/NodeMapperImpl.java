@@ -8,6 +8,9 @@ import com.sec.supernatural.backend_coin.po.Node;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import static org.neo4j.driver.Values.ofOffsetTime;
@@ -28,6 +31,7 @@ public class NodeMapperImpl implements NodeMapper {
         this.driver=driver;
     }
 
+    //may to be used
     @Override
     public void insert(Node node) {
         Session session=driver.session();
@@ -108,21 +112,60 @@ public class NodeMapperImpl implements NodeMapper {
         return null;
     }
 
+    //used
+    @Override
+    public List<Node> getNeighborsByLabel(String label,String picId) {
+        Session session=driver.session();
+        String getQuery="MATCH (a)-[r]-(b) WHERE a.picId=$picId AND a.label=$label RETURN b";
+        try{
+            return session.readTransaction(new TransactionWork<List<Node>>() {
+                @Override
+                public List<Node> execute(Transaction transaction) {
+                    Result result=transaction.run(getQuery,parameters("picId",picId,"label",label));
+                    List<Node> lst=new ArrayList<>();
+                    while(result.hasNext()){
+                        org.neo4j.driver.types.Node node = result.next().get(0).asNode();
+
+                        Map<String,Object> f=new HashMap<>();
+                        long idLong=node.id();
+                        String id=String.valueOf(idLong);
+                        f.put("id",id);
+
+                        Map<String, Object> properties = node.asMap();
+                        for(Map.Entry<String,Object> entry:properties.entrySet()){
+                            f.put(entry.getKey(),String.valueOf(entry.getValue()));
+                        }
+
+                        lst.add(new Node(f));
+                    }
+                    return lst;
+                }
+            });
+        }finally {
+            session.close();
+        }
+    }
+
+    //used
     @Override
     public Node findByName(String label, String picId) {
 
         Session session = driver.session();
-        String getQuery = "MATCH(a:node) WHERE a.picId = $picId AND a.label = $label RETURN a";
+        String getQuery = "MATCH (a) WHERE a.picId = $picId AND a.label = $label RETURN a";
 
         try {
             return session.readTransaction(new TransactionWork<Node>() {
-                //没写好
                 @Override
                 public Node execute(Transaction tx) {
+                    System.out.println("0");
                     Result result = tx.run(getQuery, parameters("picId", picId, "label", label));
+                    //System.out.println("1");
                     if (result.hasNext()) {
+                        //System.out.println("2");
                         org.neo4j.driver.types.Node node = result.next().get(0).asNode();
+                        //System.out.println("3");
                         Map<String, Object> properties = node.asMap();
+                        //System.out.println("4");
                         return new Node(properties);
                     } else {
                         return null;
