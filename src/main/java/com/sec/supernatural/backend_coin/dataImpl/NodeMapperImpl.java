@@ -161,12 +161,20 @@ public class NodeMapperImpl implements NodeMapper {
                     Result result = tx.run(getQuery, parameters("picId", picId, "label", label));
                     //System.out.println("1");
                     if (result.hasNext()) {
-                        //System.out.println("2");
+
                         org.neo4j.driver.types.Node node = result.next().get(0).asNode();
-                        //System.out.println("3");
+
+                        Map<String,Object> f=new HashMap<>();
+                        long idLong=node.id();
+                        String id=String.valueOf(idLong);
+                        f.put("id",id);
+
                         Map<String, Object> properties = node.asMap();
-                        //System.out.println("4");
-                        return new Node(properties);
+                        for(Map.Entry<String,Object> entry:properties.entrySet()){
+                            f.put(entry.getKey(),String.valueOf(entry.getValue()));
+                        }
+
+                        return new Node(f);
                     } else {
                         return null;
                     }

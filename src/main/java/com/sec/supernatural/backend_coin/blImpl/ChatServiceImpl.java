@@ -74,10 +74,16 @@ public class ChatServiceImpl implements ChatService {
 //            }
 //            httpClient.close();
 //        }
-        String url="http://localhost:5000/chat/getAnswer";
+        //String url="http://localhost:5000/chat/getAnswer";
+        String url="http://120.27.240.225:5000/chat/getAnswer";
         MultiValueMap<String,String> header=new LinkedMultiValueMap<>();
         header.put(HttpHeaders.CONTENT_TYPE, Arrays.asList(MediaType.APPLICATION_JSON_VALUE));
-        HttpEntity<SemanticSearchVO> request=new HttpEntity<>(new SemanticSearchVO(question),header);
+
+        SemanticSearchVO semanticSearchVO=new SemanticSearchVO();
+        semanticSearchVO.setQuestion(question);
+
+
+        HttpEntity<SemanticSearchVO> request=new HttpEntity<>(semanticSearchVO,header);
         RestTemplate restTemplate=new RestTemplate();
         restTemplate.getMessageConverters()
                 .add(0, new StringHttpMessageConverter(StandardCharsets.UTF_8));
@@ -94,7 +100,7 @@ public class ChatServiceImpl implements ChatService {
         String[] tmp=responseStr.split(",");
         String[] tmp2=tmp[0].split(":");
         String answer=tmp2[1];
-        answer=answer.substring(1,answer.length()-1);
+        answer=answer.substring(2,answer.length()-1);
         System.out.println("answer: "+answer);
         answer= StringEscapeUtils.unescapeJava(answer);
         System.out.println("answer: "+answer);

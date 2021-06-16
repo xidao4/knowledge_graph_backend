@@ -14,6 +14,7 @@ import com.sec.supernatural.backend_coin.vo.application.response.NodeDetail;
 import com.sec.supernatural.backend_coin.vo.application.response.NodeInfo;
 import com.sec.supernatural.backend_coin.vo.application.response.NodeDisplay;
 
+import org.apache.commons.lang3.StringEscapeUtils;
 import org.springframework.http.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.converter.StringHttpMessageConverter;
@@ -24,9 +25,7 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 @Service
 public class SearchServiceImpl implements SearchService {
@@ -37,46 +36,60 @@ public class SearchServiceImpl implements SearchService {
 
     @Override
     public MyResponse getAnswer(String question) throws Exception{
-        String url="http://localhost:5000/search/getAnswer";
+        //String url="http://localhost:5000/search/getAnswer";
+        String url="http://120.27.240.225:5000/search/getAnswer";
         MultiValueMap<String,String> header=new LinkedMultiValueMap<>();
         header.put(HttpHeaders.CONTENT_TYPE, Arrays.asList(MediaType.APPLICATION_JSON_VALUE));
-        HttpEntity<SemanticSearchVO> request=new HttpEntity<>(new SemanticSearchVO(question),header);
+        SemanticSearchVO semanticSearchVO=new SemanticSearchVO();
+        semanticSearchVO.setQuestion(question);
+        HttpEntity<SemanticSearchVO> request=new HttpEntity<>(semanticSearchVO,header);
         RestTemplate restTemplate=new RestTemplate();
         restTemplate.getMessageConverters()
                 .add(0, new StringHttpMessageConverter(StandardCharsets.UTF_8));
-        ResponseEntity<String[]> exchangeRet=restTemplate.exchange(url, HttpMethod.POST, request, String[].class);
+        ResponseEntity<HashMap> exchangeRet=restTemplate.exchange(url, HttpMethod.POST, request, HashMap.class);
         System.out.println("exchangeRet: " + exchangeRet);
-        String[] responseStr=exchangeRet.getBody();
-        //System.out.println("responseStr[]=exchangeRet.getBody(): "+responseStr);
+        HashMap<String,Object> responseStr=(HashMap<String,Object>)exchangeRet.getBody();
+        System.out.println("responseStr[]=exchangeRet.getBody(): "+responseStr);
         assert responseStr != null;
+        //{"answer":["\u5b57\u7b26\u4e321","\u5b57\u7b26\u4e322","\u5b57\u7b26\u4e323"],"code":0}
+        List<String> arr=(ArrayList<String>)responseStr.get("answer");
 
 
+
+//        int begin=responseStr.indexOf("[");
+//        int end=responseStr.lastIndexOf("]");
+//        responseStr=responseStr.substring(begin+1,end);
+//        System.out.println("responseStr: "+responseStr);
+//        String[] arr=responseStr.split(",");
         List<NodeInfo> contentList=new ArrayList<>();
+        for(String str:arr){
+            System.out.println(str);//"\u5b57\u7b26\u4e321"
+            //str=str.substring(2,str.length()-1);
+            String label= StringEscapeUtils.unescapeJava(str);
+            System.out.println(label);
+            NodeInfo nodeInfo=new NodeInfo();
+            nodeInfo.setTitle(label);
+            Node node=nodeMapper.findByName(label,"0");
+            if(node!=null){
+                nodeInfo.setInfo((String)node.getProperties().get("info"));
+                nodeInfo.setCategories((String)node.getProperties().get("categories"));
+                nodeInfo.setId((String)node.getProperties().get("id"));
+                contentList.add(nodeInfo);
+            }
+        }
+        if(arr.size()==1){
+            List<Node> nodes=nodeMapper.getNeighborsByLabel(arr.get(0),"0");
+            if(nodes.size()!=0)
+                Node2NodeInfo(contentList, nodes);
+        }
 
-
-        final ObjectMapper objectMapper=new ObjectMapper();
-        ObjectNode searchVOObject =objectMapper.createObjectNode();
-        searchVOObject.put("question",question);
-
-        //HttpEntity<String> request = new HttpEntity<String>(searchVOObject.toString(),headers);
-        //final RestTemplate restTemplate=new RestTemplate();
-        //String[] data=restTemplate.postForObject(url,
-        //        request,String[].class);
-        //System.out.println(Arrays.toString(data));
-
-        //assert data != null;
-//        for(String str:data){
-//            NodeInfo nodeInfo=new NodeInfo();
-//            nodeInfo.setTitle(str);
-//            Node node=nodeMapper.findByName(str,"0");
-//            nodeInfo.setInfo((String)node.getProperties().get("info"));
-//            nodeInfo.setCategories((String)node.getProperties().get("categories"));
-//            contentList.add(nodeInfo);
-//        }
-//        if(data.length==1) {
-//            List<Node> nodes=nodeMapper.getNeighborsByLabel(data[0],"0");
-//            Node2NodeInfo(contentList, nodes);
-//        }
+        if(contentList.size()==0){
+            NodeInfo nodeInfo=new NodeInfo();
+            nodeInfo.setTitle("测试");
+            nodeInfo.setInfo("测试");
+            nodeInfo.setCategories("测试");
+            contentList.add(nodeInfo);
+        }
         return MyResponse.ok(contentList);
     }
 
@@ -113,7 +126,7 @@ public class SearchServiceImpl implements SearchService {
         nodeDetail.setEnding((String)node.getProperties().get("ending"));
         nodeDetail.setReason((String)node.getProperties().get("reason"));
         nodeDetail.setImg((String)node.getProperties().get("img"));
-        nodeDetail.setTitle((String)node.getProperties().get("title"));
+        nodeDetail.setTitle((String)node.getProperties().get("label"));
 
         List<Node> nodes=nodeMapper.getNeighborsByLabel((String)node.getProperties().get("label"),"0");
         List<NodeDisplay> node3s=new ArrayList<>();
@@ -122,6 +135,7 @@ public class SearchServiceImpl implements SearchService {
             n3.setId((String)n.getProperties().get("id"));
             n3.setLabel((String)n.getProperties().get("label"));
             n3.setNodeType((String)n.getProperties().get("categories"));
+            node3s.add(n3);
         }
         nodeDetail.setNodes(node3s);
 

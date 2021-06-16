@@ -6,7 +6,7 @@ import java.util.Map;
 import static com.sec.supernatural.backend_coin.util.StringTools.deleteEndComma;
 import static com.sec.supernatural.backend_coin.util.StringTools.properties2Str;
 
-//包含id,picId,from,to,label
+//包含id,picId,from,to,label,type
 public class Edge {
 //    private String picId;
 //    private String source;
