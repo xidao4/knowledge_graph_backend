@@ -12,6 +12,11 @@ spring:
   data:
     mongodb:
       uri: mongodb://admin:xixi12345678@121.36.13.224:27017/coin?authSource=admin
+  neo4j:
+    uri: neo4j://49.64.86.191:7687
+    authentication:
+      password: super
+      username: neo4j
 
 mybatis:
   mapper-locations: classpath:dataImpl/*Mapper.xml
