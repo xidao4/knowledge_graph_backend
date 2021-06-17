@@ -41,18 +41,18 @@ public class IntegrationTest {
     @Autowired
     GraphController graphController;
 
-    @Test
-    public void Test() throws Exception{
-        File file = new File("src/test/java/com/sec/supernatural/backend_coin/testData/test.json");
-        InputStream inputStream = new FileInputStream(file);
-        MultipartFile mFile = new MockMultipartFile(file.getName(), inputStream);
-        MyResponse myResponse = graphController.getAll(mFile);
-        Graph graph = (Graph) myResponse.getData();
-        String picId = graph.getPicId();
-        PicIdVO picIdVO = new PicIdVO();
-        picIdVO.setPicId(picId);
-        MyResponse myResponse1 = graphController.download(picIdVO);
-        System.out.println(myResponse1.getData());
-    }
+//    @Test
+//    public void Test() throws Exception{
+//        File file = new File("src/test/java/com/sec/supernatural/backend_coin/testData/test.json");
+//        InputStream inputStream = new FileInputStream(file);
+//        MultipartFile mFile = new MockMultipartFile(file.getName(), inputStream);
+//        MyResponse myResponse = graphController.getAll(mFile);
+//        Graph graph = (Graph) myResponse.getData();
+//        String picId = graph.getPicId();
+//        PicIdVO picIdVO = new PicIdVO();
+//        picIdVO.setPicId(picId);
+//        MyResponse myResponse1 = graphController.download(picIdVO);
+//        System.out.println(myResponse1.getData());
+//    }
 }
 

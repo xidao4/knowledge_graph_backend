@@ -35,14 +35,14 @@ public class UserMapperTest {
         System.out.println(user.getLastLoginTime());
     }
 
-    @Test
-    @Transactional
-    void registerTest(){
-        User user = new User();
-        user.setCreateTime(new Date());
-        user.setLastLoginTime(user.getCreateTime());
-        user.setPassword("test_password");
-        user.setUsername("test_name");
-        userMapper.register(user);
-    }
+//    @Test
+//    @Transactional
+//    void registerTest(){
+//        User user = new User();
+//        user.setCreateTime(new Date());
+//        user.setLastLoginTime(user.getCreateTime());
+//        user.setPassword("test_password");
+//        user.setUsername("test_name");
+//        userMapper.register(user);
+//    }
 }
