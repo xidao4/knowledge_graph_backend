@@ -21,14 +21,14 @@ public class EdgeMapperTest {
     @Autowired
     EdgeMapper edgeMapper;
 
-    @Test
-    void insert(){
-        Map<String,Object> properties=new HashMap<>();
-        properties.put("label","导演");
-        properties.put("type","not subclass of");
-        //Edge edge=new Edge("林诣彬","速度与激情9","0",properties);
-        //edgeMapper.insert(edge);
-    }
+//    @Test
+//    void insert(){
+//        Map<String,Object> properties=new HashMap<>();
+//        properties.put("label","导演");
+//        properties.put("type","not subclass of");
+//        //Edge edge=new Edge("林诣彬","速度与激情9","0",properties);
+//        //edgeMapper.insert(edge);
+//    }
 
     @Test
     void getNeighborsByLabel(){

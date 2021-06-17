@@ -129,15 +129,18 @@ public class SearchServiceImpl implements SearchService {
         nodeDetail.setTitle((String)node.getProperties().get("label"));
 
         List<Node> nodes=nodeMapper.getNeighborsByLabel((String)node.getProperties().get("label"),"0");
-        List<NodeDisplay> node3s=new ArrayList<>();
+        List<NodeDisplay> nodeDisplays=new ArrayList<>();
+        NodeDisplay nodeSelf=new NodeDisplay((String) node.getProperties().get("id"),
+                (String)node.getProperties().get("label"),
+                (String)node.getProperties().get("categories"));
         for(Node n:nodes){
-            NodeDisplay n3=new NodeDisplay();
-            n3.setId((String)n.getProperties().get("id"));
-            n3.setLabel((String)n.getProperties().get("label"));
-            n3.setNodeType((String)n.getProperties().get("categories"));
-            node3s.add(n3);
+            NodeDisplay nodeDisplay=new NodeDisplay();
+            nodeDisplay.setId((String)n.getProperties().get("id"));
+            nodeDisplay.setLabel((String)n.getProperties().get("label"));
+            nodeDisplay.setNodeType((String)n.getProperties().get("categories"));
+            nodeDisplays.add(nodeDisplay);
         }
-        nodeDetail.setNodes(node3s);
+        nodeDetail.setNodes(nodeDisplays);
 
         List<Edge> edges=edgeMapper.getNeighborEdgesByLabel((String)node.getProperties().get("label"),"0");
         List<EdgeDisplay> edgeDisplays=new ArrayList<>();

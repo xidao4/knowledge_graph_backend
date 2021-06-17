@@ -127,13 +127,17 @@ public class NodeMapperImpl implements NodeMapper {
                         org.neo4j.driver.types.Node node = result.next().get(0).asNode();
 
                         Map<String,Object> f=new HashMap<>();
-                        long idLong=node.id();
-                        String id=String.valueOf(idLong);
-                        f.put("id",id);
+//                        long idLong=node.id();
+//                        String id=String.valueOf(idLong);
+//                        f.put("id",id);
 
                         Map<String, Object> properties = node.asMap();
                         for(Map.Entry<String,Object> entry:properties.entrySet()){
-                            f.put(entry.getKey(),String.valueOf(entry.getValue()));
+                            if(entry.getKey().equals("pid") || entry.getKey().equals("lid")
+                               || entry.getKey().equals("eid")||entry.getKey().equals("tid"))
+                                f.put("id",String.valueOf(entry.getValue()));
+                            else
+                                f.put(entry.getKey(),String.valueOf(entry.getValue()));
                         }
 
                         lst.add(new Node(f));
@@ -165,13 +169,17 @@ public class NodeMapperImpl implements NodeMapper {
                         org.neo4j.driver.types.Node node = result.next().get(0).asNode();
 
                         Map<String,Object> f=new HashMap<>();
-                        long idLong=node.id();
-                        String id=String.valueOf(idLong);
-                        f.put("id",id);
+//                        long idLong=node.id();
+//                        String id=String.valueOf(idLong);
+//                        f.put("id",id);
 
                         Map<String, Object> properties = node.asMap();
                         for(Map.Entry<String,Object> entry:properties.entrySet()){
-                            f.put(entry.getKey(),String.valueOf(entry.getValue()));
+                            if(entry.getKey().equals("pid") || entry.getKey().equals("lid")
+                                    || entry.getKey().equals("eid")||entry.getKey().equals("tid"))
+                                f.put("id",String.valueOf(entry.getValue()));
+                            else
+                                f.put(entry.getKey(),String.valueOf(entry.getValue()));
                         }
 
                         return new Node(f);
