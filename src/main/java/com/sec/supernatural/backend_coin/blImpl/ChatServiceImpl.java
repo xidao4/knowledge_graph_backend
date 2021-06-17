@@ -110,6 +110,8 @@ public class ChatServiceImpl implements ChatService {
 
     @Override
     public MyResponse uploadScene(MultipartFile mfile){
+        //上传图床 返回图片的url
+        String url=storageService.storeImage(mfile);
         //TODO:httpclient调用CV服务器的方法，返回一个String
         String scene="";
         List<Node> nodes=nodeMapper.getNeighborsByLabel(scene,"0");
@@ -118,8 +120,6 @@ public class ChatServiceImpl implements ChatService {
         for(Node node:nodes){
             contentList.add((String)node.getProperties().get("label"));
         }
-        //上传图床 返回图片的url
-        String url=storageService.storeImage(mfile);
         ChatScene chatScene=new ChatScene();
         chatScene.setUrl(url);
         chatScene.setContentList(contentList);
