@@ -7,6 +7,13 @@ public class NodeDisplay {
     //String class;
     String nodeType;
 
+    public NodeDisplay(){}
+    public NodeDisplay(String id, String label, String nodeType) {
+        this.id = id;
+        this.label = label;
+        this.nodeType = nodeType;
+    }
+
     public String getId() {
         return id;
     }

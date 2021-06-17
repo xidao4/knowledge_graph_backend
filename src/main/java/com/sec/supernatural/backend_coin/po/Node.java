@@ -6,7 +6,7 @@ import java.util.Map;
 
 import static com.sec.supernatural.backend_coin.util.StringTools.*;
 
-//包含id,picId,'x'id,label,categories,info,value,(ending,reason等)
+//包含id(即为'x'id),picId,label,categories,info,value,(img,ending,reason等)
 public class Node {
     //为了方便拓展，用map，而不是直接传参
     //pid,picId,label,categories,info,value，

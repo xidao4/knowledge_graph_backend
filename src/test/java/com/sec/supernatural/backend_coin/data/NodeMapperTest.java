@@ -20,30 +20,30 @@ public class NodeMapperTest {
     @Autowired
     NodeMapper nodeMapper;
 
-    @Test
-    void insert(){
-        Node node=new Node();
-        Map<String,Object> properties=new HashMap<>();
-        properties.put("picId",0);
-        properties.put("label","速度与激情9");
-        properties.put("class","电影");
-        node.setProperties(properties);
-        nodeMapper.insert(node);
-
-        Node node2=new Node();
-        Map<String,Object> properties2=new HashMap<>();
-        properties.put("picId",0);
-        properties.put("label","林诣彬");
-        properties.put("class","人名");
-        node.setProperties(properties);
-        nodeMapper.insert(node);
-    }
+//    @Test
+//    void insert(){
+//        Node node=new Node();
+//        Map<String,Object> properties=new HashMap<>();
+//        properties.put("picId",0);
+//        properties.put("label","速度与激情9");
+//        properties.put("class","电影");
+//        node.setProperties(properties);
+//        nodeMapper.insert(node);
+//
+//        Node node2=new Node();
+//        Map<String,Object> properties2=new HashMap<>();
+//        properties.put("picId",0);
+//        properties.put("label","林诣彬");
+//        properties.put("class","人名");
+//        node.setProperties(properties);
+//        nodeMapper.insert(node);
+//    }
 
     @Test
     void findByName(){
         Node node=nodeMapper.findByName("贾宝玉","0");
         System.out.println(node.getProperties().get("label"));
-        System.out.println(node.getProperties().get("identity"));//null
+        //System.out.println(node.getProperties().get("identity"));//null
     }
 
     @Test
