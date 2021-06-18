@@ -28,6 +28,14 @@ public class ChatController {
 
     @PostMapping("/uploadScene")
     public MyResponse uploadScene(@RequestBody MultipartFile mfile){
+        if(mfile==null){
+            System.out.println("I'm NULL !");
+        }
+        if(mfile.isEmpty()){
+            System.out.println("我是空的！");
+        }else {
+            System.out.println("我很正常！");
+        }
         return chatService.uploadScene(mfile);
     }
 }

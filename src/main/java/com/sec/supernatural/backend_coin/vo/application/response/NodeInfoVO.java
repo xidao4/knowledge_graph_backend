@@ -1,6 +1,9 @@
 package com.sec.supernatural.backend_coin.vo.application.response;
 
 import com.sec.supernatural.backend_coin.po.Node;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 
 import java.util.Map;
 
@@ -8,6 +11,9 @@ import java.util.Map;
  * @author shenyichen
  * @date 2021/6/18
  **/
+@Getter
+@Setter
+@ToString
 public class NodeInfoVO {
     String title;
     String info;
