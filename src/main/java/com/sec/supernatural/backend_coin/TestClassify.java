@@ -4,7 +4,6 @@ package com.sec.supernatural.backend_coin;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import com.sec.supernatural.backend_coin.util.FileUtil;
 import com.sec.supernatural.backend_coin.util.GsonUtils;
 import com.sec.supernatural.backend_coin.util.HttpUtil;
 import com.sec.supernatural.backend_coin.util.ImageUtil;
@@ -69,18 +68,6 @@ public class TestClassify {
     }
 
     public static void main(String[] args) throws IOException {
-
-        File file = new File("datastore\\1.jpg");
-        if (!file.exists()) {
-            System.out.println("文件不存在！");
-        } else {
-            System.out.println("文件存在！");
-        }
-        FileInputStream inputStream = new FileInputStream(file);
-        MultipartFile multipartFile = new MockMultipartFile(file.getName(), file.getName(),
-                ContentType.APPLICATION_OCTET_STREAM.toString(), inputStream);
-        String label = TestClassify.easydlImageClassify(multipartFile);
-        System.out.println(label);
 //        String result ="{\"log_id\":2023306780061063579,\"results\":[{\"name\":\"0_baidu\",\"score\":0.9682695269584656},{\"name\":\"0_google\",\"score\":0.02047288976609707},{\"name\":\"3_baidu\",\"score\":0.0042624641209840775},{\"name\":\"8_baidu\",\"score\":0.002089953515678644},{\"name\":\"7_baidu\",\"score\":0.0019145160913467407},{\"name\":\"6_baidu\",\"score\":0.0008043393027037382},{\"name\":\"4_baidu\",\"score\":0.0006909500807523727},{\"name\":\"2_baidu\",\"score\":0.0005396428168751299},{\"name\":\"8_google\",\"score\":0.0003127690579276532}]}";
         // result:
         // {"log_id":2023306780061063579,
