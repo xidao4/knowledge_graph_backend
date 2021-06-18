@@ -31,86 +31,86 @@ public class NodeMapperImpl implements NodeMapper {
         this.driver=driver;
     }
 
-    //may to be used
-    @Override
-    public void insert(Node node) {
-        Session session=driver.session();
-        String insertQuery="CREATE (a:"+neo4jNodeLabel+") SET "+ node.getPropertiesAsString("a");
-        System.out.println("insert node query: "+insertQuery);
-        try{
-            session.writeTransaction(new TransactionWork<Void>() {
-                @Override
-                public Void execute(Transaction tx){
-                    tx.run(insertQuery,parameters());
-                    return null;
-                }
-            });
-        }finally {
-            session.close();
-        }
-    }
-
-    /**
-     * 根据节点名删除节点及其对应关系
-     * @param label
-     * @param picId
-     */
-    @Override
-    public void deleteNodeByName(String label, String picId) {
-        Session session=driver.session();
-        String deleteQuery1="MATCH (a) - [r] -> (b) WHERE a.picId = $picId AND a.label = $label DELETE r";
-        String deleteQuery2="MATCH (a) - [r] -> (b) WHERE b.picId = $picId AND b.label = $label DELETE r";
-        String deleteQuery="MATCH (a) WHERE a.picId = $picId AND a.label = $label DELETE a";
-        try{
-            session.writeTransaction(new TransactionWork<Void>() {
-                @Override
-                public Void execute(Transaction tx){
-                    tx.run(deleteQuery,parameters("label",label,"picId",picId));
-                    tx.run(deleteQuery1,parameters("label",label,"picId",picId));
-                    tx.run(deleteQuery2,parameters("label",label,"picId",picId));
-                    return null;
-                }
-            });
-        }finally{
-            session.close();
-        }
-    }
-
-    @Override
-    public void updateNode(Node newNode, String oldLabel, String picId) {
-        Session session=driver.session();
-        String updateQuery="MATCH (a) WHERE a.picId=$picId AND a.label=$oldLabel SET "+newNode.getPropertiesAsString("a");
-        try{
-            session.writeTransaction(new TransactionWork<Void>() {
-                @Override
-                public Void execute(Transaction tx){
-                    tx.run(updateQuery,parameters("picId",picId,"oldLabel",oldLabel));
-                    return null;
-                }
-            });
-        }finally {
-            session.close();
-        }
-    }
-
-
-    @Override
-    public Node retrieveNodesByPicId(String picId) {
-        Session session=driver.session();
-        String getGraphQuery="MATCH ( a : node ) WHERE a.picId=$picId RETURN a";
-        try{
-            session.readTransaction(new TransactionWork<Void>() {
-                @Override
-                public Void execute(Transaction tx){
-                    Result ret=tx.run(getGraphQuery,parameters("picId",picId));
-                    return null;
-                }
-            });
-        }finally{
-            session.close();
-        }
-        return null;
-    }
+//    //may to be used
+//    @Override
+//    public void insert(Node node) {
+//        Session session=driver.session();
+//        String insertQuery="CREATE (a:"+neo4jNodeLabel+") SET "+ node.getPropertiesAsString("a");
+//        System.out.println("insert node query: "+insertQuery);
+//        try{
+//            session.writeTransaction(new TransactionWork<Void>() {
+//                @Override
+//                public Void execute(Transaction tx){
+//                    tx.run(insertQuery,parameters());
+//                    return null;
+//                }
+//            });
+//        }finally {
+//            session.close();
+//        }
+//    }
+//
+//    /**
+//     * 根据节点名删除节点及其对应关系
+//     * @param label
+//     * @param picId
+//     */
+//    @Override
+//    public void deleteNodeByName(String label, String picId) {
+//        Session session=driver.session();
+//        String deleteQuery1="MATCH (a) - [r] -> (b) WHERE a.picId = $picId AND a.label = $label DELETE r";
+//        String deleteQuery2="MATCH (a) - [r] -> (b) WHERE b.picId = $picId AND b.label = $label DELETE r";
+//        String deleteQuery="MATCH (a) WHERE a.picId = $picId AND a.label = $label DELETE a";
+//        try{
+//            session.writeTransaction(new TransactionWork<Void>() {
+//                @Override
+//                public Void execute(Transaction tx){
+//                    tx.run(deleteQuery,parameters("label",label,"picId",picId));
+//                    tx.run(deleteQuery1,parameters("label",label,"picId",picId));
+//                    tx.run(deleteQuery2,parameters("label",label,"picId",picId));
+//                    return null;
+//                }
+//            });
+//        }finally{
+//            session.close();
+//        }
+//    }
+//
+//    @Override
+//    public void updateNode(Node newNode, String oldLabel, String picId) {
+//        Session session=driver.session();
+//        String updateQuery="MATCH (a) WHERE a.picId=$picId AND a.label=$oldLabel SET "+newNode.getPropertiesAsString("a");
+//        try{
+//            session.writeTransaction(new TransactionWork<Void>() {
+//                @Override
+//                public Void execute(Transaction tx){
+//                    tx.run(updateQuery,parameters("picId",picId,"oldLabel",oldLabel));
+//                    return null;
+//                }
+//            });
+//        }finally {
+//            session.close();
+//        }
+//    }
+//
+//
+//    @Override
+//    public Node retrieveNodesByPicId(String picId) {
+//        Session session=driver.session();
+//        String getGraphQuery="MATCH ( a : node ) WHERE a.picId=$picId RETURN a";
+//        try{
+//            session.readTransaction(new TransactionWork<Void>() {
+//                @Override
+//                public Void execute(Transaction tx){
+//                    Result ret=tx.run(getGraphQuery,parameters("picId",picId));
+//                    return null;
+//                }
+//            });
+//        }finally{
+//            session.close();
+//        }
+//        return null;
+//    }
 
     //used
     @Override

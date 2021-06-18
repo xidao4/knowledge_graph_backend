@@ -148,6 +148,7 @@ public class SearchServiceImpl implements SearchService {
         NodeDisplay nodeSelf=new NodeDisplay((String) node.getProperties().get("id"),
                 (String)node.getProperties().get("label"),
                 (String)node.getProperties().get("categories"));
+        nodeDisplays.add(nodeSelf);
         for(Node n:nodes){
             NodeDisplay nodeDisplay=new NodeDisplay();
             nodeDisplay.setId((String)n.getProperties().get("id"));
