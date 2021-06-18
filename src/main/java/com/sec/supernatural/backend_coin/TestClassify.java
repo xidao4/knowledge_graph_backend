@@ -1,10 +1,14 @@
 package com.sec.supernatural.backend_coin;
 
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 import com.sec.supernatural.backend_coin.util.FileUtil;
 import com.sec.supernatural.backend_coin.util.GsonUtils;
 import com.sec.supernatural.backend_coin.util.HttpUtil;
 import com.sec.supernatural.backend_coin.util.ImageUtil;
+import com.sec.supernatural.backend_coin.vo.ClassifyResultVO;
 import org.apache.http.entity.ContentType;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.web.multipart.MultipartFile;
@@ -13,8 +17,9 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
+
+import static java.util.Comparator.comparing;
 
 /**
  * easydl图像分类
@@ -46,7 +51,17 @@ public class TestClassify {
 
             String result = HttpUtil.post(url, accessToken, "application/json", param);
             System.out.println(result);
-            return result;
+
+            // 转label
+            JSONObject jsonObject = JSON.parseObject(result);
+            JSONArray results = jsonObject.getJSONArray("results");
+            List<ClassifyResultVO> classifyResultVOS = JSONObject.parseArray(results.toJSONString(), ClassifyResultVO.class);
+            classifyResultVOS.sort(comparing(ClassifyResultVO::getScore).reversed());
+            int label_idx = Integer.parseInt(classifyResultVOS.get(0).getName().substring(0,1));
+            String[] label_names = {"共读西厢", "宝玉挨打", "宝琴立雪", "宝钗扑蝶", "尤三姐殉情", "晴雯撕扇", "晴雯补裘", "湘云醉卧芍药", "黛玉葬花"};
+            String label = label_names[label_idx];
+            System.out.println(label);
+            return label;
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -55,7 +70,7 @@ public class TestClassify {
 
     public static void main(String[] args) throws IOException {
 
-        File file = new File("D:\\自分\\Studies\\资料\\大三下资料\\软工3\\backend_coin\\datastore\\1.jpg");
+        File file = new File("datastore\\1.jpg");
         if (!file.exists()) {
             System.out.println("文件不存在！");
         } else {
@@ -64,7 +79,9 @@ public class TestClassify {
         FileInputStream inputStream = new FileInputStream(file);
         MultipartFile multipartFile = new MockMultipartFile(file.getName(), file.getName(),
                 ContentType.APPLICATION_OCTET_STREAM.toString(), inputStream);
-        String result = TestClassify.easydlImageClassify(multipartFile);
+        String label = TestClassify.easydlImageClassify(multipartFile);
+        System.out.println(label);
+//        String result ="{\"log_id\":2023306780061063579,\"results\":[{\"name\":\"0_baidu\",\"score\":0.9682695269584656},{\"name\":\"0_google\",\"score\":0.02047288976609707},{\"name\":\"3_baidu\",\"score\":0.0042624641209840775},{\"name\":\"8_baidu\",\"score\":0.002089953515678644},{\"name\":\"7_baidu\",\"score\":0.0019145160913467407},{\"name\":\"6_baidu\",\"score\":0.0008043393027037382},{\"name\":\"4_baidu\",\"score\":0.0006909500807523727},{\"name\":\"2_baidu\",\"score\":0.0005396428168751299},{\"name\":\"8_google\",\"score\":0.0003127690579276532}]}";
         // result:
         // {"log_id":2023306780061063579,
         // "results":[{"name":"0_baidu","score":0.9682695269584656},{"name":"0_google","score":0.02047288976609707},{"name":"3_baidu","score":0.0042624641209840775},{"name":"8_baidu","score":0.002089953515678644},{"name":"7_baidu","score":0.0019145160913467407},{"name":"6_baidu","score":0.0008043393027037382},{"name":"4_baidu","score":0.0006909500807523727},{"name":"2_baidu","score":0.0005396428168751299},{"name":"8_google","score":0.0003127690579276532}]}
