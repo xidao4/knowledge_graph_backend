@@ -181,7 +181,8 @@ public class NodeMapperImpl implements NodeMapper {
                             else
                                 f.put(entry.getKey(),String.valueOf(entry.getValue()));
                         }
-
+//                        System.out.println("node is null?");
+//                        System.out.println(new Node(f)==null);
                         return new Node(f);
                     } else {
                         return null;

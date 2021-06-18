@@ -132,6 +132,9 @@ public class SearchServiceImpl implements SearchService {
     @Override
     public MyResponse detail(String label){
         Node node=nodeMapper.findByName(label,"0");
+//        System.out.println("node is null?");
+//        System.out.println(node==null);
+//        System.out.println((String)node.getProperties().get("categories"));
         NodeDetail nodeDetail=new NodeDetail();
         nodeDetail.setCategories((String)node.getProperties().get("categories"));
         nodeDetail.setInfo((String)node.getProperties().get("info"));
