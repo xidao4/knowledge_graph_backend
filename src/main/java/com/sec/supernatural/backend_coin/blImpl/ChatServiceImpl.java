@@ -79,8 +79,8 @@ public class ChatServiceImpl implements ChatService {
 //        }
 
 
-        String url="http://localhost:5000/chat/getAnswer";
-        //String url="http://120.27.240.225:5000/chat/getAnswer";
+        //String url="http://localhost:5000/chat/getAnswer";
+        String url="http://120.27.240.225:5000/chat/getAnswer";
         MultiValueMap<String,String> header=new LinkedMultiValueMap<>();
         header.put(HttpHeaders.CONTENT_TYPE, Arrays.asList(MediaType.APPLICATION_JSON_VALUE));
 
