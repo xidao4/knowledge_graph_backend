@@ -25,6 +25,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class ChatServiceImpl implements ChatService {
@@ -119,12 +120,14 @@ public class ChatServiceImpl implements ChatService {
     @Override
     public MyResponse uploadScene(MultipartFile mfile){
         String scene = TestClassify.easydlImageClassify(mfile);
+//        String scene = "黛玉葬花";
         List<Node> nodes=nodeMapper.getNeighborsByLabel(scene,"0");
         List<String> contentList=new ArrayList<>();
         contentList.add(scene);
         for(Node node:nodes){
             contentList.add((String)node.getProperties().get("label"));
         }
+        contentList = (List) contentList.stream().distinct().collect(Collectors.toList());
         //上传图床 返回图片的url
         String url=storageService.storeImage(mfile);
         ChatScene chatScene=new ChatScene();
