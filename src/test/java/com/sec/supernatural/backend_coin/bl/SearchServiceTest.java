@@ -26,6 +26,19 @@ public class SearchServiceTest {
     SearchService searchService;
 
     @Test
+    public void getAnswer() throws Exception {
+        MyResponse myResponse = searchService.getAnswer("林黛玉最后怎么了");
+        System.out.println(myResponse);
+    }
+
+    @Test
+    public void detail(){
+        MyResponse myResponse = searchService.detail("林黛玉");
+        System.out.println(myResponse);
+    }
+
+
+    @Test
     public void uploadScene() throws IOException {
         File file = new File("datastore\\1.jpg");
         if (!file.exists()) {
