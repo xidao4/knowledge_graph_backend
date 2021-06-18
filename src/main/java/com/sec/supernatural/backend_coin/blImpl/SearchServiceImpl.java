@@ -23,6 +23,10 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.nio.charset.StandardCharsets;
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.function.Function;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 @Service
 public class SearchServiceImpl implements SearchService {
@@ -94,8 +98,8 @@ public class SearchServiceImpl implements SearchService {
 
     @Override
     public MyResponse uploadScene(MultipartFile mfile) {
-        String scene = TestClassify.easydlImageClassify(mfile);
-//        String scene = "黛玉葬花";
+//        String scene = TestClassify.easydlImageClassify(mfile);
+        String scene = "黛玉葬花";
 //        List<SearchAnswer> contentList=new ArrayList<>();
         List<NodeInfoVO> contentList = new ArrayList<>();
         List<Node> nodes=new ArrayList<>();
@@ -107,7 +111,12 @@ public class SearchServiceImpl implements SearchService {
         for(int i=0;i<nodes.size();i++){
             contentList.add(new NodeInfoVO(nodes.get(i)));
         }
+        contentList = contentList.stream().filter(distinctByKey(NodeInfoVO::getTitle)).collect(Collectors.toList());
         return MyResponse.ok(contentList);
+    }
+    private static <T> Predicate<T> distinctByKey(Function<? super T, Object> keyExtractor) {
+        Map<Object, Boolean> seen = new ConcurrentHashMap<>();
+        return t -> seen.putIfAbsent(keyExtractor.apply(t), Boolean.TRUE) == null;
     }
 
 //    private void Node2NodeInfo(List<SearchAnswer> contentList, List<Node> nodes) {
