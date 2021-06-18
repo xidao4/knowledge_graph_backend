@@ -98,8 +98,8 @@ public class SearchServiceImpl implements SearchService {
 
     @Override
     public MyResponse uploadScene(MultipartFile mfile) {
-//        String scene = TestClassify.easydlImageClassify(mfile);
-        String scene = "黛玉葬花";
+        String scene = TestClassify.easydlImageClassify(mfile);
+//        String scene = "黛玉葬花";
 //        List<SearchAnswer> contentList=new ArrayList<>();
         List<NodeInfoVO> contentList = new ArrayList<>();
         List<Node> nodes=new ArrayList<>();
