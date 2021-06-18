@@ -1,5 +1,6 @@
 package com.sec.supernatural.backend_coin.blImpl;
 
+import com.sec.supernatural.backend_coin.TestClassify;
 import com.sec.supernatural.backend_coin.bl.ChatService;
 import com.sec.supernatural.backend_coin.bl.StorageService;
 import com.sec.supernatural.backend_coin.constant.MyResponse;
@@ -110,16 +111,15 @@ public class ChatServiceImpl implements ChatService {
 
     @Override
     public MyResponse uploadScene(MultipartFile mfile){
-        //上传图床 返回图片的url
-        String url=storageService.storeImage(mfile);
-        //TODO:httpclient调用CV服务器的方法，返回一个String
-        String scene="";
+        String scene = TestClassify.easydlImageClassify(mfile);
         List<Node> nodes=nodeMapper.getNeighborsByLabel(scene,"0");
         List<String> contentList=new ArrayList<>();
         contentList.add(scene);
         for(Node node:nodes){
             contentList.add((String)node.getProperties().get("label"));
         }
+        //上传图床 返回图片的url
+        String url=storageService.storeImage(mfile);
         ChatScene chatScene=new ChatScene();
         chatScene.setUrl(url);
         chatScene.setContentList(contentList);
