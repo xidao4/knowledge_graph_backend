@@ -8,6 +8,7 @@ public class ChatVO {
         this.roleId = roleId;
         this.question = question;
     }
+    public ChatVO(){}
 
     public String getRoleId() {
         return roleId;

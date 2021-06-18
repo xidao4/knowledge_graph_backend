@@ -20,7 +20,7 @@ public class SearchController {
     @PostMapping("/getAnswer")
     public MyResponse getAnswer(@RequestBody SemanticSearchVO semanticSearchVO){
         try{
-            System.out.println("1");
+            //System.out.println("1");
             return searchService.getAnswer(semanticSearchVO.getQuestion());
         }catch (Exception e){
             e.printStackTrace();
