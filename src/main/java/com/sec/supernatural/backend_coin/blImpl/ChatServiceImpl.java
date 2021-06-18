@@ -5,6 +5,7 @@ import com.sec.supernatural.backend_coin.bl.StorageService;
 import com.sec.supernatural.backend_coin.constant.MyResponse;
 import com.sec.supernatural.backend_coin.data.NodeMapper;
 import com.sec.supernatural.backend_coin.po.Node;
+import com.sec.supernatural.backend_coin.vo.application.request.ChatVO;
 import com.sec.supernatural.backend_coin.vo.application.response.ChatAnswer;
 import com.sec.supernatural.backend_coin.vo.application.response.ChatScene;
 import com.sec.supernatural.backend_coin.vo.application.request.SemanticSearchVO;
@@ -74,38 +75,44 @@ public class ChatServiceImpl implements ChatService {
 //            }
 //            httpClient.close();
 //        }
-        //String url="http://localhost:5000/chat/getAnswer";
-        String url="http://120.27.240.225:5000/chat/getAnswer";
+
+
+        String url="http://localhost:5000/chat/getAnswer";
+        //String url="http://120.27.240.225:5000/chat/getAnswer";
         MultiValueMap<String,String> header=new LinkedMultiValueMap<>();
         header.put(HttpHeaders.CONTENT_TYPE, Arrays.asList(MediaType.APPLICATION_JSON_VALUE));
 
-        SemanticSearchVO semanticSearchVO=new SemanticSearchVO();
-        semanticSearchVO.setQuestion(question);
+//        SemanticSearchVO semanticSearchVO=new SemanticSearchVO();
+//        semanticSearchVO.setQuestion(question);
 
+        ChatVO chatVO=new ChatVO();
+        chatVO.setQuestion(question);
+        chatVO.setRoleId(roleId);
 
-        HttpEntity<SemanticSearchVO> request=new HttpEntity<>(semanticSearchVO,header);
+        HttpEntity<ChatVO> request=new HttpEntity<>(chatVO,header);
         RestTemplate restTemplate=new RestTemplate();
         restTemplate.getMessageConverters()
                 .add(0, new StringHttpMessageConverter(StandardCharsets.UTF_8));
-        ResponseEntity<String> exchangeRet=restTemplate.exchange(url, HttpMethod.POST, request, String.class);
-        System.out.println("exchangeRet: " + exchangeRet);
-        String responseStr=exchangeRet.getBody();
-        System.out.println("responseStr=exchangeRet.getBody(): "+responseStr);
-        assert responseStr != null;
-//        int begin=responseStr.indexOf("{");
-//        int end=responseStr.lastIndexOf("}")+1;
-//        responseStr=responseStr.substring(begin,end);
-//        System.out.println("responseStr: "+responseStr);
-        //{"answer":"\u5367\u864e\u85cf\u9f99\u7531\u7b49\u6f14\u5458\u4e3b\u6f14\uff01","code":0}
-        String[] tmp=responseStr.split(",");
-        String[] tmp2=tmp[0].split(":");
-        String answer=tmp2[1];
-        answer=answer.substring(2,answer.length()-1);
-        System.out.println("answer: "+answer);
-        answer= StringEscapeUtils.unescapeJava(answer);
-        System.out.println("answer: "+answer);
-        ChatAnswer chatAnswer=new ChatAnswer(answer);
-        return MyResponse.ok(chatAnswer);
+        return MyResponse.ok(restTemplate.postForEntity(url, request, Object.class).getBody());
+//        ResponseEntity<String> exchangeRet=restTemplate.exchange(url, HttpMethod.POST, request, String.class);
+//        System.out.println("exchangeRet: " + exchangeRet);
+//        String responseStr=exchangeRet.getBody();
+//        System.out.println("responseStr=exchangeRet.getBody(): "+responseStr);
+//        assert responseStr != null;
+////        int begin=responseStr.indexOf("{");
+////        int end=responseStr.lastIndexOf("}")+1;
+////        responseStr=responseStr.substring(begin,end);
+////        System.out.println("responseStr: "+responseStr);
+//        //{"answer":"\u5367\u864e\u85cf\u9f99\u7531\u7b49\u6f14\u5458\u4e3b\u6f14\uff01","code":0}
+//        String[] tmp=responseStr.split(",");
+//        String[] tmp2=tmp[0].split(":");
+//        String answer=tmp2[1];
+//        answer=answer.substring(2,answer.length()-1);
+//        System.out.println("answer: "+answer);
+//        answer= StringEscapeUtils.unescapeJava(answer);
+//        System.out.println("answer: "+answer);
+//        ChatAnswer chatAnswer=new ChatAnswer(answer);
+//        return MyResponse.ok(chatAnswer);
     }
 
     @Override
