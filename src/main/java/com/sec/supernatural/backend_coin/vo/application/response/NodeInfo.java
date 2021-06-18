@@ -1,5 +1,6 @@
 package com.sec.supernatural.backend_coin.vo.application.response;
 
+
 public class NodeInfo {
     String title;
     String info;

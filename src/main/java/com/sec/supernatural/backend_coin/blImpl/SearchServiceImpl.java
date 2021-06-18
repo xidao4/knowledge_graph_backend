@@ -1,5 +1,6 @@
 package com.sec.supernatural.backend_coin.blImpl;
 
+import com.sec.supernatural.backend_coin.TestClassify;
 import com.sec.supernatural.backend_coin.bl.SearchService;
 import com.sec.supernatural.backend_coin.constant.MyResponse;
 import com.sec.supernatural.backend_coin.data.EdgeMapper;
@@ -8,10 +9,7 @@ import com.sec.supernatural.backend_coin.po.Edge;
 import com.sec.supernatural.backend_coin.po.Node;
 import com.sec.supernatural.backend_coin.vo.application.request.ChatVO;
 import com.sec.supernatural.backend_coin.vo.application.request.SemanticSearchVO;
-import com.sec.supernatural.backend_coin.vo.application.response.EdgeDisplay;
-import com.sec.supernatural.backend_coin.vo.application.response.NodeDetail;
-import com.sec.supernatural.backend_coin.vo.application.response.SearchAnswer;
-import com.sec.supernatural.backend_coin.vo.application.response.NodeDisplay;
+import com.sec.supernatural.backend_coin.vo.application.response.*;
 
 import org.apache.commons.lang3.StringEscapeUtils;
 import org.springframework.http.*;
@@ -96,15 +94,19 @@ public class SearchServiceImpl implements SearchService {
 
     @Override
     public MyResponse uploadScene(MultipartFile mfile) {
-        //TODO:httpclient调用CV服务器的方法，返回一个String
-        String scene="";
-
-        List<SearchAnswer> contentList=new ArrayList<>();
+//        String scene = TestClassify.easydlImageClassify(mfile);
+        String scene = "黛玉葬花";
+//        List<SearchAnswer> contentList=new ArrayList<>();
+        List<NodeInfoVO> contentList = new ArrayList<>();
         List<Node> nodes=new ArrayList<>();
         nodes.add(nodeMapper.findByName(scene,"0"));
         List<Node> tmp= nodeMapper.getNeighborsByLabel(scene,"0");
         nodes.addAll(tmp);
         //Node2NodeInfo(contentList, nodes);
+        // node to nodeinfovo
+        for(int i=0;i<nodes.size();i++){
+            contentList.add(new NodeInfoVO(nodes.get(i)));
+        }
         return MyResponse.ok(contentList);
     }
 
