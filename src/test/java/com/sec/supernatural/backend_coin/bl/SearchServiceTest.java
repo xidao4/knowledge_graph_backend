@@ -40,7 +40,7 @@ public class SearchServiceTest {
 
     @Test
     public void uploadScene() throws IOException {
-        File file = new File("datastore\\1.jpg");
+        File file = new File("datastore/1.jpg");
         if (!file.exists()) {
             System.out.println("文件不存在！");
         } else {

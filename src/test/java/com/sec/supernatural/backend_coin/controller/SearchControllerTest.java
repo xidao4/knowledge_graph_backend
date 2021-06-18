@@ -34,7 +34,7 @@ public class SearchControllerTest {
 
     @Test
     public void uploadScene() throws IOException {
-        File file = new File("datastore\\1.jpg");
+        File file = new File("datastore/1.jpg");
         FileInputStream inputStream = new FileInputStream(file);
         MultipartFile mfile = new MockMultipartFile(file.getName(), file.getName(),
                 ContentType.APPLICATION_OCTET_STREAM.toString(), inputStream);
